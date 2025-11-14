@@ -92,13 +92,14 @@ Visit our portfolio to see our latest work and get in touch.
 
 <div align="center">
 
-**Built with ❤️ by TecWeb Studio**
+**Built with ❤️ by TecWebStudio**
 
 _Two students from ITTS Vito Volterra creating digital excellence_
 
 © 2025 TecWeb Studio. All rights reserved.
 
 </div>
+<<<<<<< Updated upstream
 
 ---
 
@@ -415,3 +416,5 @@ _Two passionate students from ITTS Vito Volterra creating digital excellence_
 © 2025 TecWeb Studio. All rights reserved.
 
 </div>
+=======
+>>>>>>> Stashed changes
