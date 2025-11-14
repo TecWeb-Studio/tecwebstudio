@@ -1,0 +1,138 @@
+{
+  "hero": {
+    "badge": "Due Studenti, Risultati Professionali",
+    "title": {
+      "part1": "Soluzioni Digitali per",
+      "part2": "Aziende in Crescita"
+    },
+    "description": "Due studenti talentuosi dell'ITTS Vito Volterra che creano siti web straordinari che portano risultati reali. Combiniamo design moderno con tecnologia all'avanguardia per dare alla tua azienda la presenza digitale che merita.",
+    "cta": {
+      "start": "Inizia il Tuo Progetto",
+      "viewWork": "Vedi il Nostro Lavoro"
+    },
+    "trusted": "Di fiducia di 15+ aziende in Italia"
+  },
+  "stats": {
+    "projectsCompleted": "Progetti Completati",
+    "clientSatisfaction": "Soddisfazione del Cliente",
+    "yearsExcellence": "di Eccellenza",
+    "usersServed": "Utenti Serviti"
+  },
+  "services": {
+    "badge": "Cosa Offriamo",
+    "title": "Servizi Completi",
+    "description": "Tutto ciò di cui hai bisogno per stabilire e far crescere la tua presenza digitale",
+    "webDesign": {
+      "title": "Web Design",
+      "description": "Design bellissimi e focalizzati sulla conversione che riflettono il tuo marchio"
+    },
+    "development": {
+      "title": "Sviluppo",
+      "description": "Siti web veloci, sicuri e scalabili costruiti con tecnologia moderna"
+    },
+    "ecommerce": {
+      "title": "E-Commerce",
+      "description": "Negozi online completi con pagamenti sicuri"
+    },
+    "seo": {
+      "title": "SEO e Ottimizzazione",
+      "description": "Classifica più in alto e ottieni più traffico organico"
+    },
+    "mobile": {
+      "title": "Mobile First",
+      "description": "Esperienza perfetta su tutti i dispositivi"
+    },
+    "support": {
+      "title": "Supporto Continuo",
+      "description": "Supporto e manutenzione 24/7 inclusi"
+    },
+    "feature": {
+      "customUI": "UI/UX Personalizzato",
+      "responsive": "Design Responsivo",
+      "brandStrategy": "Strategia di Brand",
+      "fullStack": "Sviluppo Full-Stack",
+      "performance": "Prestazioni",
+      "security": "Sicurezza",
+      "paymentIntegration": "Integrazione Pagamenti",
+      "inventory": "Inventario",
+      "analytics": "Analitiche",
+      "seoStrategy": "Strategia SEO",
+      "fastLoading": "Caricamento Veloce",
+      "touchFriendly": "Touch-friendly",
+      "availability": "Disponibilità 24/7",
+      "updates": "Aggiornamenti"
+    }
+  },
+  "portfolio": {
+    "badge": "Il Nostro Lavoro",
+    "title": "Progetti in Evidenza",
+    "description": "Scopri come abbiamo aiutato aziende come la tua a avere successo online",
+    "categories": {
+      "all": "Tutti",
+      "ecommerce": "E-Commerce",
+      "saas": "SaaS",
+      "corporate": "Aziendali",
+      "marketing": "Marketing",
+      "fintech": "FinTech"
+    },
+    "featured": "In Evidenza"
+  },
+  "team": {
+    "badge": "Conosci il Team",
+    "title": "Giovani Talenti, Risultati Professionali",
+    "description": "Due sviluppatori appassionati dell'ITTS Vito Volterra dediti all'eccellenza",
+    "skills": "Competenze",
+    "achievements": "Risultati"
+  },
+  "testimonials": {
+    "badge": "Cosa Dicono i Clienti",
+    "title": "Testimonial"
+  },
+  "contact": {
+    "badge": "Contattaci",
+    "title": "Iniziamo il Tuo Progetto",
+    "description": "Pronto a trasformare la tua presenza digitale? Contattaci oggi.",
+    "email": "Email",
+    "phone": "Telefono",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "connectWithUs": "Connettiti con noi",
+    "viewRepositories": "Visualizza i nostri repository",
+    "form": {
+      "name": "Nome",
+      "namePlaceholder": "Il tuo nome",
+      "email": "Email",
+      "emailPlaceholder": "tua@email.com",
+      "message": "Messaggio",
+      "messagePlaceholder": "Raccontaci del tuo progetto",
+      "sending": "Invio in corso...",
+      "submit": "Invia Messaggio",
+      "success": "Messaggio inviato con successo!",
+      "error": "Per favore riempi tutti i campi"
+    }
+  },
+  "cta": {
+    "title": "Pronto a Elevare la Tua Presenza Digitale?",
+    "description": "Collaboriamo per creare un sito web che non solo sia bellissimo ma che generi risultati reali.",
+    "startProject": "Inizia il Tuo Progetto",
+    "scheduleCall": "Programma una Chiamata"
+  },
+  "footer": {
+    "description": "Due studenti appassionati che creano soluzioni digitali straordinarie per aziende in crescita.",
+    "services": "Servizi",
+    "webDesign": "Web Design",
+    "development": "Sviluppo",
+    "ecommerce": "E-Commerce",
+    "seo": "SEO",
+    "company": "Azienda",
+    "about": "Chi Siamo",
+    "portfolio": "Portfolio",
+    "contact": "Contatti",
+    "blog": "Blog",
+    "connect": "Connettiti",
+    "copyright": "© 2025 TecWeb Studio. Studenti dell'ITTS Vito Volterra. | Creato con 💚 per l'eccellenza digitale"
+  },
+  "language": {
+    "select": "Seleziona Lingua / Select Language"
+  }
+}

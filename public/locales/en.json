@@ -1,0 +1,138 @@
+{
+  "hero": {
+    "badge": "Two Students, Professional Results",
+    "title": {
+      "part1": "We Build Digital Solutions for",
+      "part2": "Growing Firms"
+    },
+    "description": "Two talented students from ITTS Vito Volterra creating exceptional websites that drive real business results. We combine modern design with cutting-edge technology to give your firm the digital presence it deserves.",
+    "cta": {
+      "start": "Start Your Project",
+      "viewWork": "View Our Work"
+    },
+    "trusted": "Trusted by 15+ businesses in Italy"
+  },
+  "stats": {
+    "projectsCompleted": "Projects Completed",
+    "clientSatisfaction": "Client Satisfaction",
+    "yearsExcellence": "of Excellence",
+    "usersServed": "Users Served"
+  },
+  "services": {
+    "badge": "What We Offer",
+    "title": "Comprehensive Services",
+    "description": "Everything you need to establish and grow your digital presence",
+    "webDesign": {
+      "title": "Web Design",
+      "description": "Beautiful, conversion-focused designs that reflect your brand"
+    },
+    "development": {
+      "title": "Development",
+      "description": "Fast, secure, and scalable websites built with modern tech"
+    },
+    "ecommerce": {
+      "title": "E-Commerce",
+      "description": "Complete online stores with secure payments"
+    },
+    "seo": {
+      "title": "SEO & Optimization",
+      "description": "Rank higher and get more organic traffic"
+    },
+    "mobile": {
+      "title": "Mobile First",
+      "description": "Perfect experience on all devices"
+    },
+    "support": {
+      "title": "Ongoing Support",
+      "description": "24/7 support and maintenance included"
+    },
+    "feature": {
+      "customUI": "Custom UI/UX",
+      "responsive": "Responsive Design",
+      "brandStrategy": "Brand Strategy",
+      "fullStack": "Full-Stack Dev",
+      "performance": "Performance",
+      "security": "Security",
+      "paymentIntegration": "Payment Integration",
+      "inventory": "Inventory",
+      "analytics": "Analytics",
+      "seoStrategy": "SEO Strategy",
+      "fastLoading": "Fast Loading",
+      "touchFriendly": "Touch-friendly",
+      "availability": "24/7 Availability",
+      "updates": "Updates"
+    }
+  },
+  "portfolio": {
+    "badge": "Our Work",
+    "title": "Featured Projects",
+    "description": "See how we've helped businesses like yours succeed online",
+    "categories": {
+      "all": "All",
+      "ecommerce": "E-Commerce",
+      "saas": "SaaS",
+      "corporate": "Corporate",
+      "marketing": "Marketing",
+      "fintech": "FinTech"
+    },
+    "featured": "Featured"
+  },
+  "team": {
+    "badge": "Meet The Team",
+    "title": "Young Talent, Professional Results",
+    "description": "Two passionate developers from ITTS Vito Volterra dedicated to excellence",
+    "skills": "Skills",
+    "achievements": "Achievements"
+  },
+  "testimonials": {
+    "badge": "What Clients Say",
+    "title": "Testimonials"
+  },
+  "contact": {
+    "badge": "Get In Touch",
+    "title": "Let's Start Your Project",
+    "description": "Ready to transform your digital presence? Reach out to us today.",
+    "email": "Email",
+    "phone": "Phone",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "connectWithUs": "Connect with us",
+    "viewRepositories": "View our repositories",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "message": "Message",
+      "messagePlaceholder": "Tell us about your project",
+      "sending": "Sending...",
+      "submit": "Send Message",
+      "success": "Message sent successfully!",
+      "error": "Please fill all fields"
+    }
+  },
+  "cta": {
+    "title": "Ready to Elevate Your Digital Presence?",
+    "description": "Let's collaborate to create a website that not only looks amazing but drives real business results.",
+    "startProject": "Start Your Project",
+    "scheduleCall": "Schedule a Call"
+  },
+  "footer": {
+    "description": "Two passionate students creating exceptional digital solutions for growing firms.",
+    "services": "Services",
+    "webDesign": "Web Design",
+    "development": "Development",
+    "ecommerce": "E-Commerce",
+    "seo": "SEO",
+    "company": "Company",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "contact": "Contact",
+    "blog": "Blog",
+    "connect": "Connect",
+    "copyright": "© 2025 TecWeb Studio. Students from ITTS Vito Volterra. | Crafted with 💚 for digital excellence"
+  },
+  "language": {
+    "select": "Select Language / Seleziona Lingua"
+  }
+}

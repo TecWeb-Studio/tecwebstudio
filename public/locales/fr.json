@@ -1,0 +1,138 @@
+{
+  "hero": {
+    "badge": "Deux Étudiants, Résultats Professionnels",
+    "title": {
+      "part1": "Nous Créons des Solutions Numériques pour",
+      "part2": "les Entreprises en Croissance"
+    },
+    "description": "Deux étudiants talentueux de l'ITTS Vito Volterra qui créent des sites web exceptionnels qui génèrent des résultats commerciaux réels. Nous combinons le design moderne avec la technologie de pointe pour donner à votre entreprise la présence numérique qu'elle mérite.",
+    "cta": {
+      "start": "Commencer Votre Projet",
+      "viewWork": "Voir Notre Travail"
+    },
+    "trusted": "De confiance pour 15+ entreprises en Italie"
+  },
+  "stats": {
+    "projectsCompleted": "Projets Réalisés",
+    "clientSatisfaction": "Satisfaction Client",
+    "yearsExcellence": "d'Excellence",
+    "usersServed": "Utilisateurs Servis"
+  },
+  "services": {
+    "badge": "Ce que Nous Offrons",
+    "title": "Services Complets",
+    "description": "Tout ce dont vous avez besoin pour établir et développer votre présence numérique",
+    "webDesign": {
+      "title": "Web Design",
+      "description": "Des designs magnifiques et axés sur la conversion qui reflètent votre marque"
+    },
+    "development": {
+      "title": "Développement",
+      "description": "Des sites web rapides, sécurisés et évolutifs construits avec la technologie moderne"
+    },
+    "ecommerce": {
+      "title": "E-Commerce",
+      "description": "Des boutiques en ligne complètes avec paiements sécurisés"
+    },
+    "seo": {
+      "title": "SEO et Optimisation",
+      "description": "Classez plus haut et obtenez plus de trafic organique"
+    },
+    "mobile": {
+      "title": "Mobile First",
+      "description": "Expérience parfaite sur tous les appareils"
+    },
+    "support": {
+      "title": "Support Continu",
+      "description": "Support et maintenance 24/7 inclus"
+    },
+    "feature": {
+      "customUI": "UI/UX Personnalisée",
+      "responsive": "Design Responsif",
+      "brandStrategy": "Stratégie de Marque",
+      "fullStack": "Développement Full-Stack",
+      "performance": "Performance",
+      "security": "Sécurité",
+      "paymentIntegration": "Intégration de Paiements",
+      "inventory": "Inventaire",
+      "analytics": "Analytiques",
+      "seoStrategy": "Stratégie SEO",
+      "fastLoading": "Chargement Rapide",
+      "touchFriendly": "Convivial",
+      "availability": "Disponibilité 24/7",
+      "updates": "Mises à Jour"
+    }
+  },
+  "portfolio": {
+    "badge": "Notre Travail",
+    "title": "Projets en Vedette",
+    "description": "Découvrez comment nous avons aidé des entreprises comme la vôtre à réussir en ligne",
+    "categories": {
+      "all": "Tous",
+      "ecommerce": "E-Commerce",
+      "saas": "SaaS",
+      "corporate": "Entreprise",
+      "marketing": "Marketing",
+      "fintech": "FinTech"
+    },
+    "featured": "En Vedette"
+  },
+  "team": {
+    "badge": "Rencontrez l'Équipe",
+    "title": "Jeunes Talents, Résultats Professionnels",
+    "description": "Deux développeurs passionnés de l'ITTS Vito Volterra dédiés à l'excellence",
+    "skills": "Compétences",
+    "achievements": "Réalisations"
+  },
+  "testimonials": {
+    "badge": "Ce que Disent les Clients",
+    "title": "Témoignages"
+  },
+  "contact": {
+    "badge": "Nous Contacter",
+    "title": "Commençons Votre Projet",
+    "description": "Prêt à transformer votre présence numérique? Contactez-nous aujourd'hui.",
+    "email": "E-mail",
+    "phone": "Téléphone",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "connectWithUs": "Connectez-vous avec nous",
+    "viewRepositories": "Consultez nos référentiels",
+    "form": {
+      "name": "Nom",
+      "namePlaceholder": "Votre nom",
+      "email": "E-mail",
+      "emailPlaceholder": "votre@email.com",
+      "message": "Message",
+      "messagePlaceholder": "Parlez-nous de votre projet",
+      "sending": "Envoi en cours...",
+      "submit": "Envoyer un Message",
+      "success": "Message envoyé avec succès!",
+      "error": "Veuillez remplir tous les champs"
+    }
+  },
+  "cta": {
+    "title": "Prêt à Améliorer Votre Présence Numérique?",
+    "description": "Collaborons pour créer un site web qui non seulement looks magnifique mais génère des résultats commerciaux réels.",
+    "startProject": "Commencer Votre Projet",
+    "scheduleCall": "Planifier un Appel"
+  },
+  "footer": {
+    "description": "Deux étudiants passionnés créant des solutions numériques exceptionnelles pour les entreprises en croissance.",
+    "services": "Services",
+    "webDesign": "Web Design",
+    "development": "Développement",
+    "ecommerce": "E-Commerce",
+    "seo": "SEO",
+    "company": "Entreprise",
+    "about": "À Propos",
+    "portfolio": "Portfolio",
+    "contact": "Contact",
+    "blog": "Blog",
+    "connect": "Connexion",
+    "copyright": "© 2025 TecWeb Studio. Étudiants de l'ITTS Vito Volterra. | Créé avec 💚 pour l'excellence numérique"
+  },
+  "language": {
+    "select": "Sélectionner la Langue / Select Language"
+  }
+}
