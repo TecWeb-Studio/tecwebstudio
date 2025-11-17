@@ -309,7 +309,7 @@ export default function Home() {
               <div className="space-y-4">
                 <Badge>{t("hero.badge")}</Badge>
                 <motion.h1
-                  className="text-5xl lg:text-6xl font-bold text-white leading-tight"
+                  className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
@@ -323,7 +323,7 @@ export default function Home() {
               </div>
 
               <motion.p
-                className="text-lg text-slate-300 leading-relaxed max-w-lg"
+                className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-lg"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -333,20 +333,26 @@ export default function Home() {
               </motion.p>
 
               <motion.div
-                className="flex flex-col sm:flex-row gap-4 pt-4"
+                className="flex flex-col gap-3 pt-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
                 viewport={{ once: true }}
               >
-                <Button size="lg">{t("hero.cta.start")}</Button>
-                <Button variant="outline" size="lg">
+                <Button size="lg" className="w-full sm:w-auto">
+                  {t("hero.cta.start")}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto"
+                >
                   {t("hero.cta.viewWork")}
                 </Button>
               </motion.div>
 
               <motion.div
-                className="flex items-center gap-6 pt-8"
+                className="flex flex-col sm:flex-row sm:items-center gap-4 pt-4"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
@@ -449,7 +455,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {services.map((service, index) => (
               <motion.div
                 key={service.id}
@@ -457,24 +463,30 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
+                className="h-full"
               >
                 <Card
                   variant="elevated"
-                  className="group hover:shadow-emerald-500/20"
+                  className="group hover:shadow-emerald-500/20 h-full flex flex-col"
                 >
                   <div className="text-5xl mb-4">{service.icon}</div>
-                  <CardTitle className="group-hover:text-emerald-400 transition-colors">
+                  <CardTitle className="group-hover:text-emerald-400 transition-colors text-lg sm:text-xl">
                     {service.title}
                   </CardTitle>
-                  <CardDescription className="mt-2">
+                  <CardDescription className="mt-2 flex-grow text-sm">
                     {service.description}
                   </CardDescription>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {service.features.map((feature, i) => (
+                    {service.features.slice(0, 2).map((feature, i) => (
                       <Badge key={i} variant="info" className="text-xs">
                         {feature}
                       </Badge>
                     ))}
+                    {service.features.length > 2 && (
+                      <Badge variant="info" className="text-xs">
+                        +{service.features.length - 2}
+                      </Badge>
+                    )}
                   </div>
                 </Card>
               </motion.div>
@@ -502,7 +514,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="flex flex-wrap gap-3 mb-12 justify-center">
+          <div className="flex flex-wrap gap-2 mb-12 justify-center">
             {[
               "all",
               "ecommerce",
@@ -516,13 +528,14 @@ export default function Home() {
                 variant={selectedCategory === cat ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSelectedCategory(cat)}
+                className="text-xs sm:text-sm"
               >
                 {categoryLabels[cat as keyof typeof categoryLabels]}
               </Button>
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
@@ -530,62 +543,51 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.05 }}
                 viewport={{ once: true }}
+                className="h-full"
               >
                 <Card
                   variant={project.featured ? "elevated" : "default"}
-                  className="group overflow-hidden relative"
+                  className="group overflow-hidden relative h-full flex flex-col p-4 sm:p-6"
                 >
                   {project.featured && (
                     <div className="absolute -top-2 -right-2 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-32 h-32 blur-2xl opacity-20"></div>
                   )}
 
-                  <div className="relative z-10">
-                    <div className="flex items-start justify-between mb-4">
+                  <div className="relative z-10 flex flex-col flex-grow">
+                    <div className="flex items-start justify-between mb-2 sm:mb-3">
                       <motion.div
-                        className="text-5xl"
+                        className="text-3xl sm:text-4xl flex-shrink-0"
                         whileHover={{ scale: 1.1, rotate: 5 }}
                         transition={{ type: "spring", stiffness: 300 }}
                       >
                         {project.image}
                       </motion.div>
                       {project.featured && (
-                        <Badge variant="success">
-                          {t("portfolio.featured")}
+                        <Badge variant="success" className="text-xs">
+                          ⭐
                         </Badge>
                       )}
                     </div>
 
-                    <CardTitle className="group-hover:text-emerald-400 transition-colors">
+                    <CardTitle className="group-hover:text-emerald-400 transition-colors text-sm sm:text-base line-clamp-2">
                       {project.title}
                     </CardTitle>
 
-                    <CardDescription className="mt-2 text-sm text-slate-500">
-                      {project.client}
-                    </CardDescription>
-
-                    <p className="text-slate-300 mt-3 mb-4">
+                    <p className="text-slate-300 mt-2 mb-2 flex-grow text-xs sm:text-sm line-clamp-2">
                       {project.description}
                     </p>
 
-                    <div className="mb-4 p-3 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
-                      <p className="text-xs text-emerald-300 font-semibold mb-2">
-                        Key Results:
-                      </p>
-                      <ul className="space-y-1">
-                        {project.results.map((result, i) => (
-                          <li key={i} className="text-xs text-slate-300">
-                            ✓ {result}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag, i) => (
+                    <div className="flex flex-wrap gap-1">
+                      {project.tags.slice(0, 2).map((tag, i) => (
                         <Badge key={i} variant="default" className="text-xs">
                           {tag}
                         </Badge>
                       ))}
+                      {project.tags.length > 2 && (
+                        <Badge variant="default" className="text-xs">
+                          +{project.tags.length - 2}
+                        </Badge>
+                      )}
                     </div>
                   </div>
                 </Card>
@@ -614,7 +616,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
             {teamMembers.map((member, index) => (
               <motion.div
                 key={member.id}
@@ -624,46 +626,67 @@ export default function Home() {
                 viewport={{ once: true }}
               >
                 <Card variant="glass">
-                  <div className="flex items-start gap-6">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <motion.div
-                      className="text-6xl"
+                      className="text-5xl sm:text-6xl flex-shrink-0"
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
                       {member.image}
                     </motion.div>
-                    <div className="flex-1">
-                      <CardTitle className="text-2xl">{member.name}</CardTitle>
-                      <p className="text-emerald-400 font-semibold">
+                    <div className="flex-1 min-w-0">
+                      <CardTitle className="text-lg sm:text-2xl truncate">
+                        {member.name}
+                      </CardTitle>
+                      <p className="text-emerald-400 font-semibold text-xs sm:text-base truncate">
                         {member.role}
                       </p>
-                      <p className="text-slate-400 text-sm mt-1">
+                      <p className="text-slate-400 text-xs sm:text-sm mt-1 truncate">
                         {member.school}
                       </p>
 
-                      <div className="mt-4">
-                        <p className="text-slate-300 text-sm font-semibold mb-2">
+                      <div className="mt-2 sm:mt-3">
+                        <p className="text-slate-300 text-xs sm:text-sm font-semibold mb-1 sm:mb-2">
                           {t("team.skills")}:
                         </p>
-                        <div className="flex flex-wrap gap-2">
-                          {member.skills.map((skill, i) => (
-                            <Badge key={i} variant="info" className="text-xs">
+                        <div className="flex flex-wrap gap-1">
+                          {member.skills.slice(0, 2).map((skill, i) => (
+                            <Badge
+                              key={i}
+                              variant="info"
+                              className="text-xs whitespace-nowrap"
+                            >
                               {skill}
                             </Badge>
                           ))}
+                          {member.skills.length > 2 && (
+                            <Badge variant="info" className="text-xs">
+                              +{member.skills.length - 2}
+                            </Badge>
+                          )}
                         </div>
                       </div>
 
-                      <div className="mt-4">
-                        <p className="text-slate-300 text-sm font-semibold mb-2">
+                      <div className="hidden sm:block mt-2 sm:mt-3">
+                        <p className="text-slate-300 text-xs sm:text-sm font-semibold mb-1 sm:mb-2">
                           {t("team.achievements")}:
                         </p>
-                        <ul className="space-y-1">
-                          {member.achievements.map((achievement, i) => (
-                            <li key={i} className="text-xs text-slate-400">
-                              ✓ {achievement}
+                        <ul className="space-y-0.5">
+                          {member.achievements
+                            .slice(0, 2)
+                            .map((achievement, i) => (
+                              <li
+                                key={i}
+                                className="text-xs text-slate-400 truncate"
+                              >
+                                ✓ {achievement}
+                              </li>
+                            ))}
+                          {member.achievements.length > 2 && (
+                            <li className="text-xs text-slate-400">
+                              +{member.achievements.length - 2} more
                             </li>
-                          ))}
+                          )}
                         </ul>
                       </div>
                     </div>
@@ -725,62 +748,66 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <Badge className="inline-block mb-4">{t("contact.badge")}</Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold text-white">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
               {t("contact.title")}
             </h2>
-            <p className="text-slate-400 mt-6 text-lg">
+            <p className="text-slate-400 mt-6 text-sm sm:text-base lg:text-lg">
               {t("contact.description")}
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-12">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <Card variant="glass">
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <Mail className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
+              <Card variant="glass" className="h-full">
+                <div className="space-y-4 sm:space-y-6 flex flex-col justify-between h-full">
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                     <div>
-                      <h4 className="text-white font-bold">
+                      <h4 className="text-white font-bold text-sm sm:text-base">
                         {t("contact.email")}
                       </h4>
-                      <p className="text-slate-400">hello@tecwebstudio.com</p>
+                      <p className="text-slate-400 text-xs sm:text-sm">
+                        hello@tecwebstudio.com
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4">
-                    <Phone className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                     <div>
-                      <h4 className="text-white font-bold">
+                      <h4 className="text-white font-bold text-sm sm:text-base">
                         {t("contact.phone")}
                       </h4>
-                      <p className="text-slate-400">+39 (XXX) XXX-XXXX</p>
+                      <p className="text-slate-400 text-xs sm:text-sm">
+                        +39 (XXX) XXX-XXXX
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4">
-                    <Linkedin className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    <Linkedin className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                     <div>
-                      <h4 className="text-white font-bold">
+                      <h4 className="text-white font-bold text-sm sm:text-base">
                         {t("contact.linkedin")}
                       </h4>
-                      <p className="text-slate-400">
+                      <p className="text-slate-400 text-xs sm:text-sm">
                         {t("contact.connectWithUs")}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4">
-                    <Github className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    <Github className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                     <div>
-                      <h4 className="text-white font-bold">
+                      <h4 className="text-white font-bold text-sm sm:text-base">
                         {t("contact.github")}
                       </h4>
-                      <p className="text-slate-400">
+                      <p className="text-slate-400 text-xs sm:text-sm">
                         {t("contact.viewRepositories")}
                       </p>
                     </div>
@@ -798,7 +825,7 @@ export default function Home() {
               <Card variant="glass">
                 <form onSubmit={handleContactSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-white font-semibold mb-2 text-sm">
+                    <label className="block text-white font-semibold mb-2 text-xs sm:text-sm">
                       {t("contact.form.name")}
                     </label>
                     <input
@@ -810,13 +837,13 @@ export default function Home() {
                           name: e.target.value,
                         })
                       }
-                      className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none transition-colors"
+                      className="w-full px-3 sm:px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 text-sm focus:border-emerald-400 focus:outline-none transition-colors"
                       placeholder={t("contact.form.namePlaceholder")}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-white font-semibold mb-2 text-sm">
+                    <label className="block text-white font-semibold mb-2 text-xs sm:text-sm">
                       {t("contact.form.email")}
                     </label>
                     <input
@@ -828,13 +855,13 @@ export default function Home() {
                           email: e.target.value,
                         })
                       }
-                      className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none transition-colors"
+                      className="w-full px-3 sm:px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 text-sm focus:border-emerald-400 focus:outline-none transition-colors"
                       placeholder={t("contact.form.emailPlaceholder")}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-white font-semibold mb-2 text-sm">
+                    <label className="block text-white font-semibold mb-2 text-xs sm:text-sm">
                       {t("contact.form.message")}
                     </label>
                     <textarea
@@ -845,18 +872,18 @@ export default function Home() {
                           message: e.target.value,
                         })
                       }
-                      className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none transition-colors resize-none h-32"
+                      className="w-full px-3 sm:px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 text-sm focus:border-emerald-400 focus:outline-none transition-colors resize-none h-24 sm:h-32"
                       placeholder={t("contact.form.messagePlaceholder")}
                     ></textarea>
                   </div>
 
                   {formStatus === "success" && (
-                    <p className="text-green-400 text-sm font-semibold">
+                    <p className="text-green-400 text-xs sm:text-sm font-semibold">
                       ✓ {t("contact.form.success")}
                     </p>
                   )}
                   {formStatus === "error" && (
-                    <p className="text-red-400 text-sm font-semibold">
+                    <p className="text-red-400 text-xs sm:text-sm font-semibold">
                       ✗ {t("contact.form.error")}
                     </p>
                   )}
@@ -864,7 +891,7 @@ export default function Home() {
                   <Button
                     type="submit"
                     size="md"
-                    className="w-full"
+                    className="w-full text-sm sm:text-base"
                     isLoading={formStatus === "loading"}
                   >
                     {formStatus === "loading"
@@ -919,15 +946,17 @@ export default function Home() {
       {/* Footer */}
       <section className="relative z-10 border-t border-emerald-500/10 py-12">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-white font-bold mb-4">TecWeb Studio</h3>
-              <p className="text-slate-400 text-sm">
+              <h3 className="text-white font-bold mb-4 text-base sm:text-lg">
+                TecWeb Studio
+              </h3>
+              <p className="text-slate-400 text-xs sm:text-sm">
                 {t("footer.description")}
               </p>
             </motion.div>
@@ -937,10 +966,10 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
             >
-              <h4 className="text-white font-semibold mb-4">
+              <h4 className="text-white font-semibold mb-4 text-sm sm:text-base">
                 {t("footer.services")}
               </h4>
-              <ul className="space-y-2 text-slate-400 text-sm">
+              <ul className="space-y-2 text-slate-400 text-xs sm:text-sm">
                 <li>
                   <a
                     href="#"
@@ -981,10 +1010,10 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <h4 className="text-white font-semibold mb-4">
+              <h4 className="text-white font-semibold mb-4 text-sm sm:text-base">
                 {t("footer.company")}
               </h4>
-              <ul className="space-y-2 text-slate-400 text-sm">
+              <ul className="space-y-2 text-slate-400 text-xs sm:text-sm">
                 <li>
                   <a
                     href="#"
@@ -1025,25 +1054,25 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.3 }}
               viewport={{ once: true }}
             >
-              <h4 className="text-white font-semibold mb-4">
+              <h4 className="text-white font-semibold mb-4 text-sm sm:text-base">
                 {t("footer.connect")}
               </h4>
               <div className="flex gap-4">
                 <a
                   href="#"
-                  className="text-slate-400 hover:text-emerald-400 transition-colors"
+                  className="text-slate-400 hover:text-emerald-400 transition-colors text-xs sm:text-sm"
                 >
                   GitHub
                 </a>
                 <a
                   href="#"
-                  className="text-slate-400 hover:text-emerald-400 transition-colors"
+                  className="text-slate-400 hover:text-emerald-400 transition-colors text-xs sm:text-sm"
                 >
                   LinkedIn
                 </a>
                 <a
                   href="#"
-                  className="text-slate-400 hover:text-emerald-400 transition-colors"
+                  className="text-slate-400 hover:text-emerald-400 transition-colors text-xs sm:text-sm"
                 >
                   Twitter
                 </a>
@@ -1051,7 +1080,7 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <div className="border-t border-emerald-500/10 pt-8 text-center text-slate-500 text-sm">
+          <div className="border-t border-emerald-500/10 pt-8 text-center text-slate-500 text-xs sm:text-sm">
             <p>{t("footer.copyright")}</p>
           </div>
         </div>
