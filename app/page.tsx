@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 import { Button } from "@/app/components/ui/Button";
 import { Card, CardTitle, CardDescription } from "@/app/components/ui/Card";
 import { Badge } from "@/app/components/ui/Badge";
@@ -284,56 +285,105 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative min-h-screen w-full overflow-hidden pt-20">
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse"></div>
-          <div
-            className="absolute bottom-0 right-1/4 w-96 h-96 bg-green-500/10 rounded-full blur-3xl animate-pulse"
-            style={{ animationDelay: "1s" }}
-          ></div>
+          <motion.div
+            className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"
+            animate={{ opacity: [0.3, 0.8, 0.3] }}
+            transition={{ duration: 4, repeat: Infinity }}
+          ></motion.div>
+          <motion.div
+            className="absolute bottom-0 right-1/4 w-96 h-96 bg-green-500/10 rounded-full blur-3xl"
+            animate={{ opacity: [0.3, 0.8, 0.3] }}
+            transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+          ></motion.div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex items-center justify-center">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
+            <motion.div
+              className="space-y-8"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               <div className="space-y-4">
                 <Badge>{t("hero.badge")}</Badge>
-                <h1 className="text-5xl lg:text-6xl font-bold text-white leading-tight">
+                <motion.h1
+                  className="text-5xl lg:text-6xl font-bold text-white leading-tight"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  viewport={{ once: true }}
+                >
                   {t("hero.title.part1")}{" "}
                   <span className="bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-400 bg-clip-text text-transparent">
                     {t("hero.title.part2")}
                   </span>
-                </h1>
+                </motion.h1>
               </div>
 
-              <p className="text-lg text-slate-300 leading-relaxed max-w-lg">
+              <motion.p
+                className="text-lg text-slate-300 leading-relaxed max-w-lg"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
                 {t("hero.description")}
-              </p>
+              </motion.p>
 
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <motion.div
+                className="flex flex-col sm:flex-row gap-4 pt-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
+              >
                 <Button size="lg">{t("hero.cta.start")}</Button>
                 <Button variant="outline" size="lg">
                   {t("hero.cta.viewWork")}
                 </Button>
-              </div>
+              </motion.div>
 
-              <div className="flex items-center gap-6 pt-8">
+              <motion.div
+                className="flex items-center gap-6 pt-8"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                viewport={{ once: true }}
+              >
                 <div className="flex -space-x-3">
                   {["👨‍💼", "👩‍💼", "👨‍💻", "👩‍💻"].map((emoji, i) => (
-                    <div
+                    <motion.div
                       key={i}
                       className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-green-500 border-2 border-slate-900 flex items-center justify-center text-lg"
+                      whileHover={{ scale: 1.1, y: -5 }}
+                      transition={{ type: "spring", stiffness: 300 }}
                     >
                       {emoji}
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
                 <p className="text-slate-400">{t("hero.trusted")}</p>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
-            <div className="relative hidden lg:block">
+            <motion.div
+              className="relative hidden lg:block"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-green-500/20 rounded-2xl blur-2xl"></div>
               <div className="relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl border border-emerald-500/30 rounded-2xl p-8 space-y-6">
-                <div className="text-5xl text-center mb-6">🚀</div>
+                <motion.div
+                  className="text-5xl text-center mb-6"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  🚀
+                </motion.div>
                 <div className="space-y-3">
                   <div className="h-3 w-20 bg-emerald-400/40 rounded animate-pulse"></div>
                   <div className="h-2 w-full bg-emerald-400/20 rounded"></div>
@@ -341,14 +391,16 @@ export default function Home() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   {[1, 2, 3, 4].map((i) => (
-                    <div
+                    <motion.div
                       key={i}
                       className="h-20 bg-emerald-500/10 border border-emerald-500/20 rounded-lg hover:border-emerald-400/50 transition-colors"
-                    ></div>
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    ></motion.div>
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -358,14 +410,21 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center space-y-2">
+              <motion.div
+                key={index}
+                className="text-center space-y-2"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
                 <p className="text-4xl lg:text-5xl font-bold text-emerald-400">
                   {stat.label}
                 </p>
                 <p className="text-slate-400 text-sm uppercase tracking-wide">
                   {stat.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -374,7 +433,13 @@ export default function Home() {
       {/* Services Section */}
       <section className="relative z-10 py-24 border-t border-emerald-500/10">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             <Badge className="inline-block mb-4">{t("services.badge")}</Badge>
             <h2 className="text-4xl lg:text-5xl font-bold text-white">
               {t("services.title")}
@@ -382,32 +447,37 @@ export default function Home() {
             <p className="text-slate-400 mt-6 max-w-2xl mx-auto text-lg">
               {t("services.description")}
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service) => (
-              <Card
+            {services.map((service, index) => (
+              <motion.div
                 key={service.id}
-                variant="elevated"
-                className="group hover:shadow-emerald-500/20"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
               >
-                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">
-                  {service.icon}
-                </div>
-                <CardTitle className="group-hover:text-emerald-400 transition-colors">
-                  {service.title}
-                </CardTitle>
-                <CardDescription className="mt-2">
-                  {service.description}
-                </CardDescription>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {service.features.map((feature, i) => (
-                    <Badge key={i} variant="info" className="text-xs">
-                      {feature}
-                    </Badge>
-                  ))}
-                </div>
-              </Card>
+                <Card
+                  variant="elevated"
+                  className="group hover:shadow-emerald-500/20"
+                >
+                  <div className="text-5xl mb-4">{service.icon}</div>
+                  <CardTitle className="group-hover:text-emerald-400 transition-colors">
+                    {service.title}
+                  </CardTitle>
+                  <CardDescription className="mt-2">
+                    {service.description}
+                  </CardDescription>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {service.features.map((feature, i) => (
+                      <Badge key={i} variant="info" className="text-xs">
+                        {feature}
+                      </Badge>
+                    ))}
+                  </div>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -416,7 +486,13 @@ export default function Home() {
       {/* Portfolio Section */}
       <section className="relative z-10 py-24 border-t border-emerald-500/10">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             <Badge className="inline-block mb-4">{t("portfolio.badge")}</Badge>
             <h2 className="text-4xl lg:text-5xl font-bold text-white">
               {t("portfolio.title")}
@@ -424,7 +500,7 @@ export default function Home() {
             <p className="text-slate-400 mt-6 max-w-2xl mx-auto text-lg">
               {t("portfolio.description")}
             </p>
-          </div>
+          </motion.div>
 
           <div className="flex flex-wrap gap-3 mb-12 justify-center">
             {[
@@ -447,60 +523,73 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
-              <Card
+            {filteredProjects.map((project, index) => (
+              <motion.div
                 key={project.id}
-                variant={project.featured ? "elevated" : "default"}
-                className="group overflow-hidden relative"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.05 }}
+                viewport={{ once: true }}
               >
-                {project.featured && (
-                  <div className="absolute -top-2 -right-2 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-32 h-32 blur-2xl opacity-20"></div>
-                )}
+                <Card
+                  variant={project.featured ? "elevated" : "default"}
+                  className="group overflow-hidden relative"
+                >
+                  {project.featured && (
+                    <div className="absolute -top-2 -right-2 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-32 h-32 blur-2xl opacity-20"></div>
+                  )}
 
-                <div className="relative z-10">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="text-5xl group-hover:scale-110 transition-transform">
-                      {project.image}
+                  <div className="relative z-10">
+                    <div className="flex items-start justify-between mb-4">
+                      <motion.div
+                        className="text-5xl"
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        {project.image}
+                      </motion.div>
+                      {project.featured && (
+                        <Badge variant="success">
+                          {t("portfolio.featured")}
+                        </Badge>
+                      )}
                     </div>
-                    {project.featured && (
-                      <Badge variant="success">{t("portfolio.featured")}</Badge>
-                    )}
-                  </div>
 
-                  <CardTitle className="group-hover:text-emerald-400 transition-colors">
-                    {project.title}
-                  </CardTitle>
+                    <CardTitle className="group-hover:text-emerald-400 transition-colors">
+                      {project.title}
+                    </CardTitle>
 
-                  <CardDescription className="mt-2 text-sm text-slate-500">
-                    {project.client}
-                  </CardDescription>
+                    <CardDescription className="mt-2 text-sm text-slate-500">
+                      {project.client}
+                    </CardDescription>
 
-                  <p className="text-slate-300 mt-3 mb-4">
-                    {project.description}
-                  </p>
-
-                  <div className="mb-4 p-3 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
-                    <p className="text-xs text-emerald-300 font-semibold mb-2">
-                      Key Results:
+                    <p className="text-slate-300 mt-3 mb-4">
+                      {project.description}
                     </p>
-                    <ul className="space-y-1">
-                      {project.results.map((result, i) => (
-                        <li key={i} className="text-xs text-slate-300">
-                          ✓ {result}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, i) => (
-                      <Badge key={i} variant="default" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
+                    <div className="mb-4 p-3 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
+                      <p className="text-xs text-emerald-300 font-semibold mb-2">
+                        Key Results:
+                      </p>
+                      <ul className="space-y-1">
+                        {project.results.map((result, i) => (
+                          <li key={i} className="text-xs text-slate-300">
+                            ✓ {result}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag, i) => (
+                        <Badge key={i} variant="default" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -509,7 +598,13 @@ export default function Home() {
       {/* Team Section */}
       <section className="relative z-10 py-24 border-t border-emerald-500/10">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             <Badge className="inline-block mb-4">{t("team.badge")}</Badge>
             <h2 className="text-4xl lg:text-5xl font-bold text-white">
               {t("team.title")}
@@ -517,50 +612,64 @@ export default function Home() {
             <p className="text-slate-400 mt-6 max-w-2xl mx-auto text-lg">
               {t("team.description")}
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {teamMembers.map((member) => (
-              <Card key={member.id} variant="glass">
-                <div className="flex items-start gap-6">
-                  <div className="text-6xl">{member.image}</div>
-                  <div className="flex-1">
-                    <CardTitle className="text-2xl">{member.name}</CardTitle>
-                    <p className="text-emerald-400 font-semibold">
-                      {member.role}
-                    </p>
-                    <p className="text-slate-400 text-sm mt-1">
-                      {member.school}
-                    </p>
-
-                    <div className="mt-4">
-                      <p className="text-slate-300 text-sm font-semibold mb-2">
-                        {t("team.skills")}:
+            {teamMembers.map((member, index) => (
+              <motion.div
+                key={member.id}
+                initial={{ opacity: 0, x: index === 0 ? -30 : 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <Card variant="glass">
+                  <div className="flex items-start gap-6">
+                    <motion.div
+                      className="text-6xl"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      {member.image}
+                    </motion.div>
+                    <div className="flex-1">
+                      <CardTitle className="text-2xl">{member.name}</CardTitle>
+                      <p className="text-emerald-400 font-semibold">
+                        {member.role}
                       </p>
-                      <div className="flex flex-wrap gap-2">
-                        {member.skills.map((skill, i) => (
-                          <Badge key={i} variant="info" className="text-xs">
-                            {skill}
-                          </Badge>
-                        ))}
+                      <p className="text-slate-400 text-sm mt-1">
+                        {member.school}
+                      </p>
+
+                      <div className="mt-4">
+                        <p className="text-slate-300 text-sm font-semibold mb-2">
+                          {t("team.skills")}:
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {member.skills.map((skill, i) => (
+                            <Badge key={i} variant="info" className="text-xs">
+                              {skill}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mt-4">
+                        <p className="text-slate-300 text-sm font-semibold mb-2">
+                          {t("team.achievements")}:
+                        </p>
+                        <ul className="space-y-1">
+                          {member.achievements.map((achievement, i) => (
+                            <li key={i} className="text-xs text-slate-400">
+                              ✓ {achievement}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
-
-                    <div className="mt-4">
-                      <p className="text-slate-300 text-sm font-semibold mb-2">
-                        {t("team.achievements")}:
-                      </p>
-                      <ul className="space-y-1">
-                        {member.achievements.map((achievement, i) => (
-                          <li key={i} className="text-xs text-slate-400">
-                            ✓ {achievement}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -608,7 +717,13 @@ export default function Home() {
       {/* Contact Section */}
       <section className="relative z-10 py-24 border-t border-emerald-500/10">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             <Badge className="inline-block mb-4">{t("contact.badge")}</Badge>
             <h2 className="text-4xl lg:text-5xl font-bold text-white">
               {t("contact.title")}
@@ -616,129 +731,149 @@ export default function Home() {
             <p className="text-slate-400 mt-6 text-lg">
               {t("contact.description")}
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            <Card variant="glass">
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <Mail className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
-                  <div>
-                    <h4 className="text-white font-bold">
-                      {t("contact.email")}
-                    </h4>
-                    <p className="text-slate-400">hello@tecwebstudio.com</p>
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <Card variant="glass">
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <Mail className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h4 className="text-white font-bold">
+                        {t("contact.email")}
+                      </h4>
+                      <p className="text-slate-400">hello@tecwebstudio.com</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <Phone className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h4 className="text-white font-bold">
+                        {t("contact.phone")}
+                      </h4>
+                      <p className="text-slate-400">+39 (XXX) XXX-XXXX</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <Linkedin className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h4 className="text-white font-bold">
+                        {t("contact.linkedin")}
+                      </h4>
+                      <p className="text-slate-400">
+                        {t("contact.connectWithUs")}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <Github className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h4 className="text-white font-bold">
+                        {t("contact.github")}
+                      </h4>
+                      <p className="text-slate-400">
+                        {t("contact.viewRepositories")}
+                      </p>
+                    </div>
                   </div>
                 </div>
+              </Card>
+            </motion.div>
 
-                <div className="flex items-start gap-4">
-                  <Phone className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <Card variant="glass">
+                <form onSubmit={handleContactSubmit} className="space-y-4">
                   <div>
-                    <h4 className="text-white font-bold">
-                      {t("contact.phone")}
-                    </h4>
-                    <p className="text-slate-400">+39 (XXX) XXX-XXXX</p>
+                    <label className="block text-white font-semibold mb-2 text-sm">
+                      {t("contact.form.name")}
+                    </label>
+                    <input
+                      type="text"
+                      value={contactForm.name}
+                      onChange={(e) =>
+                        setContactForm({
+                          ...contactForm,
+                          name: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none transition-colors"
+                      placeholder={t("contact.form.namePlaceholder")}
+                    />
                   </div>
-                </div>
 
-                <div className="flex items-start gap-4">
-                  <Linkedin className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
                   <div>
-                    <h4 className="text-white font-bold">
-                      {t("contact.linkedin")}
-                    </h4>
-                    <p className="text-slate-400">
-                      {t("contact.connectWithUs")}
+                    <label className="block text-white font-semibold mb-2 text-sm">
+                      {t("contact.form.email")}
+                    </label>
+                    <input
+                      type="email"
+                      value={contactForm.email}
+                      onChange={(e) =>
+                        setContactForm({
+                          ...contactForm,
+                          email: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none transition-colors"
+                      placeholder={t("contact.form.emailPlaceholder")}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-white font-semibold mb-2 text-sm">
+                      {t("contact.form.message")}
+                    </label>
+                    <textarea
+                      value={contactForm.message}
+                      onChange={(e) =>
+                        setContactForm({
+                          ...contactForm,
+                          message: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none transition-colors resize-none h-32"
+                      placeholder={t("contact.form.messagePlaceholder")}
+                    ></textarea>
+                  </div>
+
+                  {formStatus === "success" && (
+                    <p className="text-green-400 text-sm font-semibold">
+                      ✓ {t("contact.form.success")}
                     </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <Github className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
-                  <div>
-                    <h4 className="text-white font-bold">
-                      {t("contact.github")}
-                    </h4>
-                    <p className="text-slate-400">
-                      {t("contact.viewRepositories")}
+                  )}
+                  {formStatus === "error" && (
+                    <p className="text-red-400 text-sm font-semibold">
+                      ✗ {t("contact.form.error")}
                     </p>
-                  </div>
-                </div>
-              </div>
-            </Card>
+                  )}
 
-            <Card variant="glass">
-              <form onSubmit={handleContactSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-white font-semibold mb-2 text-sm">
-                    {t("contact.form.name")}
-                  </label>
-                  <input
-                    type="text"
-                    value={contactForm.name}
-                    onChange={(e) =>
-                      setContactForm({ ...contactForm, name: e.target.value })
-                    }
-                    className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none transition-colors"
-                    placeholder={t("contact.form.namePlaceholder")}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-white font-semibold mb-2 text-sm">
-                    {t("contact.form.email")}
-                  </label>
-                  <input
-                    type="email"
-                    value={contactForm.email}
-                    onChange={(e) =>
-                      setContactForm({ ...contactForm, email: e.target.value })
-                    }
-                    className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none transition-colors"
-                    placeholder={t("contact.form.emailPlaceholder")}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-white font-semibold mb-2 text-sm">
-                    {t("contact.form.message")}
-                  </label>
-                  <textarea
-                    value={contactForm.message}
-                    onChange={(e) =>
-                      setContactForm({
-                        ...contactForm,
-                        message: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none transition-colors resize-none h-32"
-                    placeholder={t("contact.form.messagePlaceholder")}
-                  ></textarea>
-                </div>
-
-                {formStatus === "success" && (
-                  <p className="text-green-400 text-sm font-semibold">
-                    ✓ {t("contact.form.success")}
-                  </p>
-                )}
-                {formStatus === "error" && (
-                  <p className="text-red-400 text-sm font-semibold">
-                    ✗ {t("contact.form.error")}
-                  </p>
-                )}
-
-                <Button
-                  type="submit"
-                  size="md"
-                  className="w-full"
-                  isLoading={formStatus === "loading"}
-                >
-                  {formStatus === "loading"
-                    ? t("contact.form.sending")
-                    : t("contact.form.submit")}
-                </Button>
-              </form>
-            </Card>
+                  <Button
+                    type="submit"
+                    size="md"
+                    className="w-full"
+                    isLoading={formStatus === "loading"}
+                  >
+                    {formStatus === "loading"
+                      ? t("contact.form.sending")
+                      : t("contact.form.submit")}
+                  </Button>
+                </form>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -746,25 +881,38 @@ export default function Home() {
       {/* CTA Section */}
       <section className="relative z-10 py-24 border-t border-emerald-500/10">
         <div className="max-w-4xl mx-auto px-6">
-          <Card variant="elevated" className="overflow-hidden relative">
-            <div className="absolute -top-20 -right-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <Card variant="elevated" className="overflow-hidden relative">
+              <div className="absolute -top-20 -right-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
 
-            <div className="relative z-10 text-center space-y-8">
-              <h2 className="text-3xl lg:text-4xl font-bold text-white">
-                {t("cta.title")}
-              </h2>
-              <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-                {t("cta.description")}
-              </p>
+              <div className="relative z-10 text-center space-y-8">
+                <h2 className="text-3xl lg:text-4xl font-bold text-white">
+                  {t("cta.title")}
+                </h2>
+                <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+                  {t("cta.description")}
+                </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                <Button size="lg">{t("cta.startProject")}</Button>
-                <Button variant="outline" size="lg">
-                  {t("cta.scheduleCall")}
-                </Button>
+                <motion.div
+                  className="flex flex-col sm:flex-row gap-4 justify-center pt-4"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  <Button size="lg">{t("cta.startProject")}</Button>
+                  <Button variant="outline" size="lg">
+                    {t("cta.scheduleCall")}
+                  </Button>
+                </motion.div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          </motion.div>
         </div>
       </section>
 
@@ -772,13 +920,23 @@ export default function Home() {
       <section className="relative z-10 border-t border-emerald-500/10 py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               <h3 className="text-white font-bold mb-4">TecWeb Studio</h3>
               <p className="text-slate-400 text-sm">
                 {t("footer.description")}
               </p>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+            >
               <h4 className="text-white font-semibold mb-4">
                 {t("footer.services")}
               </h4>
@@ -816,8 +974,13 @@ export default function Home() {
                   </a>
                 </li>
               </ul>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
               <h4 className="text-white font-semibold mb-4">
                 {t("footer.company")}
               </h4>
@@ -855,8 +1018,13 @@ export default function Home() {
                   </a>
                 </li>
               </ul>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+            >
               <h4 className="text-white font-semibold mb-4">
                 {t("footer.connect")}
               </h4>
@@ -880,7 +1048,7 @@ export default function Home() {
                   Twitter
                 </a>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           <div className="border-t border-emerald-500/10 pt-8 text-center text-slate-500 text-sm">
@@ -890,13 +1058,16 @@ export default function Home() {
       </section>
 
       {/* Language Switcher Button */}
-      <button
+      <motion.button
         onClick={() => setLanguageOpen(true)}
         className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-green-500 hover:from-emerald-300 hover:to-green-400 text-white font-bold shadow-lg hover:shadow-emerald-500/50 transition-all duration-200 flex items-center justify-center text-xl"
         title="Change Language"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ type: "spring", stiffness: 300 }}
       >
         🌐
-      </button>
+      </motion.button>
 
       {/* Language Dialog */}
       <Dialog open={languageOpen} onOpenChange={setLanguageOpen}>
@@ -906,8 +1077,8 @@ export default function Home() {
           </DialogHeader>
           <DialogBody>
             <div className="space-y-2">
-              {languages.map((lang) => (
-                <button
+              {languages.map((lang, index) => (
+                <motion.button
                   key={lang.code}
                   onClick={() => handleLanguageChange(lang.code)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
@@ -915,10 +1086,13 @@ export default function Home() {
                       ? "bg-emerald-500/30 border border-emerald-400 text-emerald-300"
                       : "bg-slate-700/30 border border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-emerald-500/50"
                   }`}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
                 >
                   <span className="text-2xl">{lang.flag}</span>
                   <span className="font-semibold">{lang.name}</span>
-                </button>
+                </motion.button>
               ))}
             </div>
           </DialogBody>
