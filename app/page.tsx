@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import useEmblaCarousel from "embla-carousel-react";
 import { Button } from "@/app/components/ui/Button";
 import { Card, CardTitle, CardDescription } from "@/app/components/ui/Card";
 import { Badge } from "@/app/components/ui/Badge";
@@ -27,6 +28,19 @@ export default function Home() {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [languageOpen, setLanguageOpen] = useState(false);
+
+  // Embla Carousels
+  const [servicesEmblaRef, servicesEmblaApi] = useEmblaCarousel({
+    align: "start",
+    skipSnaps: false,
+    dragFree: true,
+  });
+
+  const [portfolioEmblaRef, portfolioEmblaApi] = useEmblaCarousel({
+    align: "start",
+    skipSnaps: false,
+    dragFree: true,
+  });
 
   const languages = [
     { name: "English", flag: "🇬🇧", code: "en" as const },
@@ -440,7 +454,7 @@ export default function Home() {
       <section className="relative z-10 py-24 border-t border-emerald-500/10">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-8 sm:mb-12 lg:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -455,42 +469,59 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {services.map((service, index) => (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="h-full"
+          <div className="relative">
+            <div className="overflow-hidden rounded-lg" ref={servicesEmblaRef}>
+              <div className="flex gap-6 sm:gap-8">
+                {services.map((service, index) => (
+                  <motion.div
+                    key={service.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className="flex-shrink-0 w-80"
+                  >
+                    <Card
+                      variant="elevated"
+                      className="group hover:shadow-emerald-500/20 h-full flex flex-col"
+                    >
+                      <div className="text-5xl mb-3 sm:mb-4">
+                        {service.icon}
+                      </div>
+                      <CardTitle className="group-hover:text-emerald-400 transition-colors text-sm sm:text-base lg:text-lg overflow-hidden text-ellipsis leading-tight">
+                        {service.title}
+                      </CardTitle>
+                      <CardDescription className="mt-2 sm:mt-3 flex-grow text-xs sm:text-sm">
+                        {service.description}
+                      </CardDescription>
+                      <div className="mt-3 sm:mt-4 flex flex-wrap gap-2">
+                        {service.features.map((feature, i) => (
+                          <Badge key={i} variant="info" className="text-xs">
+                            {feature}
+                          </Badge>
+                        ))}
+                      </div>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Arrow Buttons */}
+            <div className="flex gap-2 mt-4 mb-0">
+              <button
+                onClick={() => servicesEmblaApi?.scrollPrev()}
+                className="p-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors"
               >
-                <Card
-                  variant="elevated"
-                  className="group hover:shadow-emerald-500/20 h-full flex flex-col"
-                >
-                  <div className="text-5xl mb-4">{service.icon}</div>
-                  <CardTitle className="group-hover:text-emerald-400 transition-colors text-lg sm:text-xl">
-                    {service.title}
-                  </CardTitle>
-                  <CardDescription className="mt-2 flex-grow text-sm">
-                    {service.description}
-                  </CardDescription>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {service.features.slice(0, 2).map((feature, i) => (
-                      <Badge key={i} variant="info" className="text-xs">
-                        {feature}
-                      </Badge>
-                    ))}
-                    {service.features.length > 2 && (
-                      <Badge variant="info" className="text-xs">
-                        +{service.features.length - 2}
-                      </Badge>
-                    )}
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
+                ← {t("common.previous") || "Prev"}
+              </button>
+              <button
+                onClick={() => servicesEmblaApi?.scrollNext()}
+                className="p-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors"
+              >
+                {t("common.next") || "Next"} →
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -499,7 +530,7 @@ export default function Home() {
       <section className="relative z-10 py-24 border-t border-emerald-500/10">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-8 sm:mb-12 lg:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -535,64 +566,83 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.05 }}
-                viewport={{ once: true }}
-                className="h-full"
-              >
-                <Card
-                  variant={project.featured ? "elevated" : "default"}
-                  className="group overflow-hidden relative h-full flex flex-col p-4 sm:p-6"
-                >
-                  {project.featured && (
-                    <div className="absolute -top-2 -right-2 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-32 h-32 blur-2xl opacity-20"></div>
-                  )}
-
-                  <div className="relative z-10 flex flex-col flex-grow">
-                    <div className="flex items-start justify-between mb-2 sm:mb-3">
-                      <motion.div
-                        className="text-3xl sm:text-4xl flex-shrink-0"
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                        transition={{ type: "spring", stiffness: 300 }}
-                      >
-                        {project.image}
-                      </motion.div>
+          <div className="relative">
+            <div className="overflow-hidden rounded-lg" ref={portfolioEmblaRef}>
+              <div className="flex gap-4 sm:gap-6">
+                {filteredProjects.map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.05 }}
+                    viewport={{ once: true }}
+                    className="flex-shrink-0 w-80"
+                  >
+                    <Card
+                      variant={project.featured ? "elevated" : "default"}
+                      className="group overflow-hidden relative h-full flex flex-col p-4 sm:p-6"
+                    >
                       {project.featured && (
-                        <Badge variant="success" className="text-xs">
-                          ⭐
-                        </Badge>
+                        <div className="absolute -top-2 -right-2 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-32 h-32 blur-2xl opacity-20"></div>
                       )}
-                    </div>
 
-                    <CardTitle className="group-hover:text-emerald-400 transition-colors text-sm sm:text-base line-clamp-2">
-                      {project.title}
-                    </CardTitle>
+                      <div className="relative z-10 flex flex-col flex-grow">
+                        <div className="flex items-start justify-between mb-2 sm:mb-2">
+                          <motion.div
+                            className="text-3xl sm:text-4xl flex-shrink-0"
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            transition={{ type: "spring", stiffness: 300 }}
+                          >
+                            {project.image}
+                          </motion.div>
+                          {project.featured && (
+                            <Badge variant="success" className="text-xs">
+                              ⭐
+                            </Badge>
+                          )}
+                        </div>
 
-                    <p className="text-slate-300 mt-2 mb-2 flex-grow text-xs sm:text-sm line-clamp-2">
-                      {project.description}
-                    </p>
+                        <CardTitle className="group-hover:text-emerald-400 transition-colors text-sm sm:text-base lg:text-base overflow-hidden text-ellipsis leading-tight line-clamp-2">
+                          {project.title}
+                        </CardTitle>
 
-                    <div className="flex flex-wrap gap-1">
-                      {project.tags.slice(0, 2).map((tag, i) => (
-                        <Badge key={i} variant="default" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                      {project.tags.length > 2 && (
-                        <Badge variant="default" className="text-xs">
-                          +{project.tags.length - 2}
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
+                        <p className="text-slate-300 mt-2 sm:mt-2 mb-2 sm:mb-2 flex-grow text-xs sm:text-sm line-clamp-2">
+                          {project.description}
+                        </p>
+
+                        <div className="flex flex-wrap gap-1 mt-2 sm:mt-2">
+                          {project.tags.map((tag, i) => (
+                            <Badge
+                              key={i}
+                              variant="default"
+                              className="text-xs"
+                            >
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Arrow Buttons */}
+            <div className="flex gap-2 mt-4 mb-0">
+              <button
+                onClick={() => portfolioEmblaApi?.scrollPrev()}
+                className="p-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors"
+              >
+                ← {t("common.previous") || "Prev"}
+              </button>
+              <button
+                onClick={() => portfolioEmblaApi?.scrollNext()}
+                className="p-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors"
+              >
+                {t("common.next") || "Next"} →
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -601,7 +651,7 @@ export default function Home() {
       <section className="relative z-10 py-24 border-t border-emerald-500/10">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-8 sm:mb-12 lg:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -635,10 +685,10 @@ export default function Home() {
                       {member.image}
                     </motion.div>
                     <div className="flex-1 min-w-0">
-                      <CardTitle className="text-lg sm:text-2xl truncate">
+                      <CardTitle className="text-base sm:text-xl lg:text-2xl break-words leading-snug">
                         {member.name}
                       </CardTitle>
-                      <p className="text-emerald-400 font-semibold text-xs sm:text-base truncate">
+                      <p className="text-emerald-400 font-semibold text-xs sm:text-sm truncate">
                         {member.role}
                       </p>
                       <p className="text-slate-400 text-xs sm:text-sm mt-1 truncate">
@@ -650,7 +700,7 @@ export default function Home() {
                           {t("team.skills")}:
                         </p>
                         <div className="flex flex-wrap gap-1">
-                          {member.skills.slice(0, 2).map((skill, i) => (
+                          {member.skills.map((skill, i) => (
                             <Badge
                               key={i}
                               variant="info"
@@ -659,34 +709,22 @@ export default function Home() {
                               {skill}
                             </Badge>
                           ))}
-                          {member.skills.length > 2 && (
-                            <Badge variant="info" className="text-xs">
-                              +{member.skills.length - 2}
-                            </Badge>
-                          )}
                         </div>
                       </div>
 
-                      <div className="hidden sm:block mt-2 sm:mt-3">
+                      <div className="mt-2 sm:mt-3">
                         <p className="text-slate-300 text-xs sm:text-sm font-semibold mb-1 sm:mb-2">
                           {t("team.achievements")}:
                         </p>
                         <ul className="space-y-0.5">
-                          {member.achievements
-                            .slice(0, 2)
-                            .map((achievement, i) => (
-                              <li
-                                key={i}
-                                className="text-xs text-slate-400 truncate"
-                              >
-                                ✓ {achievement}
-                              </li>
-                            ))}
-                          {member.achievements.length > 2 && (
-                            <li className="text-xs text-slate-400">
-                              +{member.achievements.length - 2} more
+                          {member.achievements.map((achievement, i) => (
+                            <li
+                              key={i}
+                              className="text-xs text-slate-400 truncate"
+                            >
+                              ✓ {achievement}
                             </li>
-                          )}
+                          ))}
                         </ul>
                       </div>
                     </div>
@@ -741,7 +779,7 @@ export default function Home() {
       <section className="relative z-10 py-24 border-t border-emerald-500/10">
         <div className="max-w-4xl mx-auto px-6">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-8 sm:mb-12 lg:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -764,7 +802,7 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <Card variant="glass" className="h-full">
-                <div className="space-y-4 sm:space-y-6 flex flex-col justify-between h-full">
+                <div className="flex flex-col justify-between h-full gap-1.5">
                   <div className="flex items-start gap-3 sm:gap-4">
                     <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                     <div>
