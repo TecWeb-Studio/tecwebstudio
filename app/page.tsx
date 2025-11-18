@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import { Button } from "@/app/components/ui/Button";
-import { useRouter } from "next/navigation";
 import { Card, CardTitle, CardDescription } from "@/app/components/ui/Card";
 import { Badge } from "@/app/components/ui/Badge";
 import {
@@ -18,8 +17,21 @@ import {
 import { Mail, Phone, Linkedin, Github, Star, Globe } from "lucide-react";
 
 export default function Home() {
-  const router = useRouter();
   const { t, i18n } = useTranslation();
+  const [getStartedOpen, setGetStartedOpen] = useState(false);
+
+  // listen for global event emitted by Navbar
+  useEffect(() => {
+    const handler = () => setGetStartedOpen(true);
+    if (typeof window !== "undefined") {
+      window.addEventListener("open-get-started", handler as EventListener);
+    }
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("open-get-started", handler as EventListener);
+      }
+    };
+  }, []);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [contactForm, setContactForm] = useState({
     name: "",
@@ -358,7 +370,7 @@ export default function Home() {
                 <Button
                   size="lg"
                   className="w-full sm:w-auto"
-                  onClick={() => router.push("/get-started")}
+                  onClick={() => setGetStartedOpen(true)}
                 >
                   {t("hero.cta.start")}
                 </Button>
@@ -976,7 +988,7 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   viewport={{ once: true }}
                 >
-                  <Button size="lg" onClick={() => router.push("/get-started")}>
+                  <Button size="lg" onClick={() => setGetStartedOpen(true)}>
                     {t("cta.startProject")}
                   </Button>
                   <Button variant="outline" size="lg">
@@ -1157,8 +1169,8 @@ export default function Home() {
                   key={lang.code}
                   onClick={() => handleLanguageChange(lang.code)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${i18n.language === lang.code
-                      ? "bg-emerald-500/30 border border-emerald-400 text-emerald-300"
-                      : "bg-slate-700/30 border border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-emerald-500/50"
+                    ? "bg-emerald-500/30 border border-emerald-400 text-emerald-300"
+                    : "bg-slate-700/30 border border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-emerald-500/50"
                     }`}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -1168,6 +1180,72 @@ export default function Home() {
                   <span className="font-semibold">{lang.name}</span>
                 </motion.button>
               ))}
+            </div>
+          </DialogBody>
+        </DialogContent>
+      </Dialog>
+      {/* Get Started Dialog (opened from Navbar / CTA) */}
+      <Dialog open={getStartedOpen} onOpenChange={setGetStartedOpen}>
+        <DialogContent onClose={() => setGetStartedOpen(false)}>
+          <DialogHeader>
+            <DialogTitle>Contattaci</DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <div className="space-y-4 text-sm text-slate-300">
+              <p>
+                Grazie per l'interesse! Compila il form nella sezione Contatti
+                oppure contattaci direttamente tramite i canali qui sotto.
+              </p>
+
+              <div className="flex items-start gap-3">
+                <Mail className="w-5 h-5 text-emerald-400" />
+                <div>
+                  <div className="text-white font-semibold">Email</div>
+                  <a
+                    href="mailto:hello@tecwebstudio.com"
+                    className="text-emerald-300 text-xs hover:underline"
+                  >
+                    hello@tecwebstudio.com
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Phone className="w-5 h-5 text-emerald-400" />
+                <div>
+                  <div className="text-white font-semibold">Telefono</div>
+                  <div className="text-slate-300 text-xs">+39 (XXX) XXX-XXXX</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Linkedin className="w-5 h-5 text-emerald-400" />
+                <div>
+                  <div className="text-white font-semibold">LinkedIn</div>
+                  <a href="#" className="text-emerald-300 text-xs hover:underline">
+                    /tecwebstudio
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Github className="w-5 h-5 text-emerald-400" />
+                <div>
+                  <div className="text-white font-semibold">GitHub</div>
+                  <a href="#" className="text-emerald-300 text-xs hover:underline">
+                    github.com/tecwebstudio
+                  </a>
+                </div>
+              </div>
+
+              <div className="pt-3 text-right">
+                <button
+                  onClick={() => setGetStartedOpen(false)}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-white font-medium text-sm"
+                >
+                  Chiudi
+                </button>
+              </div>
             </div>
           </DialogBody>
         </DialogContent>

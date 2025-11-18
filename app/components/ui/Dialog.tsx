@@ -13,9 +13,9 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
 
   return (
     <>
-      {/* Backdrop */}
+      {/* Backdrop: use same translucency/backdrop as Navbar (no strong darkening) */}
       <div
-        className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+        className="fixed inset-0 z-40 bg-gradient-to-b from-black/20 to-transparent backdrop-blur-md"
         onClick={() => onOpenChange(false)}
       ></div>
 

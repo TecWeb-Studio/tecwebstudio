@@ -43,8 +43,11 @@ export default function Navbar() {
 
           {/* CTA Button */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link
-              href="/get-started"
+            <button
+              onClick={() =>
+                typeof window !== "undefined" &&
+                window.dispatchEvent(new CustomEvent("open-get-started"))
+              }
               className="relative px-6 py-2 font-medium text-white/90 rounded-lg overflow-hidden group transition-all duration-300"
             >
               {/* Background gradient */}
@@ -52,7 +55,7 @@ export default function Navbar() {
               {/* Animated border */}
               <div className="absolute inset-0 rounded-lg border border-emerald-400/30 group-hover:border-emerald-400 transition-colors duration-300"></div>
               <span className="relative z-10">Get Started</span>
-            </Link>
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -94,12 +97,15 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
-            <Link
-              href="/get-started"
+            <button
+              onClick={() =>
+                typeof window !== "undefined" &&
+                window.dispatchEvent(new CustomEvent("open-get-started"))
+              }
               className="w-full mt-4 px-6 py-2 font-medium text-white/90 rounded-lg bg-gradient-to-r from-emerald-500 to-green-500 hover:shadow-lg hover:shadow-emerald-500/50 transition-all duration-300 text-center block"
             >
               Get Started
-            </Link>
+            </button>
           </div>
         </div>
       </div>
