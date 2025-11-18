@@ -43,13 +43,16 @@ export default function Navbar() {
 
           {/* CTA Button */}
           <div className="hidden md:flex items-center space-x-4">
-            <button className="relative px-6 py-2 font-medium text-white/90 rounded-lg overflow-hidden group transition-all duration-300">
+            <Link
+              href="/get-started"
+              className="relative px-6 py-2 font-medium text-white/90 rounded-lg overflow-hidden group transition-all duration-300"
+            >
               {/* Background gradient */}
               <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               {/* Animated border */}
               <div className="absolute inset-0 rounded-lg border border-emerald-400/30 group-hover:border-emerald-400 transition-colors duration-300"></div>
               <span className="relative z-10">Get Started</span>
-            </button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -77,9 +80,8 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
-            isOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
-          }`}
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${isOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
+            }`}
         >
           <div className="px-2 pt-2 pb-3 space-y-1 backdrop-blur-sm bg-gradient-to-b from-black/40 to-black/20 border-t border-emerald-500/10">
             {navLinks.map((link) => (
@@ -92,9 +94,12 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
-            <button className="w-full mt-4 px-6 py-2 font-medium text-white/90 rounded-lg bg-gradient-to-r from-emerald-500 to-green-500 hover:shadow-lg hover:shadow-emerald-500/50 transition-all duration-300">
+            <Link
+              href="/get-started"
+              className="w-full mt-4 px-6 py-2 font-medium text-white/90 rounded-lg bg-gradient-to-r from-emerald-500 to-green-500 hover:shadow-lg hover:shadow-emerald-500/50 transition-all duration-300 text-center block"
+            >
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
       </div>

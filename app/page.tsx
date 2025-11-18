@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import { Button } from "@/app/components/ui/Button";
+import { useRouter } from "next/navigation";
 import { Card, CardTitle, CardDescription } from "@/app/components/ui/Card";
 import { Badge } from "@/app/components/ui/Badge";
 import {
@@ -17,6 +18,7 @@ import {
 import { Mail, Phone, Linkedin, Github, Star, Globe } from "lucide-react";
 
 export default function Home() {
+  const router = useRouter();
   const { t, i18n } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [contactForm, setContactForm] = useState({
@@ -353,7 +355,11 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 viewport={{ once: true }}
               >
-                <Button size="lg" className="w-full sm:w-auto">
+                <Button
+                  size="lg"
+                  className="w-full sm:w-auto"
+                  onClick={() => router.push("/get-started")}
+                >
                   {t("hero.cta.start")}
                 </Button>
                 <Button
@@ -970,7 +976,9 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   viewport={{ once: true }}
                 >
-                  <Button size="lg">{t("cta.startProject")}</Button>
+                  <Button size="lg" onClick={() => router.push("/get-started")}>
+                    {t("cta.startProject")}
+                  </Button>
                   <Button variant="outline" size="lg">
                     {t("cta.scheduleCall")}
                   </Button>
@@ -1148,11 +1156,10 @@ export default function Home() {
                 <motion.button
                   key={lang.code}
                   onClick={() => handleLanguageChange(lang.code)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                    i18n.language === lang.code
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${i18n.language === lang.code
                       ? "bg-emerald-500/30 border border-emerald-400 text-emerald-300"
                       : "bg-slate-700/30 border border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-emerald-500/50"
-                  }`}
+                    }`}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
