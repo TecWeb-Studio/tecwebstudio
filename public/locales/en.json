@@ -13,10 +13,9 @@
     "trusted": "Trusted by 15+ businesses in Italy"
   },
   "stats": {
-    "projectsCompleted": "Projects Completed",
-    "clientSatisfaction": "Client Satisfaction",
-    "yearsExcellence": "of Excellence",
-    "usersServed": "Users Served"
+    "yearsExperience": "Years of Experience",
+    "fastDevelopment": "Fast Development",
+    "codeLines": "Code Lines Written"
   },
   "services": {
     "badge": "What We Offer",

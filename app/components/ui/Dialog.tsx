@@ -41,7 +41,7 @@ export function DialogContent({
   return (
     <div
       className={cn(
-        "relative bg-gradient-to-br from-slate-800/95 to-slate-900/95 backdrop-blur-xl border border-emerald-500/30 rounded-2xl shadow-2xl shadow-emerald-500/20 p-6 max-w-sm w-full animate-in fade-in zoom-in-95 duration-200",
+        "relative bg-gradient-to-br from-slate-800/95 to-slate-900/95 backdrop-blur-xl border border-emerald-500/30 rounded-2xl shadow-2xl shadow-emerald-500/20 p-6 w-full animate-in fade-in zoom-in-95 duration-200",
         className
       )}
       onClick={(e) => e.stopPropagation()}

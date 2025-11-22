@@ -13,10 +13,9 @@
     "trusted": "Di fiducia di 15+ aziende in Italia"
   },
   "stats": {
-    "projectsCompleted": "Progetti Completati",
-    "clientSatisfaction": "Soddisfazione del Cliente",
-    "yearsExcellence": "di Eccellenza",
-    "usersServed": "Utenti Serviti"
+    "yearsExperience": "Anni di Esperienza",
+    "fastDevelopment": "Sviluppo Veloce",
+    "codeLines": "Righe di Codice Scritte"
   },
   "services": {
     "badge": "Cosa Offriamo",

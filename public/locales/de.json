@@ -13,10 +13,9 @@
     "trusted": "Vertraut von 15+ Unternehmen in Italien"
   },
   "stats": {
-    "projectsCompleted": "Projekte Abgeschlossen",
-    "clientSatisfaction": "Kundenzufriedenheit",
-    "yearsExcellence": "Jahre Exzellenz",
-    "usersServed": "Benutzer Bedient"
+    "yearsExperience": "Jahre Erfahrung",
+    "fastDevelopment": "Schnelle Entwicklung",
+    "codeLines": "Geschriebene Code-Zeilen"
   },
   "services": {
     "badge": "Was Wir Anbieten",

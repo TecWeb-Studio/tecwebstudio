@@ -42,6 +42,7 @@ export default function Home() {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [languageOpen, setLanguageOpen] = useState(false);
+  const [portfolioGalleryOpen, setPortfolioGalleryOpen] = useState(false);
 
   // Embla Carousels
   const [servicesEmblaRef, servicesEmblaApi] = useEmblaCarousel({
@@ -170,7 +171,8 @@ export default function Home() {
   const teamMembers = [
     {
       id: 1,
-      name: "You (Developer/Designer)",
+      name: "Stefano Casonato",
+      subtitle: "(Developer/Designer)",
       role: "Full-Stack Developer",
       school: "ITTS Vito Volterra - Specialization: Informatics",
       skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js"],
@@ -184,8 +186,9 @@ export default function Home() {
     },
     {
       id: 2,
-      name: "Your Friend (Designer/Developer)",
-      role: "Frontend Specialist",
+      name: "Toselli Marco",
+      subtitle: "(Designer/Developer)",
+      role: "Front/back-end Specialist",
       school: "ITTS Vito Volterra - Specialization: Informatics",
       skills: [
         "Vue.js",
@@ -214,10 +217,9 @@ export default function Home() {
   };
 
   const stats = [
-    { label: "15+", description: t("stats.projectsCompleted") },
-    { label: "98%", description: t("stats.clientSatisfaction") },
-    { label: "2 Years", description: t("stats.yearsExcellence") },
-    { label: "50k+", description: t("stats.usersServed") },
+    { value: "5+", labelKey: "stats.yearsExperience", icon: "⚡" },
+    { value: "Fast", labelKey: "stats.fastDevelopment", icon: "🚀" },
+    { value: "50k+", labelKey: "stats.codeLines", icon: "💻" },
   ];
 
   const services = [
@@ -378,6 +380,7 @@ export default function Home() {
                   variant="outline"
                   size="lg"
                   className="w-full sm:w-auto"
+                  onClick={() => setPortfolioGalleryOpen(true)}
                 >
                   {t("hero.cta.viewWork")}
                 </Button>
@@ -446,22 +449,25 @@ export default function Home() {
       {/* Stats Section */}
       <section className="relative z-10 py-20 border-t border-emerald-500/10">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
-                className="text-center space-y-2"
+                className="w-full lg:w-80"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <p className="text-4xl lg:text-5xl font-bold text-emerald-400">
-                  {stat.label}
-                </p>
-                <p className="text-slate-400 text-sm uppercase tracking-wide">
-                  {stat.description}
-                </p>
+                <div className="bg-slate-800/40 border border-emerald-500/10 rounded-xl p-6 flex flex-col items-center gap-2 h-full">
+                  <div className="text-3xl">{stat.icon}</div>
+                  <div className="text-6xl lg:text-7xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-green-400">
+                    {stat.value}
+                  </div>
+                  <div className="mt-2 text-slate-300 text-sm uppercase tracking-wide text-center">
+                    {t(stat.labelKey)}
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -529,15 +535,19 @@ export default function Home() {
             <div className="flex gap-2 mt-4 mb-0">
               <button
                 onClick={() => servicesEmblaApi?.scrollPrev()}
-                className="p-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors"
+                className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200"
               >
-                ← {t("common.previous") || "Prev"}
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
               </button>
               <button
                 onClick={() => servicesEmblaApi?.scrollNext()}
-                className="p-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors"
+                className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200"
               >
-                {t("common.next") || "Next"} →
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </button>
             </div>
           </div>
@@ -650,15 +660,19 @@ export default function Home() {
             <div className="flex gap-2 mt-4 mb-0">
               <button
                 onClick={() => portfolioEmblaApi?.scrollPrev()}
-                className="p-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors"
+                className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200"
               >
-                ← {t("common.previous") || "Prev"}
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
               </button>
               <button
                 onClick={() => portfolioEmblaApi?.scrollNext()}
-                className="p-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors"
+                className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200"
               >
-                {t("common.next") || "Next"} →
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </button>
             </div>
           </div>
@@ -706,6 +720,11 @@ export default function Home() {
                       <CardTitle className="text-base sm:text-xl lg:text-2xl break-words leading-snug">
                         {member.name}
                       </CardTitle>
+                      {member.subtitle && (
+                        <p className="text-slate-400 text-xs sm:text-sm">
+                          {member.subtitle}
+                        </p>
+                      )}
                       <p className="text-emerald-400 font-semibold text-xs sm:text-sm truncate">
                         {member.role}
                       </p>
@@ -1250,6 +1269,43 @@ export default function Home() {
           </DialogBody>
         </DialogContent>
       </Dialog>
+
+      {/* Portfolio Gallery Dialog */}
+      <Dialog open={portfolioGalleryOpen} onOpenChange={setPortfolioGalleryOpen}>
+        <DialogContent onClose={() => setPortfolioGalleryOpen(false)} className="max-w-7xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{t("portfolio.title")}</DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <div className="space-y-4">
+              <p className="text-slate-300 text-sm">
+                {t("portfolio.description")}
+              </p>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                {[1, 2, 3].map((item) => (
+                  <motion.div
+                    key={item}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: item * 0.1 }}
+                    className="group cursor-pointer"
+                  >
+                    <div className="bg-slate-800/40 border border-emerald-500/20 rounded-lg flex items-center justify-center hover:border-emerald-400/50 hover:bg-slate-800/60 transition-all duration-200 h-80 w-full overflow-hidden">
+                      <div className="text-center space-y-2">
+                        <div className="text-6xl">🖼️</div>
+                        <p className="text-slate-400 text-sm">Immagine {item}</p>
+                        <p className="text-slate-500 text-xs">In arrivo</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </DialogBody>
+        </DialogContent>
+      </Dialog>
+
+      {/* Chat Widget removed */}
     </div>
   );
 }
