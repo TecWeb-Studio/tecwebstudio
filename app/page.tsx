@@ -28,7 +28,10 @@ export default function Home() {
     }
     return () => {
       if (typeof window !== "undefined") {
-        window.removeEventListener("open-get-started", handler as EventListener);
+        window.removeEventListener(
+          "open-get-started",
+          handler as EventListener
+        );
       }
     };
   }, []);
@@ -85,7 +88,8 @@ export default function Home() {
       id: 2,
       title: "New Body Line 2",
       category: "management",
-      description: "Gym website with class scheduling and membership management",
+      description:
+        "Gym website with class scheduling and membership management",
       client: "New Body Line 2",
       image: "🏋️",
       tags: ["CMS", "MongoDB", "Real-time"],
@@ -179,12 +183,7 @@ export default function Home() {
       subtitle: "(Developer/Designer)",
       role: "Front/back-end Specialist",
       school: "ITTS Vito Volterra - Specialization: Informatics",
-      skills: [
-        "Vue.js",
-        "React",
-        "Design Systems",
-        "Framer Motion",
-      ],
+      skills: ["Vue.js", "React", "Design Systems", "Framer Motion"],
       image: "👨‍💻  ",
       achievements: [
         "Creative Design Expert",
@@ -526,16 +525,36 @@ export default function Home() {
                 onClick={() => servicesEmblaApi?.scrollPrev()}
                 className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
               <button
                 onClick={() => servicesEmblaApi?.scrollNext()}
                 className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
             </div>
@@ -651,16 +670,36 @@ export default function Home() {
                 onClick={() => portfolioEmblaApi?.scrollPrev()}
                 className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
               <button
                 onClick={() => portfolioEmblaApi?.scrollNext()}
                 className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
             </div>
@@ -829,6 +868,8 @@ export default function Home() {
             >
               <Card variant="glass" className="h-full">
                 <div className="flex flex-col justify-between h-full gap-1.5">
+                  {" "}
+                  {/* REMOVE THE H-FULL TO CROP THE ITEMS */}
                   <div className="flex items-start gap-3 sm:gap-4">
                     <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                     <div>
@@ -840,7 +881,6 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-
                   <div className="flex items-start gap-3 sm:gap-4">
                     <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                     <div>
@@ -852,7 +892,6 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-
                   <div className="flex items-start gap-3 sm:gap-4">
                     <Linkedin className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                     <div>
@@ -864,16 +903,47 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-
                   <div className="flex items-start gap-3 sm:gap-4">
                     <Github className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                     <div>
                       <h4 className="text-white font-bold text-sm sm:text-base">
                         {t("contact.github")}
                       </h4>
-                      <p className="text-slate-400 text-xs sm:text-sm">
-                        {t("contact.viewRepositories")}
-                      </p>
+                      <div className="text-slate-400 text-xs sm:text-sm space-y-2">
+                        {/* khr0me */}
+                        <div className="flex items-center gap-2">
+                          <img
+                            src="https://github.com/khr0me.png"
+                            alt="khr0me avatar"
+                            className="w-6 h-6 rounded-full"
+                          />
+                          <a
+                            href="https://github.com/khr0me"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline hover:text-slate-300"
+                          >
+                            khr0me
+                          </a>
+                        </div>
+
+                        {/* marcoice */}
+                        <div className="flex items-center gap-2">
+                          <img
+                            src="https://github.com/marcoice.png"
+                            alt="marcoice avatar"
+                            className="w-6 h-6 rounded-full"
+                          />
+                          <a
+                            href="https://github.com/marcoice"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline hover:text-slate-300"
+                          >
+                            marcoice
+                          </a>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1176,10 +1246,11 @@ export default function Home() {
                 <motion.button
                   key={lang.code}
                   onClick={() => handleLanguageChange(lang.code)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${i18n.language === lang.code
-                    ? "bg-emerald-500/30 border border-emerald-400 text-emerald-300"
-                    : "bg-slate-700/30 border border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-emerald-500/50"
-                    }`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                    i18n.language === lang.code
+                      ? "bg-emerald-500/30 border border-emerald-400 text-emerald-300"
+                      : "bg-slate-700/30 border border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-emerald-500/50"
+                  }`}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
@@ -1210,10 +1281,10 @@ export default function Home() {
                 <div>
                   <div className="text-white font-semibold">Email</div>
                   <a
-                    href="mailto:hello@tecwebstudio.com"
+                    href="mailto:support@tecwebstudio.com"
                     className="text-emerald-300 text-xs hover:underline"
                   >
-                    hello@tecwebstudio.com
+                    support@tecwebstudio.com
                   </a>
                 </div>
               </div>
@@ -1222,7 +1293,9 @@ export default function Home() {
                 <Phone className="w-5 h-5 text-emerald-400" />
                 <div>
                   <div className="text-white font-semibold">Telefono</div>
-                  <div className="text-slate-300 text-xs">+39 (XXX) XXX-XXXX</div>
+                  <div className="text-slate-300 text-xs">
+                    +39 (XXX) XXX-XXXX
+                  </div>
                 </div>
               </div>
 
@@ -1230,7 +1303,10 @@ export default function Home() {
                 <Linkedin className="w-5 h-5 text-emerald-400" />
                 <div>
                   <div className="text-white font-semibold">LinkedIn</div>
-                  <a href="#" className="text-emerald-300 text-xs hover:underline">
+                  <a
+                    href="#"
+                    className="text-emerald-300 text-xs hover:underline"
+                  >
                     /tecwebstudio
                   </a>
                 </div>
@@ -1240,7 +1316,10 @@ export default function Home() {
                 <Github className="w-5 h-5 text-emerald-400" />
                 <div>
                   <div className="text-white font-semibold">GitHub</div>
-                  <a href="#" className="text-emerald-300 text-xs hover:underline">
+                  <a
+                    href="#"
+                    className="text-emerald-300 text-xs hover:underline"
+                  >
                     github.com/tecwebstudio
                   </a>
                 </div>
@@ -1260,8 +1339,14 @@ export default function Home() {
       </Dialog>
 
       {/* Portfolio Gallery Dialog */}
-      <Dialog open={portfolioGalleryOpen} onOpenChange={setPortfolioGalleryOpen}>
-        <DialogContent onClose={() => setPortfolioGalleryOpen(false)} className="max-w-7xl max-h-[90vh] overflow-y-auto">
+      <Dialog
+        open={portfolioGalleryOpen}
+        onOpenChange={setPortfolioGalleryOpen}
+      >
+        <DialogContent
+          onClose={() => setPortfolioGalleryOpen(false)}
+          className="max-w-7xl max-h-[90vh] overflow-y-auto"
+        >
           <DialogHeader>
             <DialogTitle>{t("portfolio.title")}</DialogTitle>
           </DialogHeader>
@@ -1282,7 +1367,9 @@ export default function Home() {
                     <div className="bg-slate-800/40 border border-emerald-500/20 rounded-lg flex items-center justify-center hover:border-emerald-400/50 hover:bg-slate-800/60 transition-all duration-200 h-80 w-full overflow-hidden">
                       <div className="text-center space-y-2">
                         <div className="text-6xl">🖼️</div>
-                        <p className="text-slate-400 text-sm">Immagine {item}</p>
+                        <p className="text-slate-400 text-sm">
+                          Immagine {item}
+                        </p>
                         <p className="text-slate-500 text-xs">In arrivo</p>
                       </div>
                     </div>
