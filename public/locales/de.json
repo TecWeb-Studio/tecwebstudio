@@ -1,4 +1,11 @@
 {
+  "menu": {
+    "home": "Startseite",
+    "services": "Dienstleistungen",
+    "portfolio": "Portfolio",
+    "team": "Team",
+    "contact": "Kontakt"
+  },
   "hero": {
     "badge": "Zwei Studenten, Professionelle Ergebnisse",
     "title": {
@@ -71,21 +78,84 @@
       "ecommerce": "E-Commerce",
       "saas": "SaaS",
       "corporate": "Unternehmens",
-      "marketing": "Marketing",
-      "fintech": "FinTech"
+      "management": "Verwaltung",
+      "body": "Gesundheit & Fitness"
     },
-    "featured": "Ausgewählt"
+    "featured": "Ausgewählt",
+    "projects": {
+      "tecwebPortfolio": {
+        "title": "TecWeb Portfolio",
+        "description": "Unser Portfolio mit unseren Projekten und Dienstleistungen"
+      },
+      "newBodyLine": {
+        "title": "New Body Line 2",
+        "description": "Fitness-Website mit Kursbuchung und Mitgliederverwaltung",
+        "client": "New Body Line 2"
+      },
+      "nextHouse": {
+        "title": "Next House Domotica",
+        "description": "Komplette Software für die Automation von intelligenten Häusern"
+      },
+      "utopia1": {
+        "title": "Utopia 1 Scout Website",
+        "description": "Modernes, responsives Unternehmens-Website mit CMS-Integration",
+        "client": "Scout Group Utopia 1"
+      },
+      "sleepingCycles": {
+        "title": "Sleeping Cycles",
+        "description": "Einfach zu verwendende App zum Verfolgen und Verbessern deiner Schlafmuster"
+      }
+    }
   },
   "team": {
     "badge": "Lerne das Team Kennen",
     "title": "Junge Talente, Professionelle Ergebnisse",
     "description": "Zwei leidenschaftliche Entwickler des ITTS Vito Volterra, die sich der Exzellenz widmen",
     "skills": "Fähigkeiten",
-    "achievements": "Errungenschaften"
+    "achievements": "Errungenschaften",
+    "members": {
+      "stefano": {
+        "name": "Stefano Casonato",
+        "subtitle": "Entwickler/Designer",
+        "role": "Full-Stack-Entwickler",
+        "school": "ITTS Vito Volterra - Spezialisierung: Informatik",
+        "achievement1": "Experte in modernen Web-Technologien",
+        "achievement2": "UI/UX Design Spezialist",
+        "achievement3": "Full-Stack-Entwicklung",
+        "achievement4": "Leistungsoptimierung"
+      },
+      "toselli": {
+        "name": "Toselli Marco",
+        "subtitle": "Entwickler/Designer",
+        "role": "Frontend/Backend Spezialist",
+        "school": "ITTS Vito Volterra - Spezialisierung: Informatik",
+        "achievement1": "Experte im kreativen Design",
+        "achievement2": "Benutzerfreundlichkeits-Spezialist",
+        "achievement3": "Markenstrategie",
+        "achievement4": "Animationen und Interaktionen"
+      }
+    }
   },
   "testimonials": {
     "badge": "Was Kunden Sagen",
-    "title": "Testimonials"
+    "title": "Testimonials",
+    "testimonials": {
+      "marco": {
+        "name": "Marco Rossi",
+        "role": "CEO, Fashion Boutique Milano",
+        "content": "TecWeb hat unsere Online-Präsenz transformiert. Die Website hat unseren Umsatz in nur 6 Monaten um 350% gesteigert!"
+      },
+      "giulia": {
+        "name": "Giulia Bianchi",
+        "role": "Gründerin, TechCorp Solutions",
+        "content": "Zwei talentierte Studenten mit professioneller Expertise. Sie haben über unsere Erwartungen hinaus geliefert."
+      },
+      "andrea": {
+        "name": "Andrea Ventura",
+        "role": "Direktor, Beratungsfirma Italien",
+        "content": "Das Team hat unsere Vision perfekt verstanden und fehlerfrei umgesetzt. Sehr empfohlen!"
+      }
+    }
   },
   "contact": {
     "badge": "Kontakt Aufnehmen",

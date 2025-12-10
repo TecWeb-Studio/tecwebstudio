@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
@@ -18,23 +18,7 @@ import { Mail, Phone, Linkedin, Github, Star, Globe } from "lucide-react";
 
 export default function Home() {
   const { t, i18n } = useTranslation();
-  const [getStartedOpen, setGetStartedOpen] = useState(false);
 
-  // listen for global event emitted by Navbar
-  useEffect(() => {
-    const handler = () => setGetStartedOpen(true);
-    if (typeof window !== "undefined") {
-      window.addEventListener("open-get-started", handler as EventListener);
-    }
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener(
-          "open-get-started",
-          handler as EventListener
-        );
-      }
-    };
-  }, []);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [contactForm, setContactForm] = useState({
     name: "",
@@ -45,7 +29,6 @@ export default function Home() {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [languageOpen, setLanguageOpen] = useState(false);
-  const [portfolioGalleryOpen, setPortfolioGalleryOpen] = useState(false);
 
   // Embla Carousels
   const [servicesEmblaRef, servicesEmblaApi] = useEmblaCarousel({
@@ -59,6 +42,17 @@ export default function Home() {
     skipSnaps: false,
     dragFree: true,
   });
+
+  // Section refs for smooth scrolling
+  const servicesSectionRef = useRef<HTMLElement>(null);
+  const portfolioSectionRef = useRef<HTMLElement>(null);
+  const teamSectionRef = useRef<HTMLElement>(null);
+  const contactSectionRef = useRef<HTMLElement>(null);
+
+  // Smooth scroll handler for navigation
+  const scrollToSection = (ref: React.RefObject<HTMLElement | null>) => {
+    ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   const languages = [
     { name: "English", flag: "🇬🇧", code: "en" as const },
@@ -75,10 +69,10 @@ export default function Home() {
   const projects = [
     {
       id: 1,
-      title: "TecWebStudio",
-      category: "management",
-      description: "Our portfolio website showcasing our projects and services",
-      client: "",
+      titleKey: "portfolio.projects.tecwebPortfolio.title",
+      categories: ["management"],
+      descriptionKey: "portfolio.projects.tecwebPortfolio.description",
+      clientKey: "",
       image: "📊",
       tags: ["React", "Framer Motion", "Shadcn/UI"],
       results: ["Real-time data sync", "Enhanced user engagement"],
@@ -86,22 +80,21 @@ export default function Home() {
     },
     {
       id: 2,
-      title: "New Body Line 2",
-      category: "management",
-      description:
-        "Gym website with class scheduling and membership management",
-      client: "New Body Line 2",
+      titleKey: "portfolio.projects.newBodyLine.title",
+      categories: ["management", "body"],
+      descriptionKey: "portfolio.projects.newBodyLine.description",
+      clientKey: "portfolio.projects.newBodyLine.client",
       image: "🏋️",
       tags: ["CMS", "MongoDB", "Real-time"],
       results: ["Increased membership sign-ups", "Streamlined class bookings"],
-      featured: true,
+      featured: false,
     },
     {
       id: 3,
-      title: "Next House Domotica",
-      category: "saas",
-      description: "Complete online software for smart home automation",
-      client: "",
+      titleKey: "portfolio.projects.nextHouse.title",
+      categories: ["saas"],
+      descriptionKey: "portfolio.projects.nextHouse.description",
+      clientKey: "",
       image: "🏠",
       tags: ["JS", "AI Powered"],
       results: ["Increased home efficiency", "Remote control access"],
@@ -109,10 +102,10 @@ export default function Home() {
     },
     {
       id: 4,
-      title: "Utopia 1 Scout Website",
-      category: "corporate",
-      description: "Modern, responsive corporate website with CMS integration",
-      client: "Scout Group Utopia 1",
+      titleKey: "portfolio.projects.utopia1.title",
+      categories: ["corporate", "ecommerce"],
+      descriptionKey: "portfolio.projects.utopia1.description",
+      clientKey: "portfolio.projects.utopia1.client",
       image: "🏕️",
       tags: ["E-Commerce", "CMS", "SEO"],
       results: ["40% increase in leads", "Top 1 Google ranking"],
@@ -120,12 +113,12 @@ export default function Home() {
     },
     {
       id: 5,
-      title: "Sleeping Cycles",
-      category: "body",
-      description: "Easy to use app to track and improve your sleep patterns",
-      client: "",
+      titleKey: "portfolio.projects.sleepingCycles.title",
+      categories: ["body"],
+      descriptionKey: "portfolio.projects.sleepingCycles.description",
+      clientKey: "",
       image: "⏰",
-      tags: ["JS"],
+      tags: ["JS", "AI Powered", "Mobile"],
       results: [""],
       featured: false,
     },
@@ -199,8 +192,8 @@ export default function Home() {
     ecommerce: t("portfolio.categories.ecommerce"),
     saas: t("portfolio.categories.saas"),
     corporate: t("portfolio.categories.corporate"),
-    marketing: t("portfolio.categories.marketing"),
-    fintech: t("portfolio.categories.fintech"),
+    management: t("portfolio.categories.management"),
+    body: t("portfolio.categories.body"),
   };
 
   const stats = [
@@ -282,7 +275,7 @@ export default function Home() {
   const filteredProjects =
     selectedCategory === "all"
       ? projects
-      : projects.filter((p) => p.category === selectedCategory);
+      : projects.filter((p) => p.categories.includes(selectedCategory));
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -359,16 +352,16 @@ export default function Home() {
               >
                 <Button
                   size="lg"
-                  className="w-full sm:w-auto"
-                  onClick={() => setGetStartedOpen(true)}
+                  className="w-full sm:w-auto cursor-pointer"
+                  onClick={() => scrollToSection(contactSectionRef)}
                 >
                   {t("hero.cta.start")}
                 </Button>
                 <Button
                   variant="outline"
                   size="lg"
-                  className="w-full sm:w-auto"
-                  onClick={() => setPortfolioGalleryOpen(true)}
+                  className="w-full sm:w-auto cursor-pointer"
+                  onClick={() => scrollToSection(portfolioSectionRef)}
                 >
                   {t("hero.cta.viewWork")}
                 </Button>
@@ -424,7 +417,7 @@ export default function Home() {
                       key={i}
                       className="h-20 bg-emerald-500/10 border border-emerald-500/20 rounded-lg hover:border-emerald-400/50 transition-colors"
                       whileHover={{ scale: 1.05 }}
-                      transition={{ type: "spring", stiffness: 300 }}
+                      transition={{ type: "keyframes", stiffness: 300 }}
                     ></motion.div>
                   ))}
                 </div>
@@ -434,8 +427,157 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Portfolio Section */}
+      <section
+        id="portfolio-section"
+        ref={portfolioSectionRef}
+        className="relative z-10 py-24 border-t border-emerald-500/10"
+      >
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            className="text-center mb-8 sm:mb-12 lg:mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <Badge className="inline-block mb-4">{t("portfolio.badge")}</Badge>
+            <h2 className="text-4xl lg:text-5xl font-bold text-white">
+              {t("portfolio.title")}
+            </h2>
+            <p className="text-slate-400 mt-6 max-w-2xl mx-auto text-lg">
+              {t("portfolio.description")}
+            </p>
+          </motion.div>
+
+          <div className="flex flex-wrap gap-2 mb-12 justify-center">
+            {[
+              "all",
+              "ecommerce",
+              "saas",
+              "corporate",
+              "management",
+              "body",
+            ].map((cat) => (
+              <Button
+                key={cat}
+                variant={selectedCategory === cat ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedCategory(cat)}
+                className="text-xs sm:text-sm cursor-pointer"
+              >
+                {categoryLabels[cat as keyof typeof categoryLabels]}
+              </Button>
+            ))}
+          </div>
+
+          <div className="relative">
+            <div className="overflow-hidden rounded-lg" ref={portfolioEmblaRef}>
+              <div className="flex gap-4 sm:gap-6">
+                {filteredProjects.map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.05 }}
+                    viewport={{ once: true }}
+                    className="flex-shrink-0 w-80"
+                  >
+                    <Card
+                      variant={project.featured ? "elevated" : "default"}
+                      className="group overflow-hidden relative h-full flex flex-col p-4 sm:p-6"
+                    >
+                      {project.featured && (
+                        <div className="absolute -top-2 -right-2 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-32 h-32 blur-2xl opacity-20"></div>
+                      )}
+
+                      <div className="relative z-10 flex flex-col flex-grow">
+                        <div className="flex items-start justify-between mb-2 sm:mb-2">
+                          <motion.div
+                            className="text-3xl sm:text-4xl flex-shrink-0"
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            transition={{ type: "spring", stiffness: 300 }}
+                          >
+                            {project.image}
+                          </motion.div>
+                          {project.featured && (
+                            <Badge variant="success" className="text-xs">
+                              ⭐
+                            </Badge>
+                          )}
+                        </div>
+
+                        <CardTitle className="group-hover:text-emerald-400 transition-colors text-sm sm:text-base lg:text-base overflow-hidden text-ellipsis leading-tight line-clamp-2">
+                          {t(project.titleKey)}
+                        </CardTitle>
+
+                        <p className="text-slate-300 mt-2 sm:mt-2 mb-2 sm:mb-2 flex-grow text-xs sm:text-sm line-clamp-2">
+                          {t(project.descriptionKey)}
+                        </p>
+
+                        <div className="flex flex-wrap gap-1 mt-2 sm:mt-2">
+                          {project.tags.map((tag, i) => (
+                            <Badge
+                              key={i}
+                              variant="default"
+                              className="text-xs"
+                            >
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Arrow Buttons */}
+            <div className="flex gap-2 mt-4 mb-0">
+              <button
+                onClick={() => portfolioEmblaApi?.scrollPrev()}
+                className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200 cursor-pointer"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+              <button
+                onClick={() => portfolioEmblaApi?.scrollNext()}
+                className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200 cursor-pointer"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Stats Section */}
-      <section className="relative z-10 py-20 border-t border-emerald-500/10">
+      {/* <section className="relative z-10 py-20 border-t border-emerald-500/10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
             {stats.map((stat, index) => (
@@ -460,10 +602,14 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Services Section */}
-      <section className="relative z-10 py-24 border-t border-emerald-500/10">
+      <section
+        id="services-section"
+        ref={servicesSectionRef}
+        className="relative z-10 py-24 border-t border-emerald-500/10"
+      >
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
             className="text-center mb-8 sm:mb-12 lg:mb-16"
@@ -523,7 +669,7 @@ export default function Home() {
             <div className="flex gap-2 mt-4 mb-0">
               <button
                 onClick={() => servicesEmblaApi?.scrollPrev()}
-                className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200"
+                className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200 cursor-pointer"
               >
                 <svg
                   className="w-5 h-5"
@@ -541,152 +687,7 @@ export default function Home() {
               </button>
               <button
                 onClick={() => servicesEmblaApi?.scrollNext()}
-                className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Portfolio Section */}
-      <section className="relative z-10 py-24 border-t border-emerald-500/10">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="text-center mb-8 sm:mb-12 lg:mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <Badge className="inline-block mb-4">{t("portfolio.badge")}</Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold text-white">
-              {t("portfolio.title")}
-            </h2>
-            <p className="text-slate-400 mt-6 max-w-2xl mx-auto text-lg">
-              {t("portfolio.description")}
-            </p>
-          </motion.div>
-
-          <div className="flex flex-wrap gap-2 mb-12 justify-center">
-            {[
-              "all",
-              "ecommerce",
-              "saas",
-              "corporate",
-              "marketing",
-              "fintech",
-            ].map((cat) => (
-              <Button
-                key={cat}
-                variant={selectedCategory === cat ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSelectedCategory(cat)}
-                className="text-xs sm:text-sm"
-              >
-                {categoryLabels[cat as keyof typeof categoryLabels]}
-              </Button>
-            ))}
-          </div>
-
-          <div className="relative">
-            <div className="overflow-hidden rounded-lg" ref={portfolioEmblaRef}>
-              <div className="flex gap-4 sm:gap-6">
-                {filteredProjects.map((project, index) => (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.05 }}
-                    viewport={{ once: true }}
-                    className="flex-shrink-0 w-80"
-                  >
-                    <Card
-                      variant={project.featured ? "elevated" : "default"}
-                      className="group overflow-hidden relative h-full flex flex-col p-4 sm:p-6"
-                    >
-                      {project.featured && (
-                        <div className="absolute -top-2 -right-2 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-32 h-32 blur-2xl opacity-20"></div>
-                      )}
-
-                      <div className="relative z-10 flex flex-col flex-grow">
-                        <div className="flex items-start justify-between mb-2 sm:mb-2">
-                          <motion.div
-                            className="text-3xl sm:text-4xl flex-shrink-0"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                            transition={{ type: "spring", stiffness: 300 }}
-                          >
-                            {project.image}
-                          </motion.div>
-                          {project.featured && (
-                            <Badge variant="success" className="text-xs">
-                              ⭐
-                            </Badge>
-                          )}
-                        </div>
-
-                        <CardTitle className="group-hover:text-emerald-400 transition-colors text-sm sm:text-base lg:text-base overflow-hidden text-ellipsis leading-tight line-clamp-2">
-                          {project.title}
-                        </CardTitle>
-
-                        <p className="text-slate-300 mt-2 sm:mt-2 mb-2 sm:mb-2 flex-grow text-xs sm:text-sm line-clamp-2">
-                          {project.description}
-                        </p>
-
-                        <div className="flex flex-wrap gap-1 mt-2 sm:mt-2">
-                          {project.tags.map((tag, i) => (
-                            <Badge
-                              key={i}
-                              variant="default"
-                              className="text-xs"
-                            >
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* Arrow Buttons */}
-            <div className="flex gap-2 mt-4 mb-0">
-              <button
-                onClick={() => portfolioEmblaApi?.scrollPrev()}
-                className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-              </button>
-              <button
-                onClick={() => portfolioEmblaApi?.scrollNext()}
-                className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200"
+                className="p-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 text-emerald-400 transition-colors hover:scale-110 duration-200 cursor-pointer"
               >
                 <svg
                   className="w-5 h-5"
@@ -708,7 +709,11 @@ export default function Home() {
       </section>
 
       {/* Team Section */}
-      <section className="relative z-10 py-24 border-t border-emerald-500/10">
+      <section
+        id="team-section"
+        ref={teamSectionRef}
+        className="relative z-10 py-24 border-t border-emerald-500/10"
+      >
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
             className="text-center mb-8 sm:mb-12 lg:mb-16"
@@ -841,7 +846,11 @@ export default function Home() {
       </section> */}
 
       {/* Contact Section */}
-      <section className="relative z-10 py-24 border-t border-emerald-500/10">
+      <section
+        id="contact-section"
+        ref={contactSectionRef}
+        className="relative z-10 py-24 border-t border-emerald-500/10"
+      >
         <div className="max-w-4xl mx-auto px-6">
           <motion.div
             className="text-center mb-8 sm:mb-12 lg:mb-16"
@@ -868,7 +877,6 @@ export default function Home() {
             >
               <Card variant="glass" className="h-full">
                 <div className="flex flex-col justify-between h-full gap-1.5">
-                  {" "}
                   {/* REMOVE THE H-FULL TO CROP THE ITEMS */}
                   <div className="flex items-start gap-3 sm:gap-4">
                     <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
@@ -958,40 +966,42 @@ export default function Home() {
             >
               <Card variant="glass">
                 <form onSubmit={handleContactSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-white font-semibold mb-2 text-xs sm:text-sm">
-                      {t("contact.form.name")}
-                    </label>
-                    <input
-                      type="text"
-                      value={contactForm.name}
-                      onChange={(e) =>
-                        setContactForm({
-                          ...contactForm,
-                          name: e.target.value,
-                        })
-                      }
-                      className="w-full px-3 sm:px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 text-sm focus:border-emerald-400 focus:outline-none transition-colors"
-                      placeholder={t("contact.form.namePlaceholder")}
-                    />
-                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-white font-semibold mb-2 text-xs sm:text-sm">
+                        {t("contact.form.name")}
+                      </label>
+                      <input
+                        type="text"
+                        value={contactForm.name}
+                        onChange={(e) =>
+                          setContactForm({
+                            ...contactForm,
+                            name: e.target.value,
+                          })
+                        }
+                        className="w-full px-3 sm:px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 text-sm focus:border-emerald-400 focus:outline-none transition-colors"
+                        placeholder={t("contact.form.namePlaceholder")}
+                      />
+                    </div>
 
-                  <div>
-                    <label className="block text-white font-semibold mb-2 text-xs sm:text-sm">
-                      {t("contact.form.email")}
-                    </label>
-                    <input
-                      type="email"
-                      value={contactForm.email}
-                      onChange={(e) =>
-                        setContactForm({
-                          ...contactForm,
-                          email: e.target.value,
-                        })
-                      }
-                      className="w-full px-3 sm:px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 text-sm focus:border-emerald-400 focus:outline-none transition-colors"
-                      placeholder={t("contact.form.emailPlaceholder")}
-                    />
+                    <div>
+                      <label className="block text-white font-semibold mb-2 text-xs sm:text-sm">
+                        {t("contact.form.email")}
+                      </label>
+                      <input
+                        type="email"
+                        value={contactForm.email}
+                        onChange={(e) =>
+                          setContactForm({
+                            ...contactForm,
+                            email: e.target.value,
+                          })
+                        }
+                        className="w-full px-3 sm:px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 text-sm focus:border-emerald-400 focus:outline-none transition-colors"
+                        placeholder={t("contact.form.emailPlaceholder")}
+                      />
+                    </div>
                   </div>
 
                   <div>
@@ -1058,7 +1068,6 @@ export default function Home() {
                 <p className="text-lg text-slate-300 max-w-2xl mx-auto">
                   {t("cta.description")}
                 </p>
-
                 <motion.div
                   className="flex flex-col sm:flex-row gap-4 justify-center pt-4"
                   initial={{ opacity: 0, y: 10 }}
@@ -1066,7 +1075,10 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   viewport={{ once: true }}
                 >
-                  <Button size="lg" onClick={() => setGetStartedOpen(true)}>
+                  <Button
+                    size="lg"
+                    onClick={() => scrollToSection(contactSectionRef)}
+                  >
                     {t("cta.startProject")}
                   </Button>
                   <Button variant="outline" size="lg">
@@ -1225,7 +1237,7 @@ export default function Home() {
       {/* Language Switcher Button */}
       <motion.button
         onClick={() => setLanguageOpen(true)}
-        className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-green-500 hover:from-emerald-300 hover:to-green-400 text-white font-bold shadow-lg hover:shadow-emerald-500/50 transition-all duration-200 flex items-center justify-center text-xl"
+        className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-green-500 hover:from-emerald-300 hover:to-green-400 text-white font-bold shadow-lg hover:shadow-emerald-500/50 transition-all duration-200 flex items-center justify-center text-xl cursor-pointer"
         title="Change Language"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
@@ -1246,7 +1258,7 @@ export default function Home() {
                 <motion.button
                   key={lang.code}
                   onClick={() => handleLanguageChange(lang.code)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 cursor-pointer ${
                     i18n.language === lang.code
                       ? "bg-emerald-500/30 border border-emerald-400 text-emerald-300"
                       : "bg-slate-700/30 border border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-emerald-500/50"
@@ -1259,123 +1271,6 @@ export default function Home() {
                   <span className="font-semibold">{lang.name}</span>
                 </motion.button>
               ))}
-            </div>
-          </DialogBody>
-        </DialogContent>
-      </Dialog>
-      {/* Get Started Dialog (opened from Navbar / CTA) */}
-      <Dialog open={getStartedOpen} onOpenChange={setGetStartedOpen}>
-        <DialogContent onClose={() => setGetStartedOpen(false)}>
-          <DialogHeader>
-            <DialogTitle>Contattaci</DialogTitle>
-          </DialogHeader>
-          <DialogBody>
-            <div className="space-y-4 text-sm text-slate-300">
-              <p>
-                Grazie per l'interesse! Compila il form nella sezione Contatti
-                oppure contattaci direttamente tramite i canali qui sotto.
-              </p>
-
-              <div className="flex items-start gap-3">
-                <Mail className="w-5 h-5 text-emerald-400" />
-                <div>
-                  <div className="text-white font-semibold">Email</div>
-                  <a
-                    href="mailto:support@tecwebstudio.com"
-                    className="text-emerald-300 text-xs hover:underline"
-                  >
-                    support@tecwebstudio.com
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <Phone className="w-5 h-5 text-emerald-400" />
-                <div>
-                  <div className="text-white font-semibold">Telefono</div>
-                  <div className="text-slate-300 text-xs">
-                    +39 (XXX) XXX-XXXX
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <Linkedin className="w-5 h-5 text-emerald-400" />
-                <div>
-                  <div className="text-white font-semibold">LinkedIn</div>
-                  <a
-                    href="#"
-                    className="text-emerald-300 text-xs hover:underline"
-                  >
-                    /tecwebstudio
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <Github className="w-5 h-5 text-emerald-400" />
-                <div>
-                  <div className="text-white font-semibold">GitHub</div>
-                  <a
-                    href="#"
-                    className="text-emerald-300 text-xs hover:underline"
-                  >
-                    github.com/tecwebstudio
-                  </a>
-                </div>
-              </div>
-
-              <div className="pt-3 text-right">
-                <button
-                  onClick={() => setGetStartedOpen(false)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-emerald-500 hover:bg-emerald-400 text-white font-medium text-sm"
-                >
-                  Chiudi
-                </button>
-              </div>
-            </div>
-          </DialogBody>
-        </DialogContent>
-      </Dialog>
-
-      {/* Portfolio Gallery Dialog */}
-      <Dialog
-        open={portfolioGalleryOpen}
-        onOpenChange={setPortfolioGalleryOpen}
-      >
-        <DialogContent
-          onClose={() => setPortfolioGalleryOpen(false)}
-          className="max-w-7xl max-h-[90vh] overflow-y-auto"
-        >
-          <DialogHeader>
-            <DialogTitle>{t("portfolio.title")}</DialogTitle>
-          </DialogHeader>
-          <DialogBody>
-            <div className="space-y-4">
-              <p className="text-slate-300 text-sm">
-                {t("portfolio.description")}
-              </p>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                {[1, 2, 3].map((item) => (
-                  <motion.div
-                    key={item}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: item * 0.1 }}
-                    className="group cursor-pointer"
-                  >
-                    <div className="bg-slate-800/40 border border-emerald-500/20 rounded-lg flex items-center justify-center hover:border-emerald-400/50 hover:bg-slate-800/60 transition-all duration-200 h-80 w-full overflow-hidden">
-                      <div className="text-center space-y-2">
-                        <div className="text-6xl">🖼️</div>
-                        <p className="text-slate-400 text-sm">
-                          Immagine {item}
-                        </p>
-                        <p className="text-slate-500 text-xs">In arrivo</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
             </div>
           </DialogBody>
         </DialogContent>

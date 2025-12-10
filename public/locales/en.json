@@ -1,4 +1,11 @@
 {
+  "menu": {
+    "home": "Home",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "team": "Team",
+    "contact": "Contact"
+  },
   "hero": {
     "badge": "Two Students, Professional Results",
     "title": {
@@ -8,7 +15,7 @@
     "description": "Two talented students from ITTS Vito Volterra creating exceptional websites that drive real business results. We combine modern design with cutting-edge technology to give your firm the digital presence it deserves.",
     "cta": {
       "start": "Start Your Project",
-      "viewWork": "View Our Work"
+      "viewWork": "See Our Work"
     },
     "trusted": "Trusted by 15+ businesses in Italy"
   },
@@ -71,21 +78,84 @@
       "ecommerce": "E-Commerce",
       "saas": "SaaS",
       "corporate": "Corporate",
-      "marketing": "Marketing",
-      "fintech": "FinTech"
+      "management": "Management",
+      "body": "Health & Fitness"
     },
-    "featured": "Featured"
+    "featured": "Featured",
+    "projects": {
+      "tecwebPortfolio": {
+        "title": "TecWeb Portfolio",
+        "description": "Our portfolio website showcasing our projects and services"
+      },
+      "newBodyLine": {
+        "title": "New Body Line 2",
+        "description": "Gym website with class scheduling and membership management",
+        "client": "New Body Line 2"
+      },
+      "nextHouse": {
+        "title": "Next House Domotica",
+        "description": "Complete online software for smart home automation"
+      },
+      "utopia1": {
+        "title": "Utopia 1 Scout Website",
+        "description": "Modern, responsive corporate website with CMS integration",
+        "client": "Scout Group Utopia 1"
+      },
+      "sleepingCycles": {
+        "title": "Sleeping Cycles",
+        "description": "Easy to use app to track and improve your sleep patterns"
+      }
+    }
   },
   "team": {
     "badge": "Meet The Team",
     "title": "Young Talent, Professional Results",
     "description": "Two passionate developers from ITTS Vito Volterra dedicated to excellence",
     "skills": "Skills",
-    "achievements": "Achievements"
+    "achievements": "Achievements",
+    "members": {
+      "stefano": {
+        "name": "Stefano Casonato",
+        "subtitle": "Developer/Designer",
+        "role": "Full-Stack Developer",
+        "school": "ITTS Vito Volterra - Specialization: Informatics",
+        "achievement1": "Expert in modern web technologies",
+        "achievement2": "UI/UX Design Specialist",
+        "achievement3": "Full-stack Development",
+        "achievement4": "Performance Optimization"
+      },
+      "toselli": {
+        "name": "Toselli Marco",
+        "subtitle": "Developer/Designer",
+        "role": "Front/back-end Specialist",
+        "school": "ITTS Vito Volterra - Specialization: Informatics",
+        "achievement1": "Creative Design Expert",
+        "achievement2": "User Experience Specialist",
+        "achievement3": "Brand Strategy",
+        "achievement4": "Animation & Interactions"
+      }
+    }
   },
   "testimonials": {
     "badge": "What Clients Say",
-    "title": "Testimonials"
+    "title": "Testimonials",
+    "testimonials": {
+      "marco": {
+        "name": "Marco Rossi",
+        "role": "CEO, Fashion Boutique Milano",
+        "content": "TecWeb transformed our online presence. The website increased our sales by 350% in just 6 months!"
+      },
+      "giulia": {
+        "name": "Giulia Bianchi",
+        "role": "Founder, TechCorp Solutions",
+        "content": "Two talented students with professional expertise. They delivered beyond expectations."
+      },
+      "andrea": {
+        "name": "Andrea Ventura",
+        "role": "Director, Consulting Firm Italia",
+        "content": "The team understood our vision perfectly and executed it flawlessly. Highly recommended!"
+      }
+    }
   },
   "contact": {
     "badge": "Get In Touch",

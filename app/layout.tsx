@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${geistSans.variable} ${geistMono.variable} antialiased bg-slate-950`}
+        className={`${poppins.variable} ${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-b from-slate-900 via-blue-900/20 to-slate-900`}
       >
         <I18nProvider>
           <Navbar />

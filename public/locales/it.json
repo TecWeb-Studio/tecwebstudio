@@ -1,4 +1,11 @@
 {
+  "menu": {
+    "home": "Home",
+    "services": "Servizi",
+    "portfolio": "Portfolio",
+    "team": "Team",
+    "contact": "Contatti"
+  },
   "hero": {
     "badge": "Due Studenti, Risultati Professionali",
     "title": {
@@ -71,21 +78,84 @@
       "ecommerce": "E-Commerce",
       "saas": "SaaS",
       "corporate": "Aziendali",
-      "marketing": "Marketing",
-      "fintech": "FinTech"
+      "management": "Gestione",
+      "body": "Salute e Fitness"
     },
-    "featured": "In Evidenza"
+    "featured": "In Evidenza",
+    "projects": {
+      "tecwebPortfolio": {
+        "title": "Portfolio TecWeb",
+        "description": "Il nostro portfolio che mostra i nostri progetti e servizi"
+      },
+      "newBodyLine": {
+        "title": "New Body Line 2",
+        "description": "Sito web palestra con prenotazione lezioni e gestione iscritti",
+        "client": "New Body Line 2"
+      },
+      "nextHouse": {
+        "title": "Next House Domotica",
+        "description": "Software completo per l'automazione della casa intelligente"
+      },
+      "utopia1": {
+        "title": "Sito Scout Utopia 1",
+        "description": "Sito web aziendale moderno e reattivo con integrazione CMS",
+        "client": "Gruppo Scout Utopia 1"
+      },
+      "sleepingCycles": {
+        "title": "Sleeping Cycles",
+        "description": "App facile da usare per tracciare e migliorare i tuoi pattern di sonno"
+      }
+    }
   },
   "team": {
     "badge": "Conosci il Team",
     "title": "Giovani Talenti, Risultati Professionali",
     "description": "Due sviluppatori appassionati dell'ITTS Vito Volterra dediti all'eccellenza",
     "skills": "Competenze",
-    "achievements": "Risultati"
+    "achievements": "Risultati",
+    "members": {
+      "stefano": {
+        "name": "Stefano Casonato",
+        "subtitle": "Developer/Designer",
+        "role": "Sviluppatore Full-Stack",
+        "school": "ITTS Vito Volterra - Specializzazione: Informatica",
+        "achievement1": "Esperto in tecnologie web moderne",
+        "achievement2": "Specialista UI/UX Design",
+        "achievement3": "Sviluppo Full-stack",
+        "achievement4": "Ottimizzazione Prestazioni"
+      },
+      "toselli": {
+        "name": "Toselli Marco",
+        "subtitle": "Developer/Designer",
+        "role": "Specialista Frontend/Backend",
+        "school": "ITTS Vito Volterra - Specializzazione: Informatica",
+        "achievement1": "Esperto di Design Creativo",
+        "achievement2": "Specialista User Experience",
+        "achievement3": "Strategia di Brand",
+        "achievement4": "Animazioni e Interazioni"
+      }
+    }
   },
   "testimonials": {
     "badge": "Cosa Dicono i Clienti",
-    "title": "Testimonial"
+    "title": "Testimonial",
+    "testimonials": {
+      "marco": {
+        "name": "Marco Rossi",
+        "role": "CEO, Boutique Fashion Milano",
+        "content": "TecWeb ha trasformato la nostra presenza online. Il sito web ha aumentato le nostre vendite del 350% in soli 6 mesi!"
+      },
+      "giulia": {
+        "name": "Giulia Bianchi",
+        "role": "Fondatrice, TechCorp Solutions",
+        "content": "Due studenti di talento con competenze professionali. Hanno consegnato oltre le nostre aspettative."
+      },
+      "andrea": {
+        "name": "Andrea Ventura",
+        "role": "Direttore, Studio di Consulenza Italia",
+        "content": "Il team ha capito perfettamente la nostra visione e l'ha eseguita in modo impeccabile. Altamente consigliato!"
+      }
+    }
   },
   "contact": {
     "badge": "Contattaci",
