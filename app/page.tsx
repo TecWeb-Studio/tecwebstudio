@@ -72,68 +72,57 @@ export default function Home() {
   const projects = [
     {
       id: 1,
-      title: "E-Commerce Revolution",
-      category: "ecommerce",
-      description: "Complete online store with real-time inventory management",
-      client: "Fashion Boutique Milano",
-      image: "🛍️",
-      tags: ["Next.js", "Stripe", "PostgreSQL"],
-      results: ["350% increase in sales", "95% mobile traffic"],
+      title: "TecWebStudio",
+      category: "management",
+      description: "Our portfolio website showcasing our projects and services",
+      client: "",
+      image: "📊",
+      tags: ["React", "Framer Motion", "Shadcn/UI"],
+      results: ["Real-time data sync", "Enhanced user engagement"],
       featured: true,
     },
     {
       id: 2,
-      title: "SaaS Dashboard Analytics",
-      category: "saas",
-      description: "Advanced analytics dashboard for data visualization",
-      client: "TechCorp Solutions",
-      image: "📊",
-      tags: ["React", "D3.js", "Node.js"],
-      results: ["Real-time data sync", "1000+ daily users"],
+      title: "New Body Line 2",
+      category: "management",
+      description: "Gym website with class scheduling and membership management",
+      client: "New Body Line 2",
+      image: "🏋️",
+      tags: ["CMS", "MongoDB", "Real-time"],
+      results: ["Increased membership sign-ups", "Streamlined class bookings"],
       featured: true,
     },
     {
       id: 3,
-      title: "Corporate Website Redesign",
-      category: "corporate",
-      description: "Modern, responsive corporate website with CMS integration",
-      client: "Consulting Firm Italia",
-      image: "🏢",
-      tags: ["Next.js", "CMS", "SEO"],
-      results: ["40% increase in leads", "Top 3 Google ranking"],
-      featured: false,
+      title: "Next House Domotica",
+      category: "saas",
+      description: "Complete online software for smart home automation",
+      client: "",
+      image: "🏠",
+      tags: ["JS", "AI Powered"],
+      results: ["Increased home efficiency", "Remote control access"],
+      featured: true,
     },
     {
       id: 4,
-      title: "Mobile App Landing Page",
-      category: "marketing",
-      description: "High-converting landing page with animations",
-      client: "StartUp Innovators",
-      image: "📱",
-      tags: ["React", "Framer Motion", "Conversion"],
-      results: ["22% conversion rate", "10k+ signups"],
+      title: "Utopia 1 Scout Website",
+      category: "corporate",
+      description: "Modern, responsive corporate website with CMS integration",
+      client: "Scout Group Utopia 1",
+      image: "🏕️",
+      tags: ["E-Commerce", "CMS", "SEO"],
+      results: ["40% increase in leads", "Top 1 Google ranking"],
       featured: false,
     },
     {
       id: 5,
-      title: "Booking Platform MVP",
-      category: "saas",
-      description: "Travel booking system with real-time availability",
-      client: "Travel Adventures",
-      image: "✈️",
-      tags: ["Next.js", "MongoDB", "Real-time"],
-      results: ["Live bookings daily", "4.8★ user rating"],
-      featured: true,
-    },
-    {
-      id: 6,
-      title: "Crypto Trading Interface",
-      category: "fintech",
-      description: "Secure crypto trading platform with wallet integration",
-      client: "FinTech Startup",
-      image: "💰",
-      tags: ["React", "Web3", "Security"],
-      results: ["$2M trading volume", "Enterprise-grade security"],
+      title: "Sleeping Cycles",
+      category: "body",
+      description: "Easy to use app to track and improve your sleep patterns",
+      client: "",
+      image: "⏰",
+      tags: ["JS"],
+      results: [""],
       featured: false,
     },
   ];
@@ -187,17 +176,16 @@ export default function Home() {
     {
       id: 2,
       name: "Toselli Marco",
-      subtitle: "(Designer/Developer)",
+      subtitle: "(Developer/Designer)",
       role: "Front/back-end Specialist",
       school: "ITTS Vito Volterra - Specialization: Informatics",
       skills: [
         "Vue.js",
         "React",
         "Design Systems",
-        "UX Research",
-        "Animations",
+        "Framer Motion",
       ],
-      image: "👩‍💻",
+      image: "👨‍💻  ",
       achievements: [
         "Creative Design Expert",
         "User Experience Specialist",
@@ -222,6 +210,7 @@ export default function Home() {
     { value: "50k+", labelKey: "stats.codeLines", icon: "💻" },
   ];
 
+  // Servizi Completi
   const services = [
     {
       id: 1,
@@ -245,17 +234,17 @@ export default function Home() {
         t("services.feature.security"),
       ],
     },
-    {
-      id: 3,
-      title: t("services.ecommerce.title"),
-      description: t("services.ecommerce.description"),
-      icon: "🛒",
-      features: [
-        t("services.feature.paymentIntegration"),
-        t("services.feature.inventory"),
-        t("services.feature.analytics"),
-      ],
-    },
+    // {
+    //   id: 3,
+    //   title: t("services.ecommerce.title"),
+    //   description: t("services.ecommerce.description"),
+    //   icon: "🛒",
+    //   features: [
+    //     t("services.feature.paymentIntegration"),
+    //     t("services.feature.inventory"),
+    //     t("services.feature.analytics"),
+    //   ],
+    // },
     {
       id: 4,
       title: t("services.seo.title"),
@@ -847,7 +836,7 @@ export default function Home() {
                         {t("contact.email")}
                       </h4>
                       <p className="text-slate-400 text-xs sm:text-sm">
-                        hello@tecwebstudio.com
+                        support@tecwebstudio.com
                       </p>
                     </div>
                   </div>
