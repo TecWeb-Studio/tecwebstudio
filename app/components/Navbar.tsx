@@ -44,7 +44,7 @@ export default function Navbar() {
           <div className="flex-shrink-0 flex items-center">
             <Link href="/">
               <div className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent hover:from-emerald-300 hover:to-emerald-400 transition-all duration-300 relative">
-                TecWebStudio
+                TecWeb Studio
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-green-500 group-hover:w-full transition-all duration-300"></span>
               </div>
             </Link>

@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import emailjs from "@emailjs/browser";
 import useEmblaCarousel from "embla-carousel-react";
 import { Button } from "@/app/components/ui/Button";
 import { Card, CardTitle, CardDescription } from "@/app/components/ui/Card";
@@ -74,7 +75,7 @@ export default function Home() {
       descriptionKey: "portfolio.projects.tecwebPortfolio.description",
       clientKey: "",
       image: "📊",
-      tags: ["React", "Framer Motion", "Shadcn/UI"],
+      tags: ["React", "Framer Motion", "shadcn/ui"],
       results: ["Real-time data sync", "Enhanced user engagement"],
       featured: true,
     },
@@ -124,65 +125,77 @@ export default function Home() {
     },
   ];
 
-  const testimonials = [
-    {
-      id: 1,
-      name: "Marco Rossi",
-      role: "CEO, Fashion Boutique Milano",
-      content:
-        "TecWeb transformed our online presence. The website increased our sales by 350% in just 6 months!",
-      rating: 5,
-      image: "👨‍💼",
-    },
-    {
-      id: 2,
-      name: "Giulia Bianchi",
-      role: "Founder, TechCorp Solutions",
-      content:
-        "Two talented students with professional expertise. They delivered beyond expectations.",
-      rating: 5,
-      image: "👩‍💼",
-    },
-    {
-      id: 3,
-      name: "Andrea Ventura",
-      role: "Director, Consulting Firm Italia",
-      content:
-        "The team understood our vision perfectly and executed it flawlessly. Highly recommended!",
-      rating: 5,
-      image: "👨‍💼",
-    },
-  ];
+  // const testimonials = [
+  //   {
+  //     id: 1,
+  //     name: "Marco Rossi",
+  //     role: "CEO, Fashion Boutique Milano",
+  //     content:
+  //       "TecWeb transformed our online presence. The website increased our sales by 350% in just 6 months!",
+  //     rating: 5,
+  //     image: "👨‍💼",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Giulia Bianchi",
+  //     role: "Founder, TechCorp Solutions",
+  //     content:
+  //       "Two talented students with professional expertise. They delivered beyond expectations.",
+  //     rating: 5,
+  //     image: "👩‍💼",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Andrea Ventura",
+  //     role: "Director, Consulting Firm Italia",
+  //     content:
+  //       "The team understood our vision perfectly and executed it flawlessly. Highly recommended!",
+  //     rating: 5,
+  //     image: "👨‍💼",
+  //   },
+  // ];
 
   const teamMembers = [
     {
       id: 1,
-      name: "Stefano Casonato",
-      subtitle: "(Developer/Designer)",
-      role: "Full-Stack Developer",
-      school: "ITTS Vito Volterra - Specialization: Informatics",
+      nameKey: "team.members.stefano.name",
+      subtitleKey: "team.members.stefano.subtitle",
+      roleKey: "team.members.stefano.role",
+      schoolKey: "team.members.stefano.school",
       skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js"],
-      image: "👨‍💻",
-      achievements: [
-        "Expert in modern web technologies",
-        "UI/UX Design Specialist",
-        "Full-stack Development",
-        "Performance Optimization",
+      image: (
+        <img
+          src="https://github.com/khr0me.png"
+          alt="khr0me avatar"
+          className="w-18 h-18 rounded-full"
+        />
+      ),
+      achievementKeys: [
+        "team.members.stefano.achievement1",
+        "team.members.stefano.achievement2",
+        "team.members.stefano.achievement3",
+        "team.members.stefano.achievement4",
       ],
     },
     {
       id: 2,
-      name: "Toselli Marco",
-      subtitle: "(Developer/Designer)",
-      role: "Front/back-end Specialist",
-      school: "ITTS Vito Volterra - Specialization: Informatics",
-      skills: ["Vue.js", "React", "Design Systems", "Framer Motion"],
-      image: "👨‍💻  ",
-      achievements: [
-        "Creative Design Expert",
-        "User Experience Specialist",
-        "Brand Strategy",
-        "Animation & Interactions",
+      nameKey: "team.members.toselli.name",
+      subtitleKey: "team.members.toselli.subtitle",
+      roleKey: "team.members.toselli.role",
+      schoolKey: "team.members.toselli.school",
+      skills: ["Vue.js", "React", "shadcn/ui", "Framer Motion"],
+      image: (
+        <img
+          src="https://github.com/marcoice.png"
+          alt="marcoice avatar"
+          className="w-18 h-18 rounded-full"
+        />
+      ),
+      achievementKeys: [
+        "team.members.toselli.achievement1",
+        "team.members.toselli.achievement2",
+        "team.members.toselli.achievement3",
+        "team.members.toselli.achievement4",
       ],
     },
   ];
@@ -280,19 +293,47 @@ export default function Home() {
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus("loading");
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    if (contactForm.name && contactForm.email && contactForm.message) {
-      setFormStatus("success");
-      setContactForm({ name: "", email: "", message: "" });
-      setTimeout(() => setFormStatus("idle"), 3000);
+
+    const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    // Template params - include recipient so template can be configured to forward
+    const templateParams = {
+      to_email: "support@tecwebstudio.it",
+      from_name: contactForm.name,
+      reply_to: contactForm.email,
+      message: contactForm.message,
+    };
+
+    // If EmailJS is configured via env vars, try sending; otherwise fall back to simulated submit
+    if (SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY) {
+      try {
+        await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+        setFormStatus("success");
+        setContactForm({ name: "", email: "", message: "" });
+        setTimeout(() => setFormStatus("idle"), 3000);
+      } catch (err) {
+        console.error("EmailJS send error:", err);
+        setFormStatus("error");
+        setTimeout(() => setFormStatus("idle"), 3000);
+      }
     } else {
-      setFormStatus("error");
-      setTimeout(() => setFormStatus("idle"), 3000);
+      // Fallback behavior: keep existing simulated submission to avoid breaking UX
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      if (contactForm.name && contactForm.email && contactForm.message) {
+        setFormStatus("success");
+        setContactForm({ name: "", email: "", message: "" });
+        setTimeout(() => setFormStatus("idle"), 3000);
+      } else {
+        setFormStatus("error");
+        setTimeout(() => setFormStatus("idle"), 3000);
+      }
     }
   };
 
   return (
-    <div className="w-full bg-gradient-to-b from-slate-900 via-blue-900/20 to-slate-900">
+    <div className="w-full">
       {/* Hero Section */}
       <section className="relative min-h-screen w-full overflow-hidden pt-20">
         <div className="absolute inset-0 overflow-hidden">
@@ -751,18 +792,18 @@ export default function Home() {
                     </motion.div>
                     <div className="flex-1 min-w-0">
                       <CardTitle className="text-base sm:text-xl lg:text-2xl break-words leading-snug">
-                        {member.name}
+                        {t(member.nameKey)}
                       </CardTitle>
-                      {member.subtitle && (
+                      {member.subtitleKey && (
                         <p className="text-slate-400 text-xs sm:text-sm">
-                          {member.subtitle}
+                          {t(member.subtitleKey)}
                         </p>
                       )}
                       <p className="text-emerald-400 font-semibold text-xs sm:text-sm truncate">
-                        {member.role}
+                        {t(member.roleKey)}
                       </p>
                       <p className="text-slate-400 text-xs sm:text-sm mt-1 truncate">
-                        {member.school}
+                        {t(member.schoolKey)}
                       </p>
 
                       <div className="mt-2 sm:mt-3">
@@ -787,12 +828,12 @@ export default function Home() {
                           {t("team.achievements")}:
                         </p>
                         <ul className="space-y-0.5">
-                          {member.achievements.map((achievement, i) => (
+                          {member.achievementKeys.map((achievementKey, i) => (
                             <li
                               key={i}
                               className="text-xs text-slate-400 truncate"
                             >
-                              ✓ {achievement}
+                              ✓ {t(achievementKey)}
                             </li>
                           ))}
                         </ul>
@@ -885,7 +926,7 @@ export default function Home() {
                         {t("contact.email")}
                       </h4>
                       <p className="text-slate-400 text-xs sm:text-sm">
-                        support@tecwebstudio.com
+                        support@tecwebstudio.it
                       </p>
                     </div>
                   </div>
