@@ -3,8 +3,8 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
 import useEmblaCarousel from "embla-carousel-react";
+import { supabase } from "@/lib/supabase";
 import { Button } from "@/app/components/ui/Button";
 import { Card, CardTitle, CardDescription } from "@/app/components/ui/Card";
 import { Badge } from "@/app/components/ui/Badge";
@@ -294,41 +294,52 @@ export default function Home() {
     e.preventDefault();
     setFormStatus("loading");
 
-    const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-    const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-    const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-
-    // Template params - include recipient so template can be configured to forward
-    const templateParams = {
-      to_email: "support@tecwebstudio.it",
-      from_name: contactForm.name,
-      reply_to: contactForm.email,
-      message: contactForm.message,
-    };
-
-    // If EmailJS is configured via env vars, try sending; otherwise fall back to simulated submit
-    if (SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY) {
-      try {
-        await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
-        setFormStatus("success");
-        setContactForm({ name: "", email: "", message: "" });
-        setTimeout(() => setFormStatus("idle"), 3000);
-      } catch (err) {
-        console.error("EmailJS send error:", err);
+    try {
+      // Validate form data
+      if (!contactForm.name || !contactForm.email || !contactForm.message) {
         setFormStatus("error");
         setTimeout(() => setFormStatus("idle"), 3000);
+        return;
       }
-    } else {
-      // Fallback behavior: keep existing simulated submission to avoid breaking UX
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      if (contactForm.name && contactForm.email && contactForm.message) {
-        setFormStatus("success");
-        setContactForm({ name: "", email: "", message: "" });
-        setTimeout(() => setFormStatus("idle"), 3000);
-      } else {
+
+      // Check if Supabase is configured
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+      
+      if (!supabaseUrl || !supabaseKey) {
+        console.error("Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your .env.local file");
         setFormStatus("error");
         setTimeout(() => setFormStatus("idle"), 3000);
+        return;
       }
+
+      // Insert form data into Supabase
+      const { error } = await supabase
+        .from("contact_submissions")
+        .insert([
+          {
+            name: contactForm.name,
+            email: contactForm.email,
+            message: contactForm.message,
+            created_at: new Date().toISOString(),
+          },
+        ]);
+
+      if (error) {
+        console.error("Supabase insert error:", error);
+        setFormStatus("error");
+        setTimeout(() => setFormStatus("idle"), 3000);
+        return;
+      }
+
+      // Success
+      setFormStatus("success");
+      setContactForm({ name: "", email: "", message: "" });
+      setTimeout(() => setFormStatus("idle"), 3000);
+    } catch (err) {
+      console.error("Form submission error:", err);
+      setFormStatus("error");
+      setTimeout(() => setFormStatus("idle"), 3000);
     }
   };
 
