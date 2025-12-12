@@ -56,7 +56,7 @@ export default function Navbar() {
               <button
                 key={idx}
                 onClick={link.action}
-                className="relative text-white/80 hover:text-emerald-400 transition-colors duration-300 font-medium text-sm uppercase tracking-wider group"
+                className="relative text-white/80 hover:text-emerald-400 transition-colors duration-300 font-medium text-sm uppercase tracking-wider group cursor-pointer"
               >
                 {link.label}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-green-500 group-hover:w-full transition-all duration-300"></span>
@@ -68,7 +68,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-4">
             <button
               onClick={() => scrollToSection("contact-section")}
-              className="relative px-6 py-2 font-medium text-white/90 rounded-lg overflow-hidden group transition-all duration-300"
+              className="relative px-6 py-2 font-medium text-white/90 rounded-lg overflow-hidden group transition-all duration-300 cursor-pointer"
             >
               {/* Background gradient */}
               <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

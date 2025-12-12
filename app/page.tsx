@@ -479,14 +479,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Portfolio Section */}
+      {/* Portfolio Section, Featured Projects */}
       <section
         id="portfolio-section"
         ref={portfolioSectionRef}
         className="relative z-10 py-24 border-t border-emerald-500/10"
       >
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
+          <motion.div   
             className="text-center mb-8 sm:mb-12 lg:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -533,7 +533,7 @@ export default function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.05 }}
                     viewport={{ once: true }}
-                    className="flex-shrink-0 w-80"
+                    className="flex-shrink-0 w-80 cursor-pointer"
                   >
                     <Card
                       variant={project.featured ? "elevated" : "default"}
