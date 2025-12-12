@@ -52,6 +52,10 @@
       "title": "Ongoing Support",
       "description": "24/7 support and maintenance included"
     },
+    "translations": {
+      "title": "Translations",
+      "description": "Professional website translation services for global reach"
+    },
     "feature": {
       "customUI": "Custom UI/UX",
       "responsive": "Responsive Design",
@@ -66,7 +70,10 @@
       "fastLoading": "Fast Loading",
       "touchFriendly": "Touch-friendly",
       "availability": "24/7 Availability",
-      "updates": "Updates"
+      "updates": "Updates",
+      "multilingual": "Multilingual Support",
+      "culturalAdaptation": "Cultural Adaptation",
+      "seoLocalization": "SEO Localization"
     }
   },
   "portfolio": {
@@ -82,6 +89,8 @@
       "body": "Health & Fitness"
     },
     "featured": "Featured",
+    "visitSite": "Visit Site",
+    "projectDetails": "Project Details",
     "projects": {
       "tecwebPortfolio": {
         "title": "TecWeb Portfolio",

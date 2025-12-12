@@ -15,7 +15,7 @@ import {
   DialogTitle,
   DialogBody,
 } from "@/app/components/ui/Dialog";
-import { Mail, Phone, Linkedin, Github, Star, Globe } from "lucide-react";
+import { Mail, Phone, Linkedin, Github, Star, Globe, ExternalLink, X } from "lucide-react";
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -30,6 +30,7 @@ export default function Home() {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [languageOpen, setLanguageOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
 
   // Embla Carousels
   const [servicesEmblaRef, servicesEmblaApi] = useEmblaCarousel({
@@ -78,6 +79,8 @@ export default function Home() {
       tags: ["React", "Framer Motion", "shadcn/ui"],
       results: ["Real-time data sync", "Enhanced user engagement"],
       featured: true,
+      url: "", // Add your website URL here
+      screenshot: "", // Optional: Add screenshot image URL
     },
     {
       id: 2,
@@ -89,6 +92,8 @@ export default function Home() {
       tags: ["CMS", "MongoDB", "Real-time"],
       results: ["Increased membership sign-ups", "Streamlined class bookings"],
       featured: false,
+      url: "", // Add your website URL here
+      screenshot: "", // Optional: Add screenshot image URL
     },
     {
       id: 3,
@@ -100,6 +105,8 @@ export default function Home() {
       tags: ["JS", "AI Powered"],
       results: ["Increased home efficiency", "Remote control access"],
       featured: true,
+      url: "", // Add your website URL here
+      screenshot: "", // Optional: Add screenshot image URL
     },
     {
       id: 4,
@@ -111,6 +118,8 @@ export default function Home() {
       tags: ["E-Commerce", "CMS", "SEO"],
       results: ["40% increase in leads", "Top 1 Google ranking"],
       featured: false,
+      url: "", // Add your website URL here
+      screenshot: "", // Optional: Add screenshot image URL
     },
     {
       id: 5,
@@ -122,6 +131,8 @@ export default function Home() {
       tags: ["JS", "AI Powered", "Mobile"],
       results: [""],
       featured: false,
+      url: "", // Add your website URL here
+      screenshot: "", // Optional: Add screenshot image URL
     },
   ];
 
@@ -281,6 +292,17 @@ export default function Home() {
         t("services.feature.availability"),
         t("services.feature.updates"),
         t("services.feature.security"),
+      ],
+    },
+    {
+      id: 7,
+      title: t("services.translations.title"),
+      description: t("services.translations.description"),
+      icon: "🌐",
+      features: [
+        t("services.feature.multilingual"),
+        t("services.feature.culturalAdaptation"),
+        t("services.feature.seoLocalization"),
       ],
     },
   ];
@@ -534,10 +556,11 @@ export default function Home() {
                     transition={{ duration: 0.6, delay: index * 0.05 }}
                     viewport={{ once: true }}
                     className="flex-shrink-0 w-80 cursor-pointer"
+                    onClick={() => setSelectedProject(project)}
                   >
                     <Card
                       variant={project.featured ? "elevated" : "default"}
-                      className="group overflow-hidden relative h-full flex flex-col p-4 sm:p-6"
+                      className="group overflow-hidden relative h-full flex flex-col p-4 sm:p-6 hover:border-emerald-400/50 transition-colors"
                     >
                       {project.featured && (
                         <div className="absolute -top-2 -right-2 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-32 h-32 blur-2xl opacity-20"></div>
@@ -1325,6 +1348,119 @@ export default function Home() {
               ))}
             </div>
           </DialogBody>
+        </DialogContent>
+      </Dialog>
+
+      {/* Project Modal */}
+      <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
+        <DialogContent onClose={() => setSelectedProject(null)} className="max-w-5xl max-h-[90vh] overflow-hidden">
+          {selectedProject && (
+            <>
+              <DialogHeader>
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-4">
+                    <span className="text-4xl">{selectedProject.image}</span>
+                    <div>
+                      <DialogTitle className="text-2xl">{t(selectedProject.titleKey)}</DialogTitle>
+                      {selectedProject.clientKey && (
+                        <p className="text-slate-400 text-sm mt-1">{t(selectedProject.clientKey)}</p>
+                      )}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setSelectedProject(null)}
+                    className="p-2 rounded-lg hover:bg-slate-700/50 transition-colors"
+                  >
+                    <X className="w-5 h-5 text-slate-400" />
+                  </button>
+                </div>
+              </DialogHeader>
+              <DialogBody className="overflow-y-auto">
+                <div className="space-y-6">
+                  {/* Website Preview */}
+                  <div className="relative w-full rounded-lg overflow-hidden border border-emerald-500/20 bg-slate-900/50">
+                    {selectedProject.screenshot ? (
+                      <img
+                        src={selectedProject.screenshot}
+                        alt={t(selectedProject.titleKey)}
+                        className="w-full h-auto"
+                      />
+                    ) : selectedProject.url ? (
+                      <iframe
+                        src={selectedProject.url}
+                        className="w-full h-[600px] border-0"
+                        title={t(selectedProject.titleKey)}
+                        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                      />
+                    ) : (
+                      <div className="w-full h-[400px] flex items-center justify-center bg-slate-800/50">
+                        <div className="text-center">
+                          <Globe className="w-16 h-16 text-emerald-400 mx-auto mb-4" />
+                          <p className="text-slate-400">{t("portfolio.projectDetails")}</p>
+                          <p className="text-slate-500 text-sm mt-2">
+                            {selectedProject.url
+                              ? "Website preview unavailable"
+                              : "Add URL or screenshot to display preview"}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Project Details */}
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-white font-semibold mb-2">{t("portfolio.projectDetails")}</h3>
+                      <p className="text-slate-300">{t(selectedProject.descriptionKey)}</p>
+                    </div>
+
+                    {/* Tags */}
+                    <div>
+                      <h4 className="text-white font-semibold mb-2 text-sm">Technologies</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedProject.tags.map((tag, i) => (
+                          <Badge key={i} variant="default" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Results */}
+                    {selectedProject.results.filter((r) => r).length > 0 && (
+                      <div>
+                        <h4 className="text-white font-semibold mb-2 text-sm">Results</h4>
+                        <ul className="space-y-1">
+                          {selectedProject.results
+                            .filter((r) => r)
+                            .map((result, i) => (
+                              <li key={i} className="text-slate-300 text-sm flex items-center gap-2">
+                                <span className="text-emerald-400">✓</span>
+                                {result}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Visit Site Button */}
+                    {selectedProject.url && (
+                      <div className="pt-4">
+                        <Button
+                          onClick={() => window.open(selectedProject.url, "_blank", "noopener,noreferrer")}
+                          className="w-full sm:w-auto"
+                          size="lg"
+                        >
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          {t("portfolio.visitSite")}
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </DialogBody>
+            </>
+          )}
         </DialogContent>
       </Dialog>
 
