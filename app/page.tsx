@@ -543,10 +543,10 @@ export default function Home() {
                         <div className="absolute -top-2 -right-2 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-32 h-32 blur-2xl opacity-20"></div>
                       )}
 
-                      <div className="relative z-10 flex flex-col flex-grow">
+                      <div className="relative z-10 flex flex-col flex-grow select-none">
                         <div className="flex items-start justify-between mb-2 sm:mb-2">
                           <motion.div
-                            className="text-3xl sm:text-4xl flex-shrink-0"
+                            className="text-3xl sm:text-4xl flex-shrink-0 "
                             whileHover={{ scale: 1.1, rotate: 5 }}
                             transition={{ type: "spring", stiffness: 300 }}
                           >
@@ -689,7 +689,7 @@ export default function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    className="flex-shrink-0 w-80"
+                    className="flex-shrink-0 w-80 select-none"
                   >
                     <Card
                       variant="elevated"
