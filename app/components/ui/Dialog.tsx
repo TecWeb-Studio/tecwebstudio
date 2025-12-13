@@ -20,7 +20,11 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
       ></div>
 
       {/* Dialog */}
-      <div className="fixed z-50 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <div
+        className="fixed z-50 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        role="dialog"
+        aria-modal="true"
+      >
         {children}
       </div>
     </>

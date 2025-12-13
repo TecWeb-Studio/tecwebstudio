@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-interface CardProps {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   variant?: "default" | "elevated" | "glass";
 }
 
-export function Card({ children, className, variant = "default" }: CardProps) {
+export function Card({ children, className, variant = "default", ...props }: CardProps) {
   const variantStyles = {
     default:
       "border border-emerald-500/20 bg-gradient-to-br from-slate-800/30 to-slate-900/30",
@@ -24,6 +24,7 @@ export function Card({ children, className, variant = "default" }: CardProps) {
         variantStyles[variant],
         className
       )}
+      {...props}
     >
       {children}
     </div>

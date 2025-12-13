@@ -30,6 +30,8 @@ export default function Home() {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [languageOpen, setLanguageOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [activeProject, setActiveProject] = useState<any | null>(null);
 
   // Embla Carousels
   const [servicesEmblaRef, servicesEmblaApi] = useEmblaCarousel({
@@ -78,6 +80,7 @@ export default function Home() {
       tags: ["React", "Framer Motion", "shadcn/ui"],
       results: ["Real-time data sync", "Enhanced user engagement"],
       featured: true,
+      url: "https://tecweb.studio",
     },
     {
       id: 2,
@@ -100,6 +103,7 @@ export default function Home() {
       tags: ["JS", "AI Powered"],
       results: ["Increased home efficiency", "Remote control access"],
       featured: true,
+      url: "https://next-house.example",
     },
     {
       id: 4,
@@ -526,7 +530,19 @@ export default function Home() {
                   >
                     <Card
                       variant={project.featured ? "elevated" : "default"}
-                      className="group overflow-hidden relative h-full flex flex-col p-4 sm:p-6"
+                      className={
+                        "group overflow-hidden relative h-full flex flex-col p-4 sm:p-6" +
+                        (project.url ? " cursor-pointer" : "")
+                      }
+                      onClick={() => {
+                        if (!project.url) return;
+                        if (project.featured) {
+                          setActiveProject(project);
+                          setConfirmOpen(true);
+                        } else {
+                          window.open(project.url, "_blank", "noopener,noreferrer");
+                        }
+                      }}
                     >
                       {project.featured && (
                         <div className="absolute -top-2 -right-2 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-32 h-32 blur-2xl opacity-20"></div>
@@ -1312,6 +1328,48 @@ export default function Home() {
                   <span className="font-semibold">{lang.name}</span>
                 </motion.button>
               ))}
+            </div>
+          </DialogBody>
+        </DialogContent>
+      </Dialog>
+
+      {/* Confirm Visit Dialog */}
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent onClose={() => setConfirmOpen(false)}>
+          <DialogHeader>
+            <DialogTitle>
+              {t("portfolio.confirmVisit.title")}
+            </DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <p className="text-slate-300 mb-6">
+              {t("portfolio.confirmVisit.body", {
+                project: activeProject ? t(activeProject.titleKey) : "",
+              })}
+            </p>
+
+            <div className="flex gap-3 justify-end">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setConfirmOpen(false);
+                  setActiveProject(null);
+                }}
+              >
+                {t("portfolio.confirmVisit.no")}
+              </Button>
+              <Button
+                variant="default"
+                onClick={() => {
+                  if (activeProject?.url) {
+                    window.open(activeProject.url, "_blank", "noopener,noreferrer");
+                  }
+                  setConfirmOpen(false);
+                  setActiveProject(null);
+                }}
+              >
+                {t("portfolio.confirmVisit.yes")}
+              </Button>
             </div>
           </DialogBody>
         </DialogContent>

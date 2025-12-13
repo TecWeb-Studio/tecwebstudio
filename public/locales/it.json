@@ -82,6 +82,12 @@
       "body": "Salute e Fitness"
     },
     "featured": "In Evidenza",
+    "confirmVisit": {
+      "title": "Vuoi visitare il sito del progetto?",
+      "body": "Vuoi visitare il sito web del progetto {{project}}?",
+      "yes": "Sì",
+      "no": "No"
+    },
     "projects": {
       "tecwebPortfolio": {
         "title": "Portfolio TecWeb",
