@@ -3,8 +3,8 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
 import useEmblaCarousel from "embla-carousel-react";
+import { supabase } from "@/lib/supabase";
 import { Button } from "@/app/components/ui/Button";
 import { Card, CardTitle, CardDescription } from "@/app/components/ui/Card";
 import { Badge } from "@/app/components/ui/Badge";
@@ -15,7 +15,7 @@ import {
   DialogTitle,
   DialogBody,
 } from "@/app/components/ui/Dialog";
-import { Mail, Phone, Linkedin, Github, Star, Globe } from "lucide-react";
+import { Mail, Phone, Linkedin, Github, Star, Globe, ExternalLink, X } from "lucide-react";
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -30,8 +30,12 @@ export default function Home() {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [languageOpen, setLanguageOpen] = useState(false);
+<<<<<<< HEAD
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [activeProject, setActiveProject] = useState<any | null>(null);
+=======
+  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+>>>>>>> 0707ace3a134c2f000b658e55998012bc222760c
 
   // Embla Carousels
   const [servicesEmblaRef, servicesEmblaApi] = useEmblaCarousel({
@@ -80,7 +84,12 @@ export default function Home() {
       tags: ["React", "Framer Motion", "shadcn/ui"],
       results: ["Real-time data sync", "Enhanced user engagement"],
       featured: true,
+<<<<<<< HEAD
       url: "https://tecweb.studio",
+=======
+      url: "", // Add your website URL here
+      screenshot: "", // Optional: Add screenshot image URL
+>>>>>>> 0707ace3a134c2f000b658e55998012bc222760c
     },
     {
       id: 2,
@@ -92,6 +101,8 @@ export default function Home() {
       tags: ["CMS", "MongoDB", "Real-time"],
       results: ["Increased membership sign-ups", "Streamlined class bookings"],
       featured: false,
+      url: "", // Add your website URL here
+      screenshot: "", // Optional: Add screenshot image URL
     },
     {
       id: 3,
@@ -103,7 +114,12 @@ export default function Home() {
       tags: ["JS", "AI Powered"],
       results: ["Increased home efficiency", "Remote control access"],
       featured: true,
+<<<<<<< HEAD
       url: "https://next-house.example",
+=======
+      url: "", // Add your website URL here
+      screenshot: "", // Optional: Add screenshot image URL
+>>>>>>> 0707ace3a134c2f000b658e55998012bc222760c
     },
     {
       id: 4,
@@ -115,6 +131,8 @@ export default function Home() {
       tags: ["E-Commerce", "CMS", "SEO"],
       results: ["40% increase in leads", "Top 1 Google ranking"],
       featured: false,
+      url: "", // Add your website URL here
+      screenshot: "", // Optional: Add screenshot image URL
     },
     {
       id: 5,
@@ -126,6 +144,8 @@ export default function Home() {
       tags: ["JS", "AI Powered", "Mobile"],
       results: [""],
       featured: false,
+      url: "", // Add your website URL here
+      screenshot: "", // Optional: Add screenshot image URL
     },
   ];
 
@@ -287,6 +307,17 @@ export default function Home() {
         t("services.feature.security"),
       ],
     },
+    {
+      id: 7,
+      title: t("services.translations.title"),
+      description: t("services.translations.description"),
+      icon: "🌐",
+      features: [
+        t("services.feature.multilingual"),
+        t("services.feature.culturalAdaptation"),
+        t("services.feature.seoLocalization"),
+      ],
+    },
   ];
 
   const filteredProjects =
@@ -298,41 +329,52 @@ export default function Home() {
     e.preventDefault();
     setFormStatus("loading");
 
-    const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-    const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-    const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-
-    // Template params - include recipient so template can be configured to forward
-    const templateParams = {
-      to_email: "support@tecwebstudio.it",
-      from_name: contactForm.name,
-      reply_to: contactForm.email,
-      message: contactForm.message,
-    };
-
-    // If EmailJS is configured via env vars, try sending; otherwise fall back to simulated submit
-    if (SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY) {
-      try {
-        await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
-        setFormStatus("success");
-        setContactForm({ name: "", email: "", message: "" });
-        setTimeout(() => setFormStatus("idle"), 3000);
-      } catch (err) {
-        console.error("EmailJS send error:", err);
+    try {
+      // Validate form data
+      if (!contactForm.name || !contactForm.email || !contactForm.message) {
         setFormStatus("error");
         setTimeout(() => setFormStatus("idle"), 3000);
+        return;
       }
-    } else {
-      // Fallback behavior: keep existing simulated submission to avoid breaking UX
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      if (contactForm.name && contactForm.email && contactForm.message) {
-        setFormStatus("success");
-        setContactForm({ name: "", email: "", message: "" });
-        setTimeout(() => setFormStatus("idle"), 3000);
-      } else {
+
+      // Check if Supabase is configured
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+      
+      if (!supabaseUrl || !supabaseKey) {
+        console.error("Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your .env.local file");
         setFormStatus("error");
         setTimeout(() => setFormStatus("idle"), 3000);
+        return;
       }
+
+      // Insert form data into Supabase
+      const { error } = await supabase
+        .from("contact_submissions")
+        .insert([
+          {
+            name: contactForm.name,
+            email: contactForm.email,
+            message: contactForm.message,
+            created_at: new Date().toISOString(),
+          },
+        ]);
+
+      if (error) {
+        console.error("Supabase insert error:", error);
+        setFormStatus("error");
+        setTimeout(() => setFormStatus("idle"), 3000);
+        return;
+      }
+
+      // Success
+      setFormStatus("success");
+      setContactForm({ name: "", email: "", message: "" });
+      setTimeout(() => setFormStatus("idle"), 3000);
+    } catch (err) {
+      console.error("Form submission error:", err);
+      setFormStatus("error");
+      setTimeout(() => setFormStatus("idle"), 3000);
     }
   };
 
@@ -472,14 +514,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Portfolio Section */}
+      {/* Portfolio Section, Featured Projects */}
       <section
         id="portfolio-section"
         ref={portfolioSectionRef}
         className="relative z-10 py-24 border-t border-emerald-500/10"
       >
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
+          <motion.div   
             className="text-center mb-8 sm:mb-12 lg:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -526,10 +568,12 @@ export default function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.05 }}
                     viewport={{ once: true }}
-                    className="flex-shrink-0 w-80"
+                    className="flex-shrink-0 w-80 cursor-pointer"
+                    onClick={() => setSelectedProject(project)}
                   >
                     <Card
                       variant={project.featured ? "elevated" : "default"}
+<<<<<<< HEAD
                       className={
                         "group overflow-hidden relative h-full flex flex-col p-4 sm:p-6" +
                         (project.url ? " cursor-pointer" : "")
@@ -543,15 +587,18 @@ export default function Home() {
                           window.open(project.url, "_blank", "noopener,noreferrer");
                         }
                       }}
+=======
+                      className="group overflow-hidden relative h-full flex flex-col p-4 sm:p-6 hover:border-emerald-400/50 transition-colors"
+>>>>>>> 0707ace3a134c2f000b658e55998012bc222760c
                     >
                       {project.featured && (
                         <div className="absolute -top-2 -right-2 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-32 h-32 blur-2xl opacity-20"></div>
                       )}
 
-                      <div className="relative z-10 flex flex-col flex-grow">
+                      <div className="relative z-10 flex flex-col flex-grow select-none">
                         <div className="flex items-start justify-between mb-2 sm:mb-2">
                           <motion.div
-                            className="text-3xl sm:text-4xl flex-shrink-0"
+                            className="text-3xl sm:text-4xl flex-shrink-0 "
                             whileHover={{ scale: 1.1, rotate: 5 }}
                             transition={{ type: "spring", stiffness: 300 }}
                           >
@@ -694,7 +741,7 @@ export default function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    className="flex-shrink-0 w-80"
+                    className="flex-shrink-0 w-80 select-none"
                   >
                     <Card
                       variant="elevated"
@@ -1333,6 +1380,7 @@ export default function Home() {
         </DialogContent>
       </Dialog>
 
+<<<<<<< HEAD
       {/* Confirm Visit Dialog */}
       <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <DialogContent onClose={() => setConfirmOpen(false)}>
@@ -1372,6 +1420,118 @@ export default function Home() {
               </Button>
             </div>
           </DialogBody>
+=======
+      {/* Project Modal */}
+      <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
+        <DialogContent onClose={() => setSelectedProject(null)} className="max-w-5xl max-h-[90vh] overflow-hidden">
+          {selectedProject && (
+            <>
+              <DialogHeader>
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-4">
+                    <span className="text-4xl">{selectedProject.image}</span>
+                    <div>
+                      <DialogTitle className="text-2xl">{t(selectedProject.titleKey)}</DialogTitle>
+                      {selectedProject.clientKey && (
+                        <p className="text-slate-400 text-sm mt-1">{t(selectedProject.clientKey)}</p>
+                      )}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setSelectedProject(null)}
+                    className="p-2 rounded-lg hover:bg-slate-700/50 transition-colors"
+                  >
+                    <X className="w-5 h-5 text-slate-400" />
+                  </button>
+                </div>
+              </DialogHeader>
+              <DialogBody className="overflow-y-auto">
+                <div className="space-y-6">
+                  {/* Website Preview */}
+                  <div className="relative w-full rounded-lg overflow-hidden border border-emerald-500/20 bg-slate-900/50">
+                    {selectedProject.screenshot ? (
+                      <img
+                        src={selectedProject.screenshot}
+                        alt={t(selectedProject.titleKey)}
+                        className="w-full h-auto"
+                      />
+                    ) : selectedProject.url ? (
+                      <iframe
+                        src={selectedProject.url}
+                        className="w-full h-[600px] border-0"
+                        title={t(selectedProject.titleKey)}
+                        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                      />
+                    ) : (
+                      <div className="w-full h-[400px] flex items-center justify-center bg-slate-800/50">
+                        <div className="text-center">
+                          <Globe className="w-16 h-16 text-emerald-400 mx-auto mb-4" />
+                          <p className="text-slate-400">{t("portfolio.projectDetails")}</p>
+                          <p className="text-slate-500 text-sm mt-2">
+                            {selectedProject.url
+                              ? "Website preview unavailable"
+                              : "Add URL or screenshot to display preview"}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Project Details */}
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-white font-semibold mb-2">{t("portfolio.projectDetails")}</h3>
+                      <p className="text-slate-300">{t(selectedProject.descriptionKey)}</p>
+                    </div>
+
+                    {/* Tags */}
+                    <div>
+                      <h4 className="text-white font-semibold mb-2 text-sm">Technologies</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedProject.tags.map((tag, i) => (
+                          <Badge key={i} variant="default" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Results */}
+                    {selectedProject.results.filter((r) => r).length > 0 && (
+                      <div>
+                        <h4 className="text-white font-semibold mb-2 text-sm">Results</h4>
+                        <ul className="space-y-1">
+                          {selectedProject.results
+                            .filter((r) => r)
+                            .map((result, i) => (
+                              <li key={i} className="text-slate-300 text-sm flex items-center gap-2">
+                                <span className="text-emerald-400">✓</span>
+                                {result}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Visit Site Button */}
+                    {selectedProject.url && (
+                      <div className="pt-4">
+                        <Button
+                          onClick={() => window.open(selectedProject.url, "_blank", "noopener,noreferrer")}
+                          className="w-full sm:w-auto"
+                          size="lg"
+                        >
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          {t("portfolio.visitSite")}
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </DialogBody>
+            </>
+          )}
+>>>>>>> 0707ace3a134c2f000b658e55998012bc222760c
         </DialogContent>
       </Dialog>
 
