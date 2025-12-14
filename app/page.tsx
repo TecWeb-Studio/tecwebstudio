@@ -30,12 +30,7 @@ export default function Home() {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [languageOpen, setLanguageOpen] = useState(false);
-<<<<<<< HEAD
-  const [confirmOpen, setConfirmOpen] = useState(false);
-  const [activeProject, setActiveProject] = useState<any | null>(null);
-=======
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
->>>>>>> 0707ace3a134c2f000b658e55998012bc222760c
 
   // Embla Carousels
   const [servicesEmblaRef, servicesEmblaApi] = useEmblaCarousel({
@@ -84,12 +79,8 @@ export default function Home() {
       tags: ["React", "Framer Motion", "shadcn/ui"],
       results: ["Real-time data sync", "Enhanced user engagement"],
       featured: true,
-<<<<<<< HEAD
-      url: "https://tecweb.studio",
-=======
       url: "", // Add your website URL here
       screenshot: "", // Optional: Add screenshot image URL
->>>>>>> 0707ace3a134c2f000b658e55998012bc222760c
     },
     {
       id: 2,
@@ -114,12 +105,8 @@ export default function Home() {
       tags: ["JS", "AI Powered"],
       results: ["Increased home efficiency", "Remote control access"],
       featured: true,
-<<<<<<< HEAD
       url: "https://next-house.example",
-=======
-      url: "", // Add your website URL here
       screenshot: "", // Optional: Add screenshot image URL
->>>>>>> 0707ace3a134c2f000b658e55998012bc222760c
     },
     {
       id: 4,
@@ -573,23 +560,7 @@ export default function Home() {
                   >
                     <Card
                       variant={project.featured ? "elevated" : "default"}
-<<<<<<< HEAD
-                      className={
-                        "group overflow-hidden relative h-full flex flex-col p-4 sm:p-6" +
-                        (project.url ? " cursor-pointer" : "")
-                      }
-                      onClick={() => {
-                        if (!project.url) return;
-                        if (project.featured) {
-                          setActiveProject(project);
-                          setConfirmOpen(true);
-                        } else {
-                          window.open(project.url, "_blank", "noopener,noreferrer");
-                        }
-                      }}
-=======
                       className="group overflow-hidden relative h-full flex flex-col p-4 sm:p-6 hover:border-emerald-400/50 transition-colors"
->>>>>>> 0707ace3a134c2f000b658e55998012bc222760c
                     >
                       {project.featured && (
                         <div className="absolute -top-2 -right-2 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-32 h-32 blur-2xl opacity-20"></div>
@@ -1380,47 +1351,6 @@ export default function Home() {
         </DialogContent>
       </Dialog>
 
-<<<<<<< HEAD
-      {/* Confirm Visit Dialog */}
-      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-        <DialogContent onClose={() => setConfirmOpen(false)}>
-          <DialogHeader>
-            <DialogTitle>
-              {t("portfolio.confirmVisit.title")}
-            </DialogTitle>
-          </DialogHeader>
-          <DialogBody>
-            <p className="text-slate-300 mb-6">
-              {t("portfolio.confirmVisit.body", {
-                project: activeProject ? t(activeProject.titleKey) : "",
-              })}
-            </p>
-
-            <div className="flex gap-3 justify-end">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setConfirmOpen(false);
-                  setActiveProject(null);
-                }}
-              >
-                {t("portfolio.confirmVisit.no")}
-              </Button>
-              <Button
-                variant="default"
-                onClick={() => {
-                  if (activeProject?.url) {
-                    window.open(activeProject.url, "_blank", "noopener,noreferrer");
-                  }
-                  setConfirmOpen(false);
-                  setActiveProject(null);
-                }}
-              >
-                {t("portfolio.confirmVisit.yes")}
-              </Button>
-            </div>
-          </DialogBody>
-=======
       {/* Project Modal */}
       <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
         <DialogContent onClose={() => setSelectedProject(null)} className="max-w-5xl max-h-[90vh] overflow-hidden">
@@ -1531,7 +1461,6 @@ export default function Home() {
               </DialogBody>
             </>
           )}
->>>>>>> 0707ace3a134c2f000b658e55998012bc222760c
         </DialogContent>
       </Dialog>
 
