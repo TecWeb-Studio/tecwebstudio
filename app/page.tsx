@@ -79,7 +79,7 @@ export default function Home() {
       tags: ["React", "Framer Motion", "shadcn/ui"],
       results: ["Real-time data sync", "Enhanced user engagement"],
       featured: true,
-      url: "", // Add your website URL here
+      url: "https://www.tecwebstudio.it", // Add your website URL here
       screenshot: "", // Optional: Add screenshot image URL
     },
     {
@@ -92,7 +92,7 @@ export default function Home() {
       tags: ["CMS", "MongoDB", "Real-time"],
       results: ["Increased membership sign-ups", "Streamlined class bookings"],
       featured: false,
-      url: "", // Add your website URL here
+      url: "https://newbodyline2.altervista.org", // Add your website URL here
       screenshot: "", // Optional: Add screenshot image URL
     },
     {
@@ -105,7 +105,7 @@ export default function Home() {
       tags: ["JS", "AI Powered"],
       results: ["Increased home efficiency", "Remote control access"],
       featured: true,
-      url: "https://next-house.example",
+      url: "https://nexthousedomotica.vercel.app",
       screenshot: "", // Optional: Add screenshot image URL
     },
     {
@@ -118,7 +118,7 @@ export default function Home() {
       tags: ["E-Commerce", "CMS", "SEO"],
       results: ["40% increase in leads", "Top 1 Google ranking"],
       featured: false,
-      url: "", // Add your website URL here
+      url: "https://utopia1.altervista.org/", // Add your website URL here
       screenshot: "", // Optional: Add screenshot image URL
     },
     {
@@ -131,7 +131,7 @@ export default function Home() {
       tags: ["JS", "AI Powered", "Mobile"],
       results: [""],
       featured: false,
-      url: "", // Add your website URL here
+      url: "https://cicli-sonno.vercel.app", // Add your website URL here
       screenshot: "", // Optional: Add screenshot image URL
     },
   ];
