@@ -30,10 +30,10 @@ export default function Navbar() {
       action: () => scrollToSection("portfolio-section"),
     },
     { label: t("menu.team"), action: () => scrollToSection("team-section") },
-    {
-      label: t("menu.contact"),
-      action: () => scrollToSection("contact-section"),
-    },
+    // {
+    //   label: t("menu.contact"),
+    //   action: () => scrollToSection("contact-section"),
+    // },
   ];
 
   return (

@@ -964,7 +964,7 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 sm:gap-4">
+                  {/* <div className="flex items-start gap-3 sm:gap-4">
                     <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                     <div>
                       <h4 className="text-white font-bold text-sm sm:text-base">
@@ -974,7 +974,7 @@ export default function Home() {
                         +39 (XXX) XXX-XXXX
                       </p>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="flex items-start gap-3 sm:gap-4">
                     <Linkedin className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                     <div>
