@@ -327,7 +327,7 @@ export default function Home() {
       // Check if Supabase is configured
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
       const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-      
+
       if (!supabaseUrl || !supabaseKey) {
         console.error("Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your .env.local file");
         setFormStatus("error");
@@ -508,7 +508,7 @@ export default function Home() {
         className="relative z-10 py-24 border-t border-emerald-500/10"
       >
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div   
+          <motion.div
             className="text-center mb-8 sm:mb-12 lg:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1333,11 +1333,10 @@ export default function Home() {
                 <motion.button
                   key={lang.code}
                   onClick={() => handleLanguageChange(lang.code)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 cursor-pointer ${
-                    i18n.language === lang.code
-                      ? "bg-emerald-500/30 border border-emerald-400 text-emerald-300"
-                      : "bg-slate-700/30 border border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-emerald-500/50"
-                  }`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 cursor-pointer ${i18n.language === lang.code
+                    ? "bg-emerald-500/30 border border-emerald-400 text-emerald-300"
+                    : "bg-slate-700/30 border border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-emerald-500/50"
+                    }`}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
@@ -1353,109 +1352,37 @@ export default function Home() {
 
       {/* Project Modal */}
       <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
-        <DialogContent onClose={() => setSelectedProject(null)} className="max-w-5xl max-h-[90vh] overflow-hidden">
+        <DialogContent onClose={() => setSelectedProject(null)} className="max-w-md">
           {selectedProject && (
             <>
               <DialogHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-4">
-                    <span className="text-4xl">{selectedProject.image}</span>
-                    <div>
-                      <DialogTitle className="text-2xl">{t(selectedProject.titleKey)}</DialogTitle>
-                      {selectedProject.clientKey && (
-                        <p className="text-slate-400 text-sm mt-1">{t(selectedProject.clientKey)}</p>
-                      )}
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setSelectedProject(null)}
-                    className="p-2 rounded-lg hover:bg-slate-700/50 transition-colors"
-                  >
-                    <X className="w-5 h-5 text-slate-400" />
-                  </button>
-                </div>
+                <DialogTitle className="text-center">{t("portfolio.visitWebsite")}</DialogTitle>
               </DialogHeader>
-              <DialogBody className="overflow-y-auto">
-                <div className="space-y-6">
-                  {/* Website Preview */}
-                  <div className="relative w-full rounded-lg overflow-hidden border border-emerald-500/20 bg-slate-900/50">
-                    {selectedProject.screenshot ? (
-                      <img
-                        src={selectedProject.screenshot}
-                        alt={t(selectedProject.titleKey)}
-                        className="w-full h-auto"
-                      />
-                    ) : selectedProject.url ? (
-                      <iframe
-                        src={selectedProject.url}
-                        className="w-full h-[600px] border-0"
-                        title={t(selectedProject.titleKey)}
-                        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                      />
-                    ) : (
-                      <div className="w-full h-[400px] flex items-center justify-center bg-slate-800/50">
-                        <div className="text-center">
-                          <Globe className="w-16 h-16 text-emerald-400 mx-auto mb-4" />
-                          <p className="text-slate-400">{t("portfolio.projectDetails")}</p>
-                          <p className="text-slate-500 text-sm mt-2">
-                            {selectedProject.url
-                              ? "Website preview unavailable"
-                              : "Add URL or screenshot to display preview"}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Project Details */}
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="text-white font-semibold mb-2">{t("portfolio.projectDetails")}</h3>
-                      <p className="text-slate-300">{t(selectedProject.descriptionKey)}</p>
-                    </div>
-
-                    {/* Tags */}
-                    <div>
-                      <h4 className="text-white font-semibold mb-2 text-sm">Technologies</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedProject.tags.map((tag, i) => (
-                          <Badge key={i} variant="default" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Results */}
-                    {selectedProject.results.filter((r) => r).length > 0 && (
-                      <div>
-                        <h4 className="text-white font-semibold mb-2 text-sm">Results</h4>
-                        <ul className="space-y-1">
-                          {selectedProject.results
-                            .filter((r) => r)
-                            .map((result, i) => (
-                              <li key={i} className="text-slate-300 text-sm flex items-center gap-2">
-                                <span className="text-emerald-400">✓</span>
-                                {result}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* Visit Site Button */}
-                    {selectedProject.url && (
-                      <div className="pt-4">
-                        <Button
-                          onClick={() => window.open(selectedProject.url, "_blank", "noopener,noreferrer")}
-                          className="w-full sm:w-auto"
-                          size="lg"
-                        >
-                          <ExternalLink className="w-4 h-4 mr-2" />
-                          {t("portfolio.visitSite")}
-                        </Button>
-                      </div>
-                    )}
+              <DialogBody>
+                <div className="text-center space-y-6">
+                  <div className="text-4xl">{selectedProject.image}</div>
+                  <p className="text-slate-300">
+                    {t("portfolio.visitQuestion", { project: t(selectedProject.titleKey) })}
+                  </p>
+                  <div className="flex gap-3 justify-center">
+                    <Button
+                      variant="outline"
+                      onClick={() => setSelectedProject(null)}
+                      className="px-6"
+                    >
+                      {t("common.no")}
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        if (selectedProject.url) {
+                          window.open(selectedProject.url, "_blank", "noopener,noreferrer");
+                        }
+                        setSelectedProject(null);
+                      }}
+                      className="px-6"
+                    >
+                      {t("common.yes")}
+                    </Button>
                   </div>
                 </div>
               </DialogBody>

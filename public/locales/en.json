@@ -6,6 +6,12 @@
     "team": "Team",
     "contact": "Contact"
   },
+  "common": {
+    "yes": "Visit site",
+    "no": "Not now",
+    "previous": "Previous",
+    "next": "Next"
+  },
   "hero": {
     "badge": "Two Students, Professional Results",
     "title": {
@@ -80,6 +86,8 @@
     "badge": "Our Work",
     "title": "Featured Projects",
     "description": "See how we've helped businesses like yours succeed online",
+    "visitWebsite": "Ready to explore?",
+    "visitQuestion": "Would you like to visit {{project}}?",
     "categories": {
       "all": "All",
       "ecommerce": "E-Commerce",

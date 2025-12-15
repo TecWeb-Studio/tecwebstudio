@@ -6,6 +6,12 @@
     "team": "Team",
     "contact": "Contatti"
   },
+  "common": {
+    "yes": "Visita sito",
+    "no": "Non ora",
+    "previous": "Precedente",
+    "next": "Successivo"
+  },
   "hero": {
     "badge": "Due Studenti, Risultati Professionali",
     "title": {
@@ -80,6 +86,8 @@
     "badge": "Il Nostro Lavoro",
     "title": "Progetti in Evidenza",
     "description": "Scopri come abbiamo aiutato aziende come la tua a avere successo online",
+    "visitWebsite": "Pronto a esplorare?",
+    "visitQuestion": "Vuoi visitare {{project}}?",
     "categories": {
       "all": "Tutti",
       "ecommerce": "E-Commerce",
