@@ -31,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
       <body
         className={`${poppins.variable} ${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-b from-slate-900 via-blue-900/20 to-slate-900`}
       >

@@ -15,7 +15,16 @@ import {
   DialogTitle,
   DialogBody,
 } from "@/app/components/ui/Dialog";
-import { Mail, Phone, Linkedin, Github, Star, Globe, ExternalLink, X } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  Linkedin,
+  Github,
+  Star,
+  Globe,
+  ExternalLink,
+  X,
+} from "lucide-react";
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -30,7 +39,9 @@ export default function Home() {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [languageOpen, setLanguageOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [selectedProject, setSelectedProject] = useState<
+    (typeof projects)[0] | null
+  >(null);
 
   // Embla Carousels
   const [servicesEmblaRef, servicesEmblaApi] = useEmblaCarousel({
@@ -329,23 +340,23 @@ export default function Home() {
       const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
       if (!supabaseUrl || !supabaseKey) {
-        console.error("Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your .env.local file");
+        console.error(
+          "Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your .env.local file"
+        );
         setFormStatus("error");
         setTimeout(() => setFormStatus("idle"), 3000);
         return;
       }
 
       // Insert form data into Supabase
-      const { error } = await supabase
-        .from("contact_submissions")
-        .insert([
-          {
-            name: contactForm.name,
-            email: contactForm.email,
-            message: contactForm.message,
-            created_at: new Date().toISOString(),
-          },
-        ]);
+      const { error } = await supabase.from("contact_submissions").insert([
+        {
+          name: contactForm.name,
+          email: contactForm.email,
+          message: contactForm.message,
+          created_at: new Date().toISOString(),
+        },
+      ]);
 
       if (error) {
         console.error("Supabase insert error:", error);
@@ -441,7 +452,7 @@ export default function Home() {
                 </Button>
               </motion.div>
 
-              <motion.div
+              {/* <motion.div
                 className="flex flex-col sm:flex-row sm:items-center gap-4 pt-4"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -461,7 +472,7 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-slate-400">{t("hero.trusted")}</p>
-              </motion.div>
+              </motion.div> */}
             </motion.div>
 
             <motion.div
@@ -981,9 +992,14 @@ export default function Home() {
                       <h4 className="text-white font-bold text-sm sm:text-base">
                         {t("contact.linkedin")}
                       </h4>
-                      <p className="text-slate-400 text-xs sm:text-sm">
+                      <a
+                        href="https://www.linkedin.com/in/tecweb-studio-174887394/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-slate-400 text-xs sm:text-sm underline hover:text-slate-300"
+                      >
                         {t("contact.connectWithUs")}
-                      </p>
+                      </a>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 sm:gap-4">
@@ -1333,10 +1349,11 @@ export default function Home() {
                 <motion.button
                   key={lang.code}
                   onClick={() => handleLanguageChange(lang.code)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 cursor-pointer ${i18n.language === lang.code
-                    ? "bg-emerald-500/30 border border-emerald-400 text-emerald-300"
-                    : "bg-slate-700/30 border border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-emerald-500/50"
-                    }`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 cursor-pointer ${
+                    i18n.language === lang.code
+                      ? "bg-emerald-500/30 border border-emerald-400 text-emerald-300"
+                      : "bg-slate-700/30 border border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-emerald-500/50"
+                  }`}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
@@ -1351,18 +1368,28 @@ export default function Home() {
       </Dialog>
 
       {/* Project Modal */}
-      <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
-        <DialogContent onClose={() => setSelectedProject(null)} className="max-w-md">
+      <Dialog
+        open={!!selectedProject}
+        onOpenChange={(open) => !open && setSelectedProject(null)}
+      >
+        <DialogContent
+          onClose={() => setSelectedProject(null)}
+          className="max-w-md"
+        >
           {selectedProject && (
             <>
               <DialogHeader>
-                <DialogTitle className="text-center">{t("portfolio.visitWebsite")}</DialogTitle>
+                <DialogTitle className="text-center">
+                  {t("portfolio.visitWebsite")}
+                </DialogTitle>
               </DialogHeader>
               <DialogBody>
                 <div className="text-center space-y-6">
                   <div className="text-4xl">{selectedProject.image}</div>
                   <p className="text-slate-300">
-                    {t("portfolio.visitQuestion", { project: t(selectedProject.titleKey) })}
+                    {t("portfolio.visitQuestion", {
+                      project: t(selectedProject.titleKey),
+                    })}
                   </p>
                   <div className="flex gap-3 justify-center">
                     <Button
@@ -1375,7 +1402,11 @@ export default function Home() {
                     <Button
                       onClick={() => {
                         if (selectedProject.url) {
-                          window.open(selectedProject.url, "_blank", "noopener,noreferrer");
+                          window.open(
+                            selectedProject.url,
+                            "_blank",
+                            "noopener,noreferrer"
+                          );
                         }
                         setSelectedProject(null);
                       }}

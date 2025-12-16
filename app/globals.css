@@ -30,15 +30,7 @@
   --glow-green: #22c55e80;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --background-dark: #f8fafc;
-    --background-darker: #f1f5f9;
-    --text-primary: #0f172a;
-    --text-secondary: #334155;
-    --text-muted: #64748b;
-  }
-}
+/* Dark mode is forced - light mode media query removed */
 
 * {
   transition-property: colors;
@@ -48,6 +40,7 @@
 html {
   scroll-behavior: smooth;
   font-family: var(--font-poppins, system-ui, sans-serif);
+  color-scheme: dark; /* Force dark mode */
 }
 
 body {
@@ -120,4 +113,10 @@ body {
     var(--primary-green) 0%,
     var(--primary-lime) 100%
   );
+}
+
+/* Next.js portal positioning fix */
+nextjs-portal {
+  left: unset !important;
+  top: unset !important;
 }
