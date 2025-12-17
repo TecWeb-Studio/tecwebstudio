@@ -75,7 +75,7 @@ Automatic language detection with persistent user preferences.
 
 ## 📞 Get In Touch
 
-- 📧 **Email**: support@tecwebstudio.com
+- 📧 **Email**: support@tecwebstudio.it
 - 💼 **LinkedIn**: [Connect with us](https://www.linkedin.com/in/tecweb-studio-174887394/)
 - 💻 **GitHub**: [View our work](https://github.com/TecWeb-Studio/)
 
