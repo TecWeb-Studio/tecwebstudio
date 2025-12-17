@@ -975,17 +975,29 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-                  {/* <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="flex items-start gap-3 sm:gap-4">
                     <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                     <div>
                       <h4 className="text-white font-bold text-sm sm:text-base">
                         {t("contact.phone")}
                       </h4>
-                      <p className="text-slate-400 text-xs sm:text-sm">
-                        +39 (XXX) XXX-XXXX
-                      </p>
                     </div>
-                  </div> */}
+                  </div>
+                  <motion.div
+                    className="flex flex-col sm:flex-row gap-4 justify-start items-start px-[38px]"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    viewport={{ once: true }}
+                  >
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="justify-start items-start"
+                    >
+                      {t("cta.scheduleCall")}
+                    </Button>
+                  </motion.div>
                   <div className="flex items-start gap-3 sm:gap-4">
                     <Linkedin className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                     <div>
@@ -1141,7 +1153,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative z-10 py-24 border-t border-emerald-500/10">
+      {/* <section className="relative z-10 py-24 border-t border-emerald-500/10">
         <div className="max-w-4xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1159,28 +1171,11 @@ export default function Home() {
                 <p className="text-lg text-slate-300 max-w-2xl mx-auto">
                   {t("cta.description")}
                 </p>
-                <motion.div
-                  className="flex flex-col sm:flex-row gap-4 justify-center pt-4"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                >
-                  <Button
-                    size="lg"
-                    onClick={() => scrollToSection(contactSectionRef)}
-                  >
-                    {t("cta.startProject")}
-                  </Button>
-                  <Button variant="outline" size="lg">
-                    {t("cta.scheduleCall")}
-                  </Button>
-                </motion.div>
               </div>
             </Card>
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       {/* Footer */}
       <section className="relative z-10 border-t border-emerald-500/10 py-12">
@@ -1211,7 +1206,6 @@ export default function Home() {
               <ul className="space-y-2 text-slate-400 text-xs sm:text-sm">
                 <li>
                   <a
-                    href="#"
                     className="hover:text-emerald-400 transition-colors"
                   >
                     {t("footer.webDesign")}
@@ -1219,7 +1213,6 @@ export default function Home() {
                 </li>
                 <li>
                   <a
-                    href="#"
                     className="hover:text-emerald-400 transition-colors"
                   >
                     {t("footer.development")}
@@ -1227,7 +1220,6 @@ export default function Home() {
                 </li>
                 <li>
                   <a
-                    href="#"
                     className="hover:text-emerald-400 transition-colors"
                   >
                     {t("footer.ecommerce")}
@@ -1235,7 +1227,6 @@ export default function Home() {
                 </li>
                 <li>
                   <a
-                    href="#"
                     className="hover:text-emerald-400 transition-colors"
                   >
                     {t("footer.seo")}
@@ -1255,7 +1246,11 @@ export default function Home() {
               <ul className="space-y-2 text-slate-400 text-xs sm:text-sm">
                 <li>
                   <a
-                    href="#"
+                    href="#team-section"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(teamSectionRef);
+                    }}
                     className="hover:text-emerald-400 transition-colors"
                   >
                     {t("footer.about")}
@@ -1263,7 +1258,11 @@ export default function Home() {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="#portfolio-section"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(portfolioSectionRef);
+                    }}
                     className="hover:text-emerald-400 transition-colors"
                   >
                     {t("footer.portfolio")}
@@ -1271,18 +1270,14 @@ export default function Home() {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="#contact-section"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(contactSectionRef);
+                    }}
                     className="hover:text-emerald-400 transition-colors"
                   >
                     {t("footer.contact")}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-emerald-400 transition-colors"
-                  >
-                    {t("footer.blog")}
                   </a>
                 </li>
               </ul>
