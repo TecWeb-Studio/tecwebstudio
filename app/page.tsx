@@ -1205,30 +1205,22 @@ export default function Home() {
               </h4>
               <ul className="space-y-2 text-slate-400 text-xs sm:text-sm">
                 <li>
-                  <a
-                    className="hover:text-emerald-400 transition-colors"
-                  >
+                  <a className="hover:text-emerald-400 transition-colors">
                     {t("footer.webDesign")}
                   </a>
                 </li>
                 <li>
-                  <a
-                    className="hover:text-emerald-400 transition-colors"
-                  >
+                  <a className="hover:text-emerald-400 transition-colors">
                     {t("footer.development")}
                   </a>
                 </li>
                 <li>
-                  <a
-                    className="hover:text-emerald-400 transition-colors"
-                  >
+                  <a className="hover:text-emerald-400 transition-colors">
                     {t("footer.ecommerce")}
                   </a>
                 </li>
                 <li>
-                  <a
-                    className="hover:text-emerald-400 transition-colors"
-                  >
+                  <a className="hover:text-emerald-400 transition-colors">
                     {t("footer.seo")}
                   </a>
                 </li>
@@ -1293,13 +1285,17 @@ export default function Home() {
               </h4>
               <div className="flex gap-4">
                 <a
-                  href="#"
+                  href="https://github.com/TecWeb-Studio"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-slate-400 hover:text-emerald-400 transition-colors text-xs sm:text-sm"
                 >
                   GitHub
                 </a>
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/tecweb-studio-174887394/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-slate-400 hover:text-emerald-400 transition-colors text-xs sm:text-sm"
                 >
                   LinkedIn
