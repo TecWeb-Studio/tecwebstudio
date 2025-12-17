@@ -201,6 +201,10 @@
     "startProject": "Start Your Project",
     "scheduleCall": "Schedule a Call"
   },
+  "scheduleCall": {
+    "title": "Currently Unavailable",
+    "message": "We're currently unable to schedule calls. Please reach out via email or the contact form instead."
+  },
   "footer": {
     "description": "Two passionate students creating exceptional digital solutions for growing firms.",
     "services": "Services",

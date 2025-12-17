@@ -201,6 +201,10 @@
     "startProject": "Dein Projekt Starten",
     "scheduleCall": "Anruf Vereinbaren"
   },
+  "scheduleCall": {
+    "title": "Derzeit Nicht Verfügbar",
+    "message": "Wir können derzeit keine Anrufe vereinbaren. Bitte kontaktiere uns stattdessen per E-Mail oder über das Kontaktformular."
+  },
   "footer": {
     "description": "Zwei leidenschaftliche Studenten, die außergewöhnliche digitale Lösungen für wachsende Unternehmen schaffen.",
     "services": "Dienstleistungen",

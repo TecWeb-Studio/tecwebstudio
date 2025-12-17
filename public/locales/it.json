@@ -201,6 +201,10 @@
     "startProject": "Inizia il Tuo Progetto",
     "scheduleCall": "Programma una Chiamata"
   },
+  "scheduleCall": {
+    "title": "Attualmente Non Disponibile",
+    "message": "Al momento non siamo in grado di programmare chiamate. Ti preghiamo di contattarci via email o tramite il modulo di contatto."
+  },
   "footer": {
     "description": "Due studenti appassionati che creano soluzioni digitali straordinarie per aziende in crescita.",
     "services": "Servizi",

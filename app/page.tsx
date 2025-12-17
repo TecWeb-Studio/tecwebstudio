@@ -39,6 +39,7 @@ export default function Home() {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [languageOpen, setLanguageOpen] = useState(false);
+  const [scheduleCallOpen, setScheduleCallOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<
     (typeof projects)[0] | null
   >(null);
@@ -994,6 +995,7 @@ export default function Home() {
                       variant="outline"
                       size="sm"
                       className="justify-start items-start"
+                      onClick={() => setScheduleCallOpen(true)}
                     >
                       {t("cta.scheduleCall")}
                     </Button>
@@ -1414,6 +1416,25 @@ export default function Home() {
       </Dialog>
 
       {/* Chat Widget removed */}
+
+      {/* Schedule Call Dialog */}
+      <Dialog open={scheduleCallOpen} onOpenChange={setScheduleCallOpen}>
+        <DialogContent
+          onClose={() => setScheduleCallOpen(false)}
+          className="max-w-xs sm:max-w-sm"
+        >
+          <DialogHeader>
+            <DialogTitle className="text-center text-lg sm:text-xl">
+              {t("scheduleCall.title")}
+            </DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <p className="text-slate-300 text-center text-sm sm:text-base">
+              {t("scheduleCall.message")}
+            </p>
+          </DialogBody>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

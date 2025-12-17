@@ -22,13 +22,14 @@ export default function Navbar() {
       action: () => window.scrollTo({ top: 0, behavior: "smooth" }),
     },
     {
-      label: t("menu.services"),
-      action: () => scrollToSection("services-section"),
-    },
-    {
       label: t("menu.portfolio"),
       action: () => scrollToSection("portfolio-section"),
     },
+    {
+      label: t("menu.services"),
+      action: () => scrollToSection("services-section"),
+    },
+
     { label: t("menu.team"), action: () => scrollToSection("team-section") },
     // {
     //   label: t("menu.contact"),

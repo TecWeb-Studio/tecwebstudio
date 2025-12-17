@@ -203,6 +203,10 @@
     "startProject": "Commencer Votre Projet",
     "scheduleCall": "Planifier un Appel"
   },
+  "scheduleCall": {
+    "title": "Actuellement Indisponible",
+    "message": "Nous ne sommes actuellement pas en mesure de planifier des appels. Veuillez nous contacter par e-mail ou via le formulaire de contact."
+  },
   "footer": {
     "description": "Deux étudiants passionnés créant des solutions numériques exceptionnelles pour les entreprises en croissance.",
     "services": "Services",
