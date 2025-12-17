@@ -76,9 +76,8 @@ Automatic language detection with persistent user preferences.
 ## 📞 Get In Touch
 
 - 📧 **Email**: hello@tecwebstudio.com
-- 📱 **Phone**: +39 (XXX) XXX-XXXX
-- 💼 **LinkedIn**: [Connect with us](https://linkedin.com)
-- 💻 **GitHub**: [View our work](https://github.com)
+- 💼 **LinkedIn**: [Connect with us](https://www.linkedin.com/in/tecweb-studio-174887394/)
+- 💻 **GitHub**: [View our work](https://github.com/TecWeb-Studio/)
 
 ---
 
@@ -92,7 +91,7 @@ Visit our portfolio to see our latest work and get in touch.
 
 <div align="center">
 
-**Built with ❤️ by TecWebStudio**
+**Built with 💚 by TecWebStudio**
 
 _Two students from ITTS Vito Volterra creating digital excellence_
 
