@@ -1,4 +1,4 @@
-# 🌐 TecWeb Studio 
+# 🌐 TecWeb Studio
 
 > **Two passionate developers crafting exceptional digital solutions for growing firms**
 
@@ -95,6 +95,6 @@ Visit our portfolio to see our latest work and get in touch.
 
 _Two students from ITTS Vito Volterra creating digital excellence_
 
-© 2025 TecWeb Studio. All rights reserved.
+© 2026 TecWeb Studio. All rights reserved.
 
 </div>
