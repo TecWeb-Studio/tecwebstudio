@@ -96,6 +96,19 @@ export default function Home() {
     },
     {
       id: 2,
+      titleKey: "portfolio.projects.releviHealing.title",
+      categories: ["body", "corporate"],
+      descriptionKey: "portfolio.projects.releviHealing.description",
+      clientKey: "",
+      image: "🌿",
+      tags: ["Web Design", "SEO", "Responsive"],
+      results: ["Improved brand presence", "Clear service navigation"],
+      featured: true,
+      url: "https://relevihealing.it",
+      screenshot: "",
+    },
+    {
+      id: 3,
       titleKey: "portfolio.projects.newBodyLine.title",
       categories: ["management", "body"],
       descriptionKey: "portfolio.projects.newBodyLine.description",
@@ -108,7 +121,7 @@ export default function Home() {
       screenshot: "", // Optional: Add screenshot image URL
     },
     {
-      id: 3,
+      id: 4,
       titleKey: "portfolio.projects.nextHouse.title",
       categories: ["saas"],
       descriptionKey: "portfolio.projects.nextHouse.description",
@@ -121,7 +134,7 @@ export default function Home() {
       screenshot: "", // Optional: Add screenshot image URL
     },
     {
-      id: 4,
+      id: 5,
       titleKey: "portfolio.projects.utopia1.title",
       categories: ["corporate", "ecommerce"],
       descriptionKey: "portfolio.projects.utopia1.description",
@@ -134,7 +147,7 @@ export default function Home() {
       screenshot: "", // Optional: Add screenshot image URL
     },
     {
-      id: 5,
+      id: 6,
       titleKey: "portfolio.projects.sleepingCycles.title",
       categories: ["body"],
       descriptionKey: "portfolio.projects.sleepingCycles.description",
@@ -342,7 +355,7 @@ export default function Home() {
 
       if (!supabaseUrl || !supabaseKey) {
         console.error(
-          "Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your .env.local file"
+          "Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your .env.local file",
         );
         setFormStatus("error");
         setTimeout(() => setFormStatus("idle"), 3000);
@@ -1398,7 +1411,7 @@ export default function Home() {
                           window.open(
                             selectedProject.url,
                             "_blank",
-                            "noopener,noreferrer"
+                            "noopener,noreferrer",
                           );
                         }
                         setSelectedProject(null);

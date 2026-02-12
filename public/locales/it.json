@@ -102,6 +102,10 @@
         "title": "Portfolio TecWeb",
         "description": "Il nostro portfolio che mostra i nostri progetti e servizi"
       },
+      "releviHealing": {
+        "title": "Relevi Healing",
+        "description": "Sito web per centro benessere olistico con focus su servizi e trattamenti"
+      },
       "newBodyLine": {
         "title": "New Body Line 2",
         "description": "Sito web palestra con prenotazione lezioni e gestione iscritti",
