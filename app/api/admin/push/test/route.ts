@@ -4,6 +4,7 @@ import {
   getPushSubscriptionCount,
   isPushConfigured,
   sendPushToAllWithReport,
+  getSubscriptionEndpoints,
 } from "@/lib/push";
 
 const JWT_SECRET = process.env.JWT_SECRET || "tecweb-fallback-secret-change-me";
@@ -45,6 +46,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Get endpoint types for diagnostics
+    const endpoints = await getSubscriptionEndpoints();
+    const devices = endpoints.map((ep) => {
+      if (ep.includes("web.push.apple.com")) return "Apple (iOS/macOS)";
+      if (ep.includes("fcm.googleapis.com")) return "Google (Android/Chrome)";
+      if (ep.includes("mozilla.com")) return "Mozilla (Firefox)";
+      if (ep.includes("notify.windows.com")) return "Microsoft (Edge)";
+      return "Sconosciuto";
+    });
+
     const report = await sendPushToAllWithReport({
       title: "Test Notifica Admin",
       body: "Questa e una notifica push di test dal pannello admin.",
@@ -54,8 +65,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: `Test inviato. Totale: ${report.total}, Inviate: ${report.sent}, Fallite: ${report.failed}`,
+      message: `Test inviato a ${devices.join(", ")}. Totale: ${report.total}, Inviate: ${report.sent}, Fallite: ${report.failed}`,
       report,
+      devices,
     });
   } catch (error) {
     console.error("Push test error:", error);

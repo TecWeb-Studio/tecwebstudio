@@ -18,6 +18,7 @@ import {
   BellOff,
   Trash2,
   FlaskConical,
+  Bug,
 } from "lucide-react";
 
 interface Ticket {
@@ -50,6 +51,17 @@ export default function AdminDashboardPage() {
   const [pushSubscribed, setPushSubscribed] = useState(false);
   const [pushLoading, setPushLoading] = useState(false);
   const [pushTestLoading, setPushTestLoading] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
+
+  // Detect standalone PWA mode (required for iOS push)
+  useEffect(() => {
+    const standalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (navigator as unknown as { standalone?: boolean }).standalone === true;
+    setIsStandalone(standalone);
+    setIsIOS(/iP(hone|ad|od)/.test(navigator.userAgent));
+  }, []);
 
   const fetchTickets = useCallback(async () => {
     setLoading(true);
@@ -71,7 +83,10 @@ export default function AdminDashboardPage() {
   // Register service worker and check push subscription status
   useEffect(() => {
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js").then(async (reg) => {
+      navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" }).then(async (reg) => {
+        // Force check for SW update (critical for iOS which caches aggressively)
+        reg.update().catch(() => {});
+
         // Wait for the service worker to be ready
         await navigator.serviceWorker.ready;
         if ("PushManager" in window) {
@@ -150,11 +165,69 @@ export default function AdminDashboardPage() {
         alert(data.error || "Errore durante il test push");
         return;
       }
-      alert(data.message || "Notifica di test inviata");
+      const devicesInfo = data.devices?.length
+        ? `\nDispositivi: ${data.devices.join(", ")}`
+        : "";
+      alert((data.message || "Notifica di test inviata") + devicesInfo);
     } catch {
       alert("Errore di rete durante il test push");
     } finally {
       setPushTestLoading(false);
+    }
+  };
+
+  const handlePushDebug = async () => {
+    try {
+      // Gather client-side info
+      const sw = navigator.serviceWorker?.controller;
+      const swState = sw ? `active (scriptURL: ${sw.scriptURL})` : "no controller";
+      const notifPerm = "Notification" in window ? Notification.permission : "not available";
+      const pushMgr = "PushManager" in window ? "available" : "not available";
+      const standalone =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        (navigator as unknown as { standalone?: boolean }).standalone === true;
+      const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent);
+      const reg = await navigator.serviceWorker?.ready;
+      const sub = reg ? await reg.pushManager.getSubscription() : null;
+      const subEndpoint = sub?.endpoint || "nessuna subscription";
+      const subProvider = sub?.endpoint?.includes("apple.com")
+        ? "Apple"
+        : sub?.endpoint?.includes("fcm.googleapis.com")
+        ? "Google"
+        : sub?.endpoint
+        ? "Altro"
+        : "N/A";
+
+      // Gather server-side info
+      const serverRes = await fetch("/api/admin/push/debug");
+      const serverData = serverRes.ok ? await serverRes.json() : { error: "fetch failed" };
+
+      const debugInfo = [
+        `=== CLIENT ===`,
+        `iOS: ${isIOS}`,
+        `Standalone (PWA): ${standalone}`,
+        `SW: ${swState}`,
+        `Permesso Notifiche: ${notifPerm}`,
+        `PushManager: ${pushMgr}`,
+        `Subscription locale: ${subProvider}`,
+        `Endpoint: ${subEndpoint.substring(0, 80)}...`,
+        ``,
+        `=== SERVER ===`,
+        `VAPID configurato: ${serverData.vapid?.configured}`,
+        `VAPID subject: ${serverData.vapid?.subject}`,
+        `Subscriptions salvate: ${serverData.subscriptions?.count}`,
+        ...(serverData.subscriptions?.list?.map(
+          (s: { provider: string; created_at: string }) =>
+            `  - ${s.provider} (${s.created_at})`
+        ) || []),
+        ``,
+        `=== HINT ===`,
+        serverData.hints?.ios || "",
+      ].join("\n");
+
+      alert(debugInfo);
+    } catch (err) {
+      alert("Errore debug: " + String(err));
     }
   };
 
@@ -303,6 +376,15 @@ export default function AdminDashboardPage() {
             <Button
               variant="ghost"
               size="sm"
+              onClick={handlePushDebug}
+              className="gap-1 sm:gap-2 px-2 sm:px-3"
+            >
+              <Bug className="w-4 h-4" />
+              <span className="hidden sm:inline">Debug</span>
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={fetchTickets}
               className="gap-1 sm:gap-2 px-2 sm:px-3"
             >
@@ -323,6 +405,13 @@ export default function AdminDashboardPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 relative z-10">
+        {/* iOS standalone warning */}
+        {!isStandalone && isIOS && (
+          <div className="mb-4 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 text-xs sm:text-sm">
+            <strong>iOS:</strong> Per ricevere notifiche push, aggiungi questa app alla Home Screen (Condividi → Aggiungi a Home) e aprila da lì.
+          </div>
+        )}
+
         {/* Stats */}
         <div className="grid grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-8">
           {[

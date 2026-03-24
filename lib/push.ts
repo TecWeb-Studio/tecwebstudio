@@ -31,6 +31,11 @@ export async function getPushSubscriptionCount(): Promise<number> {
   return Number(result.rows[0]?.count ?? 0);
 }
 
+export async function getSubscriptionEndpoints(): Promise<string[]> {
+  const result = await turso.execute("SELECT endpoint FROM push_subscriptions");
+  return result.rows.map((row) => row.endpoint as string);
+}
+
 export async function sendPushToAllWithReport(payload: PushPayload): Promise<PushReport> {
   if (!isPushConfigured()) {
     throw new Error("Missing VAPID configuration");
@@ -51,11 +56,20 @@ export async function sendPushToAllWithReport(payload: PushPayload): Promise<Pus
     };
 
     try {
-      await webpush.sendNotification(subscription, JSON.stringify(payload));
+      await webpush.sendNotification(
+        subscription,
+        JSON.stringify(payload),
+        {
+          TTL: 86400,
+          urgency: "high",
+          topic: payload.tag || "default",
+        }
+      );
       sent += 1;
     } catch (error: unknown) {
       failed += 1;
       const statusCode = (error as { statusCode?: number })?.statusCode;
+      const body = (error as { body?: string })?.body;
       // Remove expired/invalid subscriptions (410 Gone or 404 Not Found)
       if (statusCode === 410 || statusCode === 404) {
         await turso.execute({
@@ -63,7 +77,10 @@ export async function sendPushToAllWithReport(payload: PushPayload): Promise<Pus
           args: [subscription.endpoint],
         });
       }
-      console.error(`Push failed for ${subscription.endpoint}:`, error);
+      console.error(
+        `Push failed for ${subscription.endpoint}: status=${statusCode} body=${body}`,
+        error
+      );
     }
   });
 

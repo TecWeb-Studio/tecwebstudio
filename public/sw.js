@@ -1,18 +1,10 @@
 /// <reference lib="webworker" />
 
-const SW_VERSION = "1.0.0";
+const SW_VERSION = "1.2.0";
 const CACHE_NAME = `tecweb-admin-v${SW_VERSION}`;
 
-const PRECACHE_URLS = [
-  "/admin",
-  "/admin/dashboard",
-];
-
-// Install: precache shell
+// Install: skip waiting immediately to activate new version
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS))
-  );
   self.skipWaiting();
 });
 
@@ -60,12 +52,12 @@ self.addEventListener("push", (event) => {
     }
   }
 
+  // Keep options minimal for iOS Safari compatibility
+  // iOS does not support: renotify, badge, vibrate, actions, image
   const options = {
     body: data.body,
     icon: "/icons/icon-192x192.png",
-    badge: "/icons/icon-192x192.png",
     tag: data.tag || "ticket-notification",
-    renotify: true,
     data: {
       url: data.url || "/admin/dashboard",
     },
@@ -82,9 +74,10 @@ self.addEventListener("notificationclick", (event) => {
 
   event.waitUntil(
     self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
-      // Focus existing window if available
+      // Focus existing window if available (on iOS this reopens the PWA)
       for (const client of clients) {
         if (client.url.includes("/admin") && "focus" in client) {
+          client.navigate(targetUrl);
           return client.focus();
         }
       }
