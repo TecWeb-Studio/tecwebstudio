@@ -43,7 +43,7 @@ export default function RootLayout({
     <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
       <head>
         <meta name="theme-color" content="#10b981" />
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.svg" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
       </head>
       <body
         className={`${poppins.variable} ${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-b from-slate-900 via-blue-900/20 to-slate-900`}

@@ -62,9 +62,8 @@ self.addEventListener("push", (event) => {
 
   const options = {
     body: data.body,
-    icon: "/icons/icon-192x192.svg",
-    badge: "/icons/icon-192x192.svg",
-    vibrate: [200, 100, 200],
+    icon: "/icons/icon-192x192.png",
+    badge: "/icons/icon-192x192.png",
     tag: data.tag || "ticket-notification",
     renotify: true,
     data: {

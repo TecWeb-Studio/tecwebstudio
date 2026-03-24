@@ -16,6 +16,7 @@ import {
   Inbox,
   Bell,
   BellOff,
+  Trash2,
 } from "lucide-react";
 
 interface Ticket {
@@ -67,11 +68,17 @@ export default function AdminDashboardPage() {
 
   // Register service worker and check push subscription status
   useEffect(() => {
-    if ("serviceWorker" in navigator && "PushManager" in window) {
-      setPushSupported(true);
+    if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("/sw.js").then(async (reg) => {
-        const sub = await reg.pushManager.getSubscription();
-        setPushSubscribed(!!sub);
+        // Wait for the service worker to be ready
+        await navigator.serviceWorker.ready;
+        if ("PushManager" in window) {
+          setPushSupported(true);
+          const sub = await reg.pushManager.getSubscription();
+          setPushSubscribed(!!sub);
+        }
+      }).catch((err) => {
+        console.error("SW registration failed:", err);
       });
     }
   }, []);
@@ -96,6 +103,14 @@ export default function AdminDashboardPage() {
         }
         setPushSubscribed(false);
       } else {
+        // Request notification permission first (required on iOS)
+        const permission = await Notification.requestPermission();
+        if (permission !== "granted") {
+          console.warn("Notification permission denied");
+          setPushLoading(false);
+          return;
+        }
+
         // Subscribe
         const vapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
         if (!vapidKey) {
@@ -165,6 +180,23 @@ export default function AdminDashboardPage() {
     }
   };
 
+  const handleDeleteTicket = async (id: number) => {
+    if (!confirm("Sei sicuro di voler eliminare questo ticket?")) return;
+    try {
+      const res = await fetch("/api/admin/tickets", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        setTickets((prev) => prev.filter((t) => t.id !== id));
+        setExpandedTicket(null);
+      }
+    } catch {
+      console.error("Failed to delete ticket");
+    }
+  };
+
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     router.push("/admin");
@@ -201,22 +233,22 @@ export default function AdminDashboardPage() {
 
       {/* Top bar */}
       <div className="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-xl border-b border-emerald-500/20">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
               <Inbox className="w-4 h-4 text-emerald-400" />
             </div>
-            <h1 className="text-lg font-bold text-white">
-              Admin Dashboard
+            <h1 className="text-base sm:text-lg font-bold text-white truncate">
+              Dashboard
             </h1>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
             {pushSupported && (
               <Button
                 variant={pushSubscribed ? "default" : "outline"}
                 size="sm"
                 onClick={handlePushToggle}
-                className="gap-2"
+                className="gap-1 sm:gap-2 px-2 sm:px-3"
                 disabled={pushLoading}
               >
                 {pushSubscribed ? (
@@ -224,38 +256,40 @@ export default function AdminDashboardPage() {
                 ) : (
                   <BellOff className="w-4 h-4" />
                 )}
-                {pushLoading
-                  ? "..."
-                  : pushSubscribed
-                  ? "Notifiche ON"
-                  : "Notifiche OFF"}
+                <span className="hidden sm:inline">
+                  {pushLoading
+                    ? "..."
+                    : pushSubscribed
+                    ? "Notifiche ON"
+                    : "Notifiche OFF"}
+                </span>
               </Button>
             )}
             <Button
               variant="ghost"
               size="sm"
               onClick={fetchTickets}
-              className="gap-2"
+              className="gap-1 sm:gap-2 px-2 sm:px-3"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
-              Refresh
+              <span className="hidden sm:inline">Refresh</span>
             </Button>
             <Button
               variant="outline"
               size="sm"
               onClick={handleLogout}
-              className="gap-2"
+              className="gap-1 sm:gap-2 px-2 sm:px-3"
             >
               <LogOut className="w-4 h-4" />
-              Logout
+              <span className="hidden sm:inline">Logout</span>
             </Button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 relative z-10">
         {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-8">
           {[
             { label: "Total", value: stats.total, color: "text-white" },
             { label: "Open", value: stats.open, color: "text-green-400" },
@@ -268,11 +302,11 @@ export default function AdminDashboardPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
             >
-              <Card variant="default" className="p-4 text-center">
-                <div className={`text-3xl font-bold ${stat.color}`}>
+              <Card variant="default" className="p-2 sm:p-4 text-center">
+                <div className={`text-xl sm:text-3xl font-bold ${stat.color}`}>
                   {stat.value}
                 </div>
-                <div className="text-slate-400 text-xs mt-1">{stat.label}</div>
+                <div className="text-slate-400 text-[10px] sm:text-xs mt-0.5 sm:mt-1">{stat.label}</div>
               </Card>
             </motion.div>
           ))}
@@ -336,28 +370,28 @@ export default function AdminDashboardPage() {
                   }
                 >
                   {/* Header row */}
-                  <div className="flex items-center justify-between px-5 py-4 gap-4">
-                    <div className="flex items-center gap-4 min-w-0 flex-1">
-                      <span className="text-slate-500 text-xs font-mono w-8 flex-shrink-0">
+                  <div className="flex items-center justify-between px-3 sm:px-5 py-3 sm:py-4 gap-2 sm:gap-4">
+                    <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+                      <span className="text-slate-500 text-xs font-mono w-6 sm:w-8 flex-shrink-0">
                         #{ticket.id}
                       </span>
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2 flex-wrap">
+                        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                           <User className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-                          <span className="text-white font-semibold text-sm truncate">
+                          <span className="text-white font-semibold text-xs sm:text-sm truncate">
                             {ticket.name}
                           </span>
                         </div>
-                        <div className="flex items-center gap-2 mt-0.5">
+                        <div className="flex items-center gap-1.5 sm:gap-2 mt-0.5">
                           <Mail className="w-3 h-3 text-slate-500 flex-shrink-0" />
-                          <span className="text-slate-400 text-xs truncate">
+                          <span className="text-slate-400 text-[11px] sm:text-xs truncate">
                             {ticket.email}
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 flex-shrink-0">
+                    <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                       <div className="hidden sm:flex items-center gap-1 text-slate-500 text-xs">
                         <Clock className="w-3 h-3" />
                         {formatDate(ticket.created_at)}
@@ -366,7 +400,7 @@ export default function AdminDashboardPage() {
                         variant={
                           statusConfig[ticket.status]?.variant || "default"
                         }
-                        className="text-xs"
+                        className="text-[10px] sm:text-xs"
                       >
                         {statusConfig[ticket.status]?.label || ticket.status}
                       </Badge>
@@ -398,11 +432,11 @@ export default function AdminDashboardPage() {
                           {formatDate(ticket.created_at)}
                         </div>
 
-                        <div className="flex items-center justify-between pt-2">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-2 gap-2">
                           <span className="text-slate-400 text-xs">
-                            Change status:
+                            Cambia stato:
                           </span>
-                          <div className="flex gap-2">
+                          <div className="flex flex-wrap gap-1.5 sm:gap-2">
                             {["open", "in-progress", "resolved", "closed"].map(
                               (s) => (
                                 <button
@@ -411,7 +445,7 @@ export default function AdminDashboardPage() {
                                     e.stopPropagation();
                                     handleStatusChange(ticket.id, s);
                                   }}
-                                  className={`px-2.5 py-1 rounded text-xs font-medium transition-all cursor-pointer ${
+                                  className={`px-2 sm:px-2.5 py-1.5 sm:py-1 rounded text-xs font-medium transition-all cursor-pointer ${
                                     ticket.status === s
                                       ? "bg-emerald-500/30 text-emerald-300 border border-emerald-500/50"
                                       : "bg-slate-800/50 text-slate-400 border border-slate-700/30 hover:border-emerald-500/30 hover:text-white"
@@ -422,6 +456,20 @@ export default function AdminDashboardPage() {
                               )
                             )}
                           </div>
+                        </div>
+
+                        {/* Delete ticket */}
+                        <div className="flex justify-end pt-2 border-t border-slate-700/30">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteTicket(ticket.id);
+                            }}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium text-red-400 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 hover:border-red-500/40 transition-all cursor-pointer"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                            Elimina ticket
+                          </button>
                         </div>
                       </div>
                     </motion.div>
