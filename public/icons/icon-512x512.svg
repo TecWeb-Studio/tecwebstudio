@@ -1,0 +1,5 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
+    <rect width='512' height='512' rx='102.4' fill='#0f172a'/>
+    <rect x='76.8' y='76.8' width='358.4' height='358.4' rx='51.2' fill='#10b981' opacity='0.2' stroke='#10b981' stroke-width='10.24'/>
+    <text x='50%' y='55%' text-anchor='middle' dominant-baseline='middle' fill='#10b981' font-family='Arial,sans-serif' font-weight='bold' font-size='179.2'>TW</text>
+  </svg>

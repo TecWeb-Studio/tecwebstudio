@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { turso } from "@/lib/turso";
+import { sendPushToAll } from "@/lib/push";
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,6 +30,14 @@ export async function POST(request: NextRequest) {
       sql: "INSERT INTO contact_submissions (name, email, message) VALUES (?, ?, ?)",
       args: [name.trim(), email.trim(), message.trim()],
     });
+
+    // Send push notification to all subscribed admin devices
+    sendPushToAll({
+      title: "Nuovo Ticket",
+      body: `Da ${name.trim()}: ${message.trim().substring(0, 100)}`,
+      tag: "new-ticket",
+      url: "/admin/dashboard",
+    }).catch((err) => console.error("Push notification error:", err));
 
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (error) {

@@ -14,6 +14,8 @@ import {
   User,
   MessageSquare,
   Inbox,
+  Bell,
+  BellOff,
 } from "lucide-react";
 
 interface Ticket {
@@ -42,6 +44,9 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>("all");
   const [expandedTicket, setExpandedTicket] = useState<number | null>(null);
+  const [pushSupported, setPushSupported] = useState(false);
+  const [pushSubscribed, setPushSubscribed] = useState(false);
+  const [pushLoading, setPushLoading] = useState(false);
 
   const fetchTickets = useCallback(async () => {
     setLoading(true);
@@ -59,6 +64,74 @@ export default function AdminDashboardPage() {
       setLoading(false);
     }
   }, [router]);
+
+  // Register service worker and check push subscription status
+  useEffect(() => {
+    if ("serviceWorker" in navigator && "PushManager" in window) {
+      setPushSupported(true);
+      navigator.serviceWorker.register("/sw.js").then(async (reg) => {
+        const sub = await reg.pushManager.getSubscription();
+        setPushSubscribed(!!sub);
+      });
+    }
+  }, []);
+
+  const handlePushToggle = async () => {
+    if (!pushSupported) return;
+    setPushLoading(true);
+
+    try {
+      const reg = await navigator.serviceWorker.ready;
+
+      if (pushSubscribed) {
+        // Unsubscribe
+        const sub = await reg.pushManager.getSubscription();
+        if (sub) {
+          await fetch("/api/push/subscribe", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ endpoint: sub.endpoint }),
+          });
+          await sub.unsubscribe();
+        }
+        setPushSubscribed(false);
+      } else {
+        // Subscribe
+        const vapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+        if (!vapidKey) {
+          console.error("VAPID public key not configured");
+          return;
+        }
+
+        const sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(vapidKey),
+        });
+
+        await fetch("/api/push/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(sub.toJSON()),
+        });
+        setPushSubscribed(true);
+      }
+    } catch (err) {
+      console.error("Push toggle error:", err);
+    } finally {
+      setPushLoading(false);
+    }
+  };
+
+  function urlBase64ToUint8Array(base64String: string): Uint8Array<ArrayBuffer> {
+    const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length) as Uint8Array<ArrayBuffer>;
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  }
 
   useEffect(() => {
     // Check auth first
@@ -138,6 +211,26 @@ export default function AdminDashboardPage() {
             </h1>
           </div>
           <div className="flex items-center gap-3">
+            {pushSupported && (
+              <Button
+                variant={pushSubscribed ? "default" : "outline"}
+                size="sm"
+                onClick={handlePushToggle}
+                className="gap-2"
+                disabled={pushLoading}
+              >
+                {pushSubscribed ? (
+                  <Bell className="w-4 h-4" />
+                ) : (
+                  <BellOff className="w-4 h-4" />
+                )}
+                {pushLoading
+                  ? "..."
+                  : pushSubscribed
+                  ? "Notifiche ON"
+                  : "Notifiche OFF"}
+              </Button>
+            )}
             <Button
               variant="ghost"
               size="sm"
