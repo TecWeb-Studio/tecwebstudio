@@ -16,8 +16,30 @@ interface PushPayload {
   url?: string;
 }
 
-export async function sendPushToAll(payload: PushPayload): Promise<void> {
+interface PushReport {
+  total: number;
+  sent: number;
+  failed: number;
+}
+
+export function isPushConfigured(): boolean {
+  return Boolean(VAPID_PUBLIC_KEY && VAPID_PRIVATE_KEY);
+}
+
+export async function getPushSubscriptionCount(): Promise<number> {
+  const result = await turso.execute("SELECT COUNT(*) as count FROM push_subscriptions");
+  return Number(result.rows[0]?.count ?? 0);
+}
+
+export async function sendPushToAllWithReport(payload: PushPayload): Promise<PushReport> {
+  if (!isPushConfigured()) {
+    throw new Error("Missing VAPID configuration");
+  }
+
   const result = await turso.execute("SELECT endpoint, p256dh, auth FROM push_subscriptions");
+
+  let sent = 0;
+  let failed = 0;
 
   const notifications = result.rows.map(async (row) => {
     const subscription = {
@@ -30,7 +52,9 @@ export async function sendPushToAll(payload: PushPayload): Promise<void> {
 
     try {
       await webpush.sendNotification(subscription, JSON.stringify(payload));
+      sent += 1;
     } catch (error: unknown) {
+      failed += 1;
       const statusCode = (error as { statusCode?: number })?.statusCode;
       // Remove expired/invalid subscriptions (410 Gone or 404 Not Found)
       if (statusCode === 410 || statusCode === 404) {
@@ -44,4 +68,14 @@ export async function sendPushToAll(payload: PushPayload): Promise<void> {
   });
 
   await Promise.allSettled(notifications);
+
+  return {
+    total: result.rows.length,
+    sent,
+    failed,
+  };
+}
+
+export async function sendPushToAll(payload: PushPayload): Promise<void> {
+  await sendPushToAllWithReport(payload);
 }

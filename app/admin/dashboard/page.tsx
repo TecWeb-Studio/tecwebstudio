@@ -17,6 +17,7 @@ import {
   Bell,
   BellOff,
   Trash2,
+  FlaskConical,
 } from "lucide-react";
 
 interface Ticket {
@@ -48,6 +49,7 @@ export default function AdminDashboardPage() {
   const [pushSupported, setPushSupported] = useState(false);
   const [pushSubscribed, setPushSubscribed] = useState(false);
   const [pushLoading, setPushLoading] = useState(false);
+  const [pushTestLoading, setPushTestLoading] = useState(false);
 
   const fetchTickets = useCallback(async () => {
     setLoading(true);
@@ -134,6 +136,25 @@ export default function AdminDashboardPage() {
       console.error("Push toggle error:", err);
     } finally {
       setPushLoading(false);
+    }
+  };
+
+  const handlePushTest = async () => {
+    setPushTestLoading(true);
+    try {
+      const res = await fetch("/api/admin/push/test", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.error || "Errore durante il test push");
+        return;
+      }
+      alert(data.message || "Notifica di test inviata");
+    } catch {
+      alert("Errore di rete durante il test push");
+    } finally {
+      setPushTestLoading(false);
     }
   };
 
@@ -265,6 +286,20 @@ export default function AdminDashboardPage() {
                 </span>
               </Button>
             )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handlePushTest}
+              className="gap-1 sm:gap-2 px-2 sm:px-3"
+              disabled={pushTestLoading}
+            >
+              {pushTestLoading ? (
+                <RefreshCw className="w-4 h-4 animate-spin" />
+              ) : (
+                <FlaskConical className="w-4 h-4" />
+              )}
+              <span className="hidden sm:inline">Test Push</span>
+            </Button>
             <Button
               variant="ghost"
               size="sm"
