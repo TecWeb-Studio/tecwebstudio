@@ -4,7 +4,6 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
-import { supabase } from "@/lib/supabase";
 import { Button } from "@/app/components/ui/Button";
 import { Card, CardTitle, CardDescription } from "@/app/components/ui/Card";
 import { Badge } from "@/app/components/ui/Badge";
@@ -24,6 +23,12 @@ import {
   Globe,
   ExternalLink,
   X,
+  ChevronRight,
+  Sparkles,
+  Code2,
+  Palette,
+  Zap,
+  Shield,
 } from "lucide-react";
 
 export default function Home() {
@@ -343,46 +348,38 @@ export default function Home() {
 
     try {
       // Validate form data
-      if (!contactForm.name || !contactForm.email || !contactForm.message) {
+      if (!contactForm.name.trim() || !contactForm.email.trim() || !contactForm.message.trim()) {
         setFormStatus("error");
         setTimeout(() => setFormStatus("idle"), 3000);
         return;
       }
 
-      // Check if Supabase is configured
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-      if (!supabaseUrl || !supabaseKey) {
-        console.error(
-          "Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your .env.local file",
-        );
+      // Basic email format validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(contactForm.email)) {
         setFormStatus("error");
         setTimeout(() => setFormStatus("idle"), 3000);
         return;
       }
 
-      // Insert form data into Supabase
-      const { error } = await supabase.from("contact_submissions").insert([
-        {
-          name: contactForm.name,
-          email: contactForm.email,
-          message: contactForm.message,
-          created_at: new Date().toISOString(),
-        },
-      ]);
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: contactForm.name.trim(),
+          email: contactForm.email.trim(),
+          message: contactForm.message.trim(),
+        }),
+      });
 
-      if (error) {
-        console.error("Supabase insert error:", error);
+      if (res.ok) {
+        setFormStatus("success");
+        setContactForm({ name: "", email: "", message: "" });
+        setTimeout(() => setFormStatus("idle"), 5000);
+      } else {
         setFormStatus("error");
         setTimeout(() => setFormStatus("idle"), 3000);
-        return;
       }
-
-      // Success
-      setFormStatus("success");
-      setContactForm({ name: "", email: "", message: "" });
-      setTimeout(() => setFormStatus("idle"), 3000);
     } catch (err) {
       console.error("Form submission error:", err);
       setFormStatus("error");
@@ -394,6 +391,9 @@ export default function Home() {
     <div className="w-full">
       {/* Hero Section */}
       <section className="relative min-h-screen w-full overflow-hidden pt-20">
+        {/* Animated dot grid background */}
+        <div className="absolute inset-0 dot-grid opacity-40"></div>
+
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
             className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"
@@ -404,6 +404,14 @@ export default function Home() {
             className="absolute bottom-0 right-1/4 w-96 h-96 bg-green-500/10 rounded-full blur-3xl"
             animate={{ opacity: [0.3, 0.8, 0.3] }}
             transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+          ></motion.div>
+          {/* Extra ambient orbs */}
+          <motion.div
+            className="absolute top-1/3 right-1/6 w-64 h-64 bg-emerald-400/5 rounded-full animate-pulse-glow"
+          ></motion.div>
+          <motion.div
+            className="absolute bottom-1/4 left-1/6 w-48 h-48 bg-green-400/8 rounded-full animate-pulse-glow"
+            style={{ animationDelay: '2s' }}
           ></motion.div>
         </div>
 
@@ -497,27 +505,94 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-green-500/20 rounded-2xl blur-2xl"></div>
-              <div className="relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl border border-emerald-500/30 rounded-2xl p-8 space-y-6">
-                <motion.div
-                  className="text-5xl text-center mb-6"
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                >
-                  🚀
-                </motion.div>
-                <div className="space-y-3">
-                  <div className="h-3 w-20 bg-emerald-400/40 rounded animate-pulse"></div>
-                  <div className="h-2 w-full bg-emerald-400/20 rounded"></div>
-                  <div className="h-2 w-3/4 bg-emerald-400/20 rounded"></div>
+              <div className="relative bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-xl border border-emerald-500/30 rounded-2xl p-8 space-y-6 overflow-hidden">
+                {/* Decorative corner accent */}
+                <div className="absolute -top-12 -right-12 w-32 h-32 bg-emerald-400/20 rounded-full blur-2xl"></div>
+                <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-green-400/15 rounded-full blur-xl"></div>
+
+                {/* Code editor mockup */}
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-red-400/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-400/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-400/80"></div>
+                  <span className="text-slate-500 text-xs ml-2 font-mono">index.tsx</span>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  {[1, 2, 3, 4].map((i) => (
+
+                <div className="font-mono text-sm space-y-1.5">
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 }}
+                    viewport={{ once: true }}
+                  >
+                    <span className="text-purple-400">const</span>{" "}
+                    <span className="text-emerald-300">website</span>{" "}
+                    <span className="text-slate-400">=</span>{" "}
+                    <span className="text-yellow-300">{`{`}</span>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 }}
+                    viewport={{ once: true }}
+                    className="pl-4"
+                  >
+                    <span className="text-blue-300">design</span>
+                    <span className="text-slate-400">:</span>{" "}
+                    <span className="text-green-300">&quot;futuristic&quot;</span>
+                    <span className="text-slate-500">,</span>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.7 }}
+                    viewport={{ once: true }}
+                    className="pl-4"
+                  >
+                    <span className="text-blue-300">performance</span>
+                    <span className="text-slate-400">:</span>{" "}
+                    <span className="text-green-300">&quot;blazing&quot;</span>
+                    <span className="text-slate-500">,</span>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.9 }}
+                    viewport={{ once: true }}
+                    className="pl-4"
+                  >
+                    <span className="text-blue-300">quality</span>
+                    <span className="text-slate-400">:</span>{" "}
+                    <span className="text-emerald-400">Infinity</span>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <span className="text-yellow-300">{`}`}</span>
+                    <span className="text-slate-500">;</span>
+                  </motion.div>
+                </div>
+
+                {/* Feature pills */}
+                <div className="grid grid-cols-2 gap-3 pt-2">
+                  {[
+                    { icon: <Code2 className="w-4 h-4" />, label: "Clean Code" },
+                    { icon: <Zap className="w-4 h-4" />, label: "Fast & Light" },
+                    { icon: <Palette className="w-4 h-4" />, label: "Modern UI" },
+                    { icon: <Shield className="w-4 h-4" />, label: "Secure" },
+                  ].map((item, i) => (
                     <motion.div
                       key={i}
-                      className="h-20 bg-emerald-500/10 border border-emerald-500/20 rounded-lg hover:border-emerald-400/50 transition-colors"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ type: "keyframes", stiffness: 300 }}
-                    ></motion.div>
+                      className="flex items-center gap-2 px-3 py-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-300 text-xs font-medium hover:border-emerald-400/50 hover:bg-emerald-500/15 transition-all"
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      {item.icon}
+                      {item.label}
+                    </motion.div>
                   ))}
                 </div>
               </div>
@@ -527,10 +602,11 @@ export default function Home() {
       </section>
 
       {/* Portfolio Section, Featured Projects */}
+      <div className="section-divider mx-auto max-w-5xl"></div>
       <section
         id="portfolio-section"
         ref={portfolioSectionRef}
-        className="relative z-10 py-24 border-t border-emerald-500/10"
+        className="relative z-10 py-24"
       >
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -541,8 +617,8 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <Badge className="inline-block mb-4">{t("portfolio.badge")}</Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold text-white">
-              {t("portfolio.title")}
+            <h2 className="text-4xl lg:text-5xl font-bold">
+              <span className="bg-gradient-to-r from-white via-emerald-100 to-white bg-clip-text text-transparent">{t("portfolio.title")}</span>
             </h2>
             <p className="text-slate-400 mt-6 max-w-2xl mx-auto text-lg">
               {t("portfolio.description")}
@@ -705,10 +781,11 @@ export default function Home() {
       </section> */}
 
       {/* Services Section */}
+      <div className="section-divider mx-auto max-w-5xl"></div>
       <section
         id="services-section"
         ref={servicesSectionRef}
-        className="relative z-10 py-24 border-t border-emerald-500/10"
+        className="relative z-10 py-24"
       >
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -719,8 +796,8 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <Badge className="inline-block mb-4">{t("services.badge")}</Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold text-white">
-              {t("services.title")}
+            <h2 className="text-4xl lg:text-5xl font-bold">
+              <span className="bg-gradient-to-r from-white via-emerald-100 to-white bg-clip-text text-transparent">{t("services.title")}</span>
             </h2>
             <p className="text-slate-400 mt-6 max-w-2xl mx-auto text-lg">
               {t("services.description")}
@@ -809,10 +886,11 @@ export default function Home() {
       </section>
 
       {/* Team Section */}
+      <div className="section-divider mx-auto max-w-5xl"></div>
       <section
         id="team-section"
         ref={teamSectionRef}
-        className="relative z-10 py-24 border-t border-emerald-500/10"
+        className="relative z-10 py-24"
       >
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -823,8 +901,8 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <Badge className="inline-block mb-4">{t("team.badge")}</Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold text-white">
-              {t("team.title")}
+            <h2 className="text-4xl lg:text-5xl font-bold">
+              <span className="bg-gradient-to-r from-white via-emerald-100 to-white bg-clip-text text-transparent">{t("team.title")}</span>
             </h2>
             <p className="text-slate-400 mt-6 max-w-2xl mx-auto text-lg">
               {t("team.description")}
@@ -946,10 +1024,11 @@ export default function Home() {
       </section> */}
 
       {/* Contact Section */}
+      <div className="section-divider mx-auto max-w-5xl"></div>
       <section
         id="contact-section"
         ref={contactSectionRef}
-        className="relative z-10 py-24 border-t border-emerald-500/10"
+        className="relative z-10 py-24"
       >
         <div className="max-w-4xl mx-auto px-6">
           <motion.div
@@ -960,8 +1039,8 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <Badge className="inline-block mb-4">{t("contact.badge")}</Badge>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
-              {t("contact.title")}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
+              <span className="bg-gradient-to-r from-white via-emerald-100 to-white bg-clip-text text-transparent">{t("contact.title")}</span>
             </h2>
             <p className="text-slate-400 mt-6 text-sm sm:text-base lg:text-lg">
               {t("contact.description")}
@@ -1087,10 +1166,11 @@ export default function Home() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-white font-semibold mb-2 text-xs sm:text-sm">
-                        {t("contact.form.name")}
+                        {t("contact.form.name")} <span className="text-emerald-400">*</span>
                       </label>
                       <input
                         type="text"
+                        required
                         value={contactForm.name}
                         onChange={(e) =>
                           setContactForm({
@@ -1098,17 +1178,18 @@ export default function Home() {
                             name: e.target.value,
                           })
                         }
-                        className="w-full px-3 sm:px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 text-sm focus:border-emerald-400 focus:outline-none transition-colors"
+                        className="w-full px-3 sm:px-4 py-2.5 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 text-sm focus:border-emerald-400 focus:outline-none transition-all duration-300"
                         placeholder={t("contact.form.namePlaceholder")}
                       />
                     </div>
 
                     <div>
                       <label className="block text-white font-semibold mb-2 text-xs sm:text-sm">
-                        {t("contact.form.email")}
+                        {t("contact.form.email")} <span className="text-emerald-400">*</span>
                       </label>
                       <input
                         type="email"
+                        required
                         value={contactForm.email}
                         onChange={(e) =>
                           setContactForm({
@@ -1116,7 +1197,7 @@ export default function Home() {
                             email: e.target.value,
                           })
                         }
-                        className="w-full px-3 sm:px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 text-sm focus:border-emerald-400 focus:outline-none transition-colors"
+                        className="w-full px-3 sm:px-4 py-2.5 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 text-sm focus:border-emerald-400 focus:outline-none transition-all duration-300"
                         placeholder={t("contact.form.emailPlaceholder")}
                       />
                     </div>
@@ -1124,9 +1205,10 @@ export default function Home() {
 
                   <div>
                     <label className="block text-white font-semibold mb-2 text-xs sm:text-sm">
-                      {t("contact.form.message")}
+                      {t("contact.form.message")} <span className="text-emerald-400">*</span>
                     </label>
                     <textarea
+                      required
                       value={contactForm.message}
                       onChange={(e) =>
                         setContactForm({
@@ -1134,20 +1216,28 @@ export default function Home() {
                           message: e.target.value,
                         })
                       }
-                      className="w-full px-3 sm:px-4 py-2 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 text-sm focus:border-emerald-400 focus:outline-none transition-colors resize-none h-24 sm:h-32"
+                      className="w-full px-3 sm:px-4 py-2.5 rounded-lg bg-slate-800/50 border border-emerald-500/20 text-white placeholder-slate-500 text-sm focus:border-emerald-400 focus:outline-none transition-all duration-300 resize-none h-24 sm:h-32"
                       placeholder={t("contact.form.messagePlaceholder")}
                     ></textarea>
                   </div>
 
                   {formStatus === "success" && (
-                    <p className="text-green-400 text-xs sm:text-sm font-semibold">
+                    <motion.p
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-green-400 text-xs sm:text-sm font-semibold bg-green-500/10 border border-green-500/30 rounded-lg px-4 py-2"
+                    >
                       ✓ {t("contact.form.success")}
-                    </p>
+                    </motion.p>
                   )}
                   {formStatus === "error" && (
-                    <p className="text-red-400 text-xs sm:text-sm font-semibold">
+                    <motion.p
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-red-400 text-xs sm:text-sm font-semibold bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-2"
+                    >
                       ✗ {t("contact.form.error")}
-                    </p>
+                    </motion.p>
                   )}
 
                   <Button
@@ -1193,7 +1283,8 @@ export default function Home() {
       </section> */}
 
       {/* Footer */}
-      <section className="relative z-10 border-t border-emerald-500/10 py-12">
+      <div className="section-divider mx-auto max-w-5xl"></div>
+      <section className="relative z-10 py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8">
             <motion.div
@@ -1325,7 +1416,8 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <div className="border-t border-emerald-500/10 pt-8 text-center text-slate-500 text-xs sm:text-sm">
+          <div className="section-divider mb-8"></div>
+          <div className="text-center text-slate-500 text-xs sm:text-sm">
             <p>{t("footer.copyright")}</p>
           </div>
         </div>

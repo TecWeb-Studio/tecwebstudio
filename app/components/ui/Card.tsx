@@ -20,7 +20,7 @@ export function Card({ children, className, variant = "default", ...props }: Car
   return (
     <div
       className={cn(
-        "rounded-xl p-6 backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/50",
+        "rounded-xl p-6 backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/50 card-glow hover:shadow-lg hover:shadow-emerald-500/5 hover:-translate-y-0.5",
         variantStyles[variant],
         className
       )}
