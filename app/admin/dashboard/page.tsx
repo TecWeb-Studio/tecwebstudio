@@ -135,10 +135,63 @@ export default function AdminDashboardPage() {
           return;
         }
 
-        const sub = await reg.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(vapidKey),
-        });
+        // Clear any stale existing browser subscription before subscribing fresh.
+        // Chrome/Firefox/Brave throw "AbortError: Registration failed - push service error"
+        // when applicationServerKey doesn't match a cached subscription's key.
+        // unsubscribe() is non-fatal — if the push service is unreachable we still try to create a new subscription.
+        const existingSub = await reg.pushManager.getSubscription();
+        if (existingSub) {
+          await fetch("/api/push/subscribe", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ endpoint: existingSub.endpoint }),
+          }).catch(() => {});
+          await existingSub.unsubscribe().catch(() => {});
+        }
+
+        let sub: PushSubscription;
+        try {
+          sub = await reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(vapidKey.trim()),
+          });
+        } catch (subErr) {
+          console.error("pushManager.subscribe failed:", subErr);
+          const isBrave = !!(navigator as unknown as { brave?: unknown }).brave;
+          const isFirefox = navigator.userAgent.includes("Firefox");
+          let msg = "Push subscription failed.\n\n";
+          if (isBrave) {
+            msg +=
+              "Brave browser detected.\n\n" +
+              "Option A (Recommended):\n" +
+              "  1. Click the Brave Shields icon (lion) in the address bar\n" +
+              "  2. Set 'Block fingerprinting' to Standard or Disabled for this site\n\n" +
+              "Option B:\n" +
+              "  1. Go to brave://settings/privacy\n" +
+              "  2. Enable 'Use Google services for push messaging'\n\n" +
+              "Option C (Reset):\n" +
+              "  1. Open DevTools → Application → Storage → Clear site data\n" +
+              "  2. Reload and try again.";
+          } else if (isFirefox) {
+            msg +=
+              "Firefox detected.\n\n" +
+              "1. Check about:preferences#privacy → Permissions → Notifications\n" +
+              "2. Make sure this site is Allowed\n" +
+              "3. If blocked, remove the site entry and try again\n\n" +
+              "If the issue persists:\n" +
+              "  Open DevTools → Storage → Clear Site Data, then reload.";
+          } else {
+            msg +=
+              "Chrome-based browser detected.\n\n" +
+              "1. Go to chrome://settings/content/notifications\n" +
+              "2. Make sure this site is in the Allowed list\n" +
+              "3. Remove the site entry if it shows as Blocked\n\n" +
+              "If the issue persists:\n" +
+              "  Open DevTools → Application → Storage → Clear site data, then reload.";
+          }
+          alert(msg);
+          return;
+        }
 
         await fetch("/api/push/subscribe", {
           method: "POST",
